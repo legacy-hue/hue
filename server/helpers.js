@@ -1,5 +1,5 @@
 // helper.js requirements
-  var bcrypt = requires('bcrypt-nodejs');
+  var bcrypt = require('bcrypt-nodejs');
 
 // Authentication Functions:
 

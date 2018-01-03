@@ -378,3 +378,18 @@ When writing any block of code that is logically subordinate to the line immedia
     <!-- bad -->
     <script src="a.js" type="text/javascript"></script>
     ```
+
+### NODE REQUIREMENTS
+
+* Do not declare required files above required modules
+
+    ```javascript
+    // good:
+    const session = requires('express-session');
+    const helpers = requires('./helpers');
+
+
+    // bad:
+    const helpers = requires('./helpers');
+    const session = requires('express-session');
+    ```
