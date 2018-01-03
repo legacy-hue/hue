@@ -1,0 +1,26 @@
+{
+  "name": "hue",
+  "version": "1.0.0",
+  "description": "reddit clone",
+  "main": "index.js",
+  "scripts": {
+    "server-dev": "nodemon server/index.js",
+    "react-dev": "webpack -d --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JEGIS/hue"
+  },
+  "author": "JEGIS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JEGIS/hue/issues"
+  },
+  "homepage": "https://github.com/JEGIS/hue#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}
