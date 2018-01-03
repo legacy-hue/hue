@@ -32,13 +32,5 @@
   	// Invoked when new user is initialized
     // hash the new pw and set it in the db
   }
-  
 
-// Server requirements
-  var session = requires('express-session');
-  var helpers = requires('./helpers');
-// Server routes
-  app.get('/signup')
-  app.get('/login')
-  app.post('/signup')
-  app.post('/login')
+
