@@ -1,8 +1,8 @@
-const express = require('express')
+const express = require('express');
 const bodyParser = require('body-parser');
-const session = requires('express-session');
+const session = require('express-session');
 
-const helpers = requires('./helpers');
+const helpers = require('./helpers');
 
 const app = express();
 
