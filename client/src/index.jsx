@@ -37,10 +37,8 @@ class App extends React.Component {
   <div>
     <Switch>
       <Route exact path="/" component={Home}/>
-      <Route exact path="/login" render={(props) => 
-        <Login {...props} submitLogin={this.submitLogin.bind(this)}/>
-        //<Route exact path="/login" component={Login}/> 
-      }/>
+
+      <Route exact path="/login" component={Login}/> 
     </Switch>
   </div>
   	)
@@ -52,4 +50,6 @@ ReactDOM.render((
     <App />
   </BrowserRouter>
 ), document.getElementById('app'))
+
+
 
