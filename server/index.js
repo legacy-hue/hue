@@ -7,6 +7,7 @@ const helpers = require('./helpers');
 const app = express();
 
 app.use(bodyParser());
+app.use(session({secret: 'this-is-a-secret-token'}));
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.get('/', (req, res) => res.send('Hello World!'))
@@ -23,16 +24,16 @@ app.get('/login', (req, res) =>
 	res.sendStatus(200)
 );
 
-app.get('/logout', (req, res) => 
-	//req.session.destroy(function() {
-    res.redirect('/login')
-  //})
+app.post('/logout', (req, res) => 
+	req.session.destroy(function() {
+    res.send('logged out')
+  })
 );
 
 app.post('/signup', (req, res) => 
 	helpers.hashPassword(req.body.password)
 	.then(() => {
-		helpers.createSession()
+		helpers.createSession(req)
 		.then(() => {
 	    res.send('signup post received');
 		})
@@ -48,9 +49,9 @@ app.post('/signup', (req, res) =>
 app.post('/login', (req, res) =>
   helpers.comparePassword(req.body.password)
   .then((msg) => {
-  	helpers.createSession()
+  	helpers.createSession(req)
   	.then(() => {
-  		res.send('login post received');
+  		res.send('login post received, new session created');
   	})
     .catch(() => {
     	res.send('createSession failed');
@@ -62,7 +63,6 @@ app.post('/login', (req, res) =>
 );
 
 /************************************************************/
-
 /************************************************************/
 
 let port = process.env.port || 1234;

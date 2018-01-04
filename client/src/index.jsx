@@ -37,6 +37,10 @@ class App extends React.Component {
     this.submit('/login')
   }
 
+  submitLogout() {
+    this.submit('/logout');
+  }
+
   submitSignin() {
     this.submit('/signup')
   }
@@ -57,7 +61,11 @@ class App extends React.Component {
   	return (
       <div>
         <Switch>
-          <Route exact path="/" component={Home}/>
+          <Route exact path="/" render={(props) => (
+            <Home {...props}
+              submitLogout={this.submitLogout.bind(this)}
+            />
+          )}/>
           <Route exact path="/login" render={(props) => (
             <Login {...props} 
               submitLogin={this.submitLogin.bind(this)}
