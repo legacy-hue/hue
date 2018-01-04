@@ -23,9 +23,9 @@ app.get('/login', (req, res) =>
 );
 
 app.get('/logout', (req, res) => 
-	req.session.destroy(function() {
+	//req.session.destroy(function() {
     res.redirect('/login')
-  })
+  //})
 );
 
 app.post('/signup', (req, res) => 

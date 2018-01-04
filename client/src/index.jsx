@@ -10,7 +10,26 @@ import Login from './components/Login.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      username: '',
+      password: ''
+    }
+  }
+
+  submitLogin() {
+    $.ajax({
+      url: '/login',
+      type: 'POST',
+      data: {username: this.state.username,
+             password: this.state.password
+            }
+    })
+    .done(() => {
+      console.log('post sent');
+    })
+    .fail((err) => {
+      console.log('error: ', err);
+    });
   }
 
   render() {
@@ -18,25 +37,19 @@ class App extends React.Component {
   <div>
     <Switch>
       <Route exact path="/" component={Home}/>
-      <Route exact path="/login" component={Login}/>
+      <Route exact path="/login" render={(props) => 
+        <Login {...props} submitLogin={this.submitLogin.bind(this)}/>
+        //<Route exact path="/login" component={Login}/> 
+      }/>
     </Switch>
   </div>
   	)
   }
 }
 
-//ReactDOM.render(<App />, document.getElementById('app'));
 ReactDOM.render((
   <BrowserRouter>
     <App />
   </BrowserRouter>
 ), document.getElementById('app'))
 
-  // <div>
-  //   <nav>
-  //     <Link to="/login">login</Link>
-  //   </nav>
-  //   <div>
-  //     <Route path="/login" component={Login}/>
-  //   </div>
-  // </div>

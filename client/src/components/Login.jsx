@@ -9,7 +9,7 @@ var Login = () => (
 	    password: <input />
 	    <br/>
 	    <br/>
-	    <button>login</button>
+	    <button onClick="">login</button>
 	  </div>
    
     <br/>
