@@ -6,6 +6,7 @@ const helpers = require('./helpers');
 
 const app = express();
 
+app.use(bodyParser());
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.get('/', (req, res) => res.send('Hello World!'))
@@ -29,11 +30,35 @@ app.get('/logout', (req, res) =>
 );
 
 app.post('/signup', (req, res) => 
-	res.sendStatus(201)
+	helpers.hashPassword(req.body.password)
+	.then(() => {
+		helpers.createSession()
+		.then(() => {
+	    res.send('signup post received');
+		})
+		.catch(() => {
+			res.send('createSession failed');
+		})
+	})
+	.catch(() => {
+		console.log('hashPassword error');
+	})
 );
 
-app.post('/login', (req, res) => 
-	res.sendStatus(201)
+app.post('/login', (req, res) =>
+  helpers.comparePassword(req.body.password)
+  .then((msg) => {
+  	helpers.createSession()
+  	.then(() => {
+  		res.send('login post received');
+  	})
+    .catch(() => {
+    	res.send('createSession failed');
+    })
+  })
+  .catch(() => {
+  	res.send('comparePassword failed');
+  })
 );
 
 /************************************************************/

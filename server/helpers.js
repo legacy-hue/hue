@@ -1,5 +1,5 @@
-// helper.js requirements
-  var bcrypt = require('bcrypt-nodejs');
+  const bcrypt = require('bcrypt-nodejs');
+  const bcrypt2 = require('bcrypt');
 
 // Authentication Functions:
 
@@ -13,25 +13,33 @@
     // Check if user is logged in before allowing access to protected features
   }
 
-  function comparePassword() {
+  function comparePassword(pw) {
+    console.log('attempted password: ', pw);
     // Invoked by post request to "/login"
     // Compare attempted password to password stored in db
+    return new Promise((resolve, reject) => {
+      resolve('success');
+    })
   }
 
   function createSession() {
+    console.log('create session ran');
   	// Invoked by post request to "/login" or post request to "/signup"
     // Start an active session after successful login
+    return new Promise((resolve, reject) => {
+      resolve();
+    })
   }
 
-  function hashPassword() {
+  function hashPassword(pw) {
+    console.log('hashPassword password: ', pw);
   	// Invoked by post request to "/signup"
     // Hash the input password and store it with the username in db
+    return new Promise((resolve, reject) => {
+      resolve();
+    })
   }
 
-// authentication TODO:
-// add state for username/password fields
-// add ajax post request to home page 
-// add event listeners to invoke post request
-// set post request data to state.username/state.password
-// tie server routes to helper functions
-// flesh out helper functions
+module.exports.comparePassword = comparePassword;
+module.exports.createSession = createSession;
+module.exports.hashPassword = hashPassword;

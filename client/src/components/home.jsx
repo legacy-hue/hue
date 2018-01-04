@@ -5,7 +5,7 @@ var Home = () => (
 	<div>
 	  <Link to="/login">login</Link>
 	  <br/>
-	  <Link to="/logout">logout</Link>
+	  <Link to="/login">logout</Link>
     <h4>Welcome to hue</h4>
   </div>
 )

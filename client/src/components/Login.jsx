@@ -1,15 +1,15 @@
 import React from 'react';
 
-var Login = () => (
+var Login = (props) => (
 	<div>
 	  <div>
 	    <h4>Login</h4>
-	    username: <input />
+	    username: <input onChange={props.usernameChange}/>
 	    <br/>
-	    password: <input />
+	    password: <input onChange={props.passwordChange}/>
 	    <br/>
 	    <br/>
-	    <button onClick="">login</button>
+	    <button onClick={props.submitLogin}>login</button>
 	  </div>
    
     <br/>
@@ -17,12 +17,12 @@ var Login = () => (
 
 	  <div>
 	    <h4>Signup</h4>
-	    username: <input />
+	    username: <input onChange={props.usernameChange}/>
 	    <br/>
-	    password: <input />
+	    password: <input onChange={props.passwordChange}/>
 	    <br/>
 	    <br/>
-	    <button>create account</button>
+	    <button onClick={props.submitSignin}>create account</button>
 	  </div>
   </div>
 )
