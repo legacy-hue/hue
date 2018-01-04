@@ -4,6 +4,11 @@ const session = require('express-session');
 
 const helpers = require('./helpers');
 
+const db = require('../database/index');
+const insert = require('../database/inserts');
+const query = require('../database/queries');
+
+
 const app = express();
 
 app.use(bodyParser());
