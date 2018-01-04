@@ -4,6 +4,11 @@ const session = require('express-session');
 
 const helpers = require('./helpers');
 
+const db = require('../database/index');
+const insert = require('../database/inserts');
+const query = require('../database/queries');
+
+
 const app = express();
 
 app.use(bodyParser());
@@ -15,6 +20,10 @@ app.get('/', (req, res) => res.send('Hello World!'))
 /************************************************************/
 // Authentication routes
 /************************************************************/
+
+insert.user('username', 'password');
+
+query.user('username');
 
 app.get('/signup', (req, res) => 
 	res.sendStatus(200)
