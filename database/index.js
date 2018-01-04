@@ -28,7 +28,6 @@ knex.schema.hasTable('users').then(function(exists) {
         table.increments();
         table.string('title');
         table.string('url');
-        table.string('commenturl');
         table.integer('userid').references('users.id');
         table.timestamps();
       }).then(function (table) {
