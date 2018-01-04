@@ -14,12 +14,27 @@ app.get('/', (req, res) => res.send('Hello World!'))
 // Authentication routes
 /************************************************************/
 
-app.get('/signup', (req, res) => res.sendStatus(200))
-app.get('/login', (req, res) => res.sendStatus(200))
-app.get('/signout', (req, res) => res.sendStatus(200))
+app.get('/signup', (req, res) => 
+	res.sendStatus(200)
+);
 
-app.post('/signup', (req, res) => res.sendStatus(201))
-app.post('/login', (req, res) => res.sendStatus(201))
+app.get('/login', (req, res) => 
+	res.sendStatus(200)
+);
+
+app.get('/logout', (req, res) => 
+	//req.session.destroy(function() {
+    res.redirect('/login')
+  //})
+);
+
+app.post('/signup', (req, res) => 
+	res.sendStatus(201)
+);
+
+app.post('/login', (req, res) => 
+	res.sendStatus(201)
+);
 
 /************************************************************/
 

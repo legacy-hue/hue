@@ -4,33 +4,34 @@
 // Authentication Functions:
 
   function isLoggedIn() {
-    // Helper functoin on server side, in helpers.js
     // Invoked by checkUser
-    // check if a user has an active session
+    // Check if a user has an active session
   }
 
   function checkUser() {
-  	// Helper function on server side, in helpers.js
     // Middleware on all routes to protected components
-    // check if user is logged in before allowing access to protected features
-  }
-
-  function createSession() {
-  	// Helper function on server side, in helpers.js
-  	// Invoked by post to /login after comparePassword, or post to /signup
-    // Initiate an active session upon loggin in
+    // Check if user is logged in before allowing access to protected features
   }
 
   function comparePassword() {
-  	// Method on User model/profile/class
-  	// Invoked by post to /login
-    // compare attempted pw vs pw queried from db based on username
+    // Invoked by post request to "/login"
+    // Compare attempted password to password stored in db
+  }
+
+  function createSession() {
+  	// Invoked by post request to "/login" or post request to "/signup"
+    // Start an active session after successful login
   }
 
   function hashPassword() {
-  	// Method on User model/profile/class
-  	// Invoked when new user is initialized
-    // hash the new pw and set it in the db
+  	// Invoked by post request to "/signup"
+    // Hash the input password and store it with the username in db
   }
 
-
+// authentication TODO:
+// add state for username/password fields
+// add ajax post request to home page 
+// add event listeners to invoke post request
+// set post request data to state.username/state.password
+// tie server routes to helper functions
+// flesh out helper functions
