@@ -1,7 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 
-const db = require('../database/index')
+const db = require('../database/index');
+const insert = require('../database/inserts');
+const query = require('../database/queries');
+
 
 const app = express();
 
