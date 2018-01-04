@@ -1,5 +1,4 @@
   const bcrypt = require('bcrypt-nodejs');
-  const bcrypt2 = require('bcrypt');
 
 // Authentication Functions:
 

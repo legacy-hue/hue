@@ -20,6 +20,10 @@ app.get('/', (req, res) => res.send('Hello World!'))
 // Authentication routes
 /************************************************************/
 
+insert.user('username', 'password');
+
+query.user('username');
+
 app.get('/signup', (req, res) => 
 	res.sendStatus(200)
 );
