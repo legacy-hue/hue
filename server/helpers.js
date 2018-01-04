@@ -31,8 +31,6 @@
 // authentication TODO:
 // add state for username/password fields
 // add ajax post request to home page 
-  // - how to pass props when dynamically rendering?
-  // could turn login into a class or use render instead of component
 // add event listeners to invoke post request
 // set post request data to state.username/state.password
 // tie server routes to helper functions
