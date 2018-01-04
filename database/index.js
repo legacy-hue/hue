@@ -14,7 +14,7 @@ knex.schema.hasTable('users').then(function(exists) {
   if (!exists) {
     knex.schema.createTable('users', function (table) {
       table.increments();
-      table.string('name');
+      table.string('name').unique();
       table.string('password');
       table.timestamps();
     }).then(function (table) {
