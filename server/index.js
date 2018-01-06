@@ -15,7 +15,18 @@ app.use(bodyParser());
 app.use(session({secret: 'this-is-a-secret-token'}));
 app.use(express.static(__dirname + '/../client/dist'));
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/entries', (req, res) => {
+  query.entries().then(data => {res.json(data)});
+});
+
+app.get('/comments', (req, res) => {
+
+  //req.body must contain entryid for comments you want
+
+  let entryid = req.body.entryid;
+  query.comments(entryid).then(data => {res.json(data)});
+
+});
 
 /************************************************************/
 // Authentication routes
