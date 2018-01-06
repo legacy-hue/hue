@@ -11,7 +11,7 @@ class Entry extends React.Component {
   render () {
     return (
       <div className="entry">
-        <div className="txn-data">{this.props.data.title}</div>
+        <a className = "link" href={this.props.data.url}>{this.props.data.title}</a>
       </div>
     );
   }
