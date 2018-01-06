@@ -132,7 +132,7 @@ class App extends React.Component {
             <Submit {...props} 
               submit={this.postEntry.bind(this)}
               titleChange={this.titleChange.bind(this)}
-              urlChange={this.titleChange.bind(this)}
+              urlChange={this.urlChange.bind(this)}
               textChange={this.textChange.bind(this)}
             />
           )}/> 
