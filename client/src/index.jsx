@@ -76,10 +76,6 @@ class App extends React.Component {
     });
   }
 
-  submitLogout() {
-    this.submit('/logout');
-  }
-
   usernameChange(input) {
     this.setState({
       username: input.target.value
@@ -99,13 +95,12 @@ class App extends React.Component {
           <Route exact path="/" render={(props) => (
             <Home {...props}
               data = {this.state.entries}
-              submitLogout={this.submitLogout.bind(this)}
+              submit={this.submit.bind(this)}
             />
           )}/>
           <Route exact path="/login" render={(props) => (
             <Login {...props} 
-              submitLogin={this.submit.bind(this)}
-              submitSignin={this.submit.bind(this)}  
+              submit={this.submit.bind(this)}
               usernameChange={this.usernameChange.bind(this)}
               passwordChange={this.passwordChange.bind(this)}
             />
