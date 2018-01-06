@@ -74,7 +74,7 @@ app.post('/signup', (req, res) =>
 );
 
 app.post('/login', (req, res) =>
-  helpers.comparePassword(req.body.password)
+  helpers.comparePassword(req.body)
   .then((msg) => {
   	helpers.createSession(req)
   	.then(() => {

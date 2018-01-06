@@ -75,16 +75,8 @@ class App extends React.Component {
     });
   }
 
-  submitLogin() {
-    this.submit('/login')
-  }
-
   submitLogout() {
     this.submit('/logout');
-  }
-
-  submitSignin() {
-    this.submit('/signup')
   }
 
   usernameChange(input) {
@@ -110,8 +102,8 @@ class App extends React.Component {
           )}/>
           <Route exact path="/login" render={(props) => (
             <Login {...props} 
-              submitLogin={this.submitLogin.bind(this)}
-              submitSignin={this.submitSignin.bind(this)}  
+              submitLogin={this.submit.bind(this)}
+              submitSignin={this.submit.bind(this)}  
               usernameChange={this.usernameChange.bind(this)}
               passwordChange={this.passwordChange.bind(this)}
             />

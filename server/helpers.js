@@ -28,8 +28,8 @@
 
   // Invoked by post request to "/login"
   // Compare attempted password to password stored in db
-  function comparePassword(pw) {
-    console.log('attempted password: ', pw);
+  function comparePassword(req) {
+    console.log('attempted password: ', req.password, ' user ', req.username);
     return new Promise((resolve, reject) => {
       // var hash = DB query
       bcrypt.compare(pw, hash, function(err, isMatch) {
