@@ -7,7 +7,7 @@ var Home = (props) => (
 	<div>
 	  <Link to="/login">login</Link>
 	  <br/>
-	  <Link to="/login" onClick={props.submitLogout}>logout</Link>
+	  <Link to="/login" onClick={() => props.submit('\logout')}>logout</Link>
     <h4>Welcome to hue</h4>
     <EntryList data = {props.data}/>
   </div>
