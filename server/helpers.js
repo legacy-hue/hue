@@ -69,8 +69,11 @@
     const user = req.username;
     return new Promise((resolve, reject) => {
       bcrypt.hash(pw, null, null, function(err, hash) {
-        insert.user(user, hash);
-        resolve();
+        insert.user(user, hash)
+        .then((x) => { resolve(console.log('x ', x)) })
+        .catch((y) => { reject(console.log('y ', y)) });
+        // insert.user(user, hash);
+        // resolve();
       });
     })
   }

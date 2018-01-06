@@ -67,14 +67,15 @@ app.post('/signup', (req, res) =>
 	.then(() => {
 		helpers.createSession(req)
 		.then(() => {
-	    res.send('signup post received');
+	    res.send('Signup successful');
 		})
 		.catch(() => {
 			res.send('createSession failed');
 		})
 	})
 	.catch(() => {
-		console.log('hashPassword error');
+		//console.log('Username already exists');
+    res.send('Username already exists');
 	})
 );
 
