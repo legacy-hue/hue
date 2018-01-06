@@ -8,7 +8,7 @@ import axios from 'axios';
 
 import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
-import EntryList from './components.EntryList.jsx';
+import EntryList from './components/EntryList.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -110,8 +110,6 @@ class App extends React.Component {
             />
           )}/> 
         </Switch>
-      </div>
-      <div>
         <h1>entries</h1>
         <div>
           <EntryList data = {this.state.entries} />
