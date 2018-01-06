@@ -6,27 +6,27 @@ const user = (name, pass) => {
   .catch(function(error) {console.log('DID NOT ADD USER: ' + error.detail)});
 }
 
-//Expect entry array [username, title, url]
+//Expect entry obj with user, title, url
 
 const entry = (entry) => {
-  let name = entry[0];
-  let title = entry[1];
-  let url = entry[2];
+  let name = entry.user;
+  let title = entry.title;
+  let url = entry.url;
   let userid = knex('users').where({name: name}).select('id');
   knex('entries').insert({title: title, url: url, userid: userid})
   .then(function() {console.log(`inserted entry ${title}`)})
   .catch(function(error) {console.log('DID NOT ADD ENTRY: ' + error)});
 }
 
-//Expect comment array [text, username, entryid]
+//Expect comment object [user, text, entryid]
 
 const comment = (comment) => {
-  let text = comment[0];
-  let name = comment[1];
-  let entry = comment[2];
+  let name = comment.user;
+  let text = comment.text;
+  let entry = comment.entryid;
   let userid = knex('users').where({name: name}).select('id');
   knex('comments').insert({text: text, userid: userid, entryid: entry})
-  .then(function() {console.log(`inserted comment by ${comment[1]}`)})
+  .then(function() {console.log(`inserted comment by ${name}`)})
   .catch(function(error) {console.log('DID NOT ADD COMMENT: ' + error)});
 }
 
