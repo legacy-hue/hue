@@ -10,7 +10,7 @@
   // Invoked by checkUser
   // Checks if a user has an active session
   function isLoggedIn(req) {
-    if (req.session) {
+    if (req.session.user) {
       return true;
     } else {
       return false;
@@ -30,17 +30,20 @@
   // Invoked by post request to "/login"
   // Compare attempted password to password stored in db
   function comparePassword(req) {
-    console.log('attempted password: ', req.password, ' user ', req.username);
     return new Promise((resolve, reject) => {
+      // query returns an array with an object inside it that has user properties
       query.user(req.username).then((data) => {
-        // console.log(data[0].password);
-        bcrypt.compare(req.password, data[0].password, function(err, isMatch) {
-          if(isMatch) {
-            resolve('success');
-          } else {
-            reject('fail: ', err);
-          }
-        });
+        if (data[0]) {
+          bcrypt.compare(req.password, data[0].password, function(err, isMatch) {
+            if(isMatch) {
+              resolve();
+            } else {
+              reject(err);
+            }
+          });
+        } else {
+          reject();
+        }
       })
     })
   }
