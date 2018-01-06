@@ -6,8 +6,9 @@ import { Switch, Route } from 'react-router-dom';
 import $ from 'jquery';
 import axios from 'axios';
 
-import Home from './components/Home.jsx'
+import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
+import EntryList from './components.EntryList.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -109,6 +110,12 @@ class App extends React.Component {
             />
           )}/> 
         </Switch>
+      </div>
+      <div>
+        <h1>entries</h1>
+        <div>
+          <EntryList data = {this.state.entries} />
+        </div>
       </div>
   	)
   }
