@@ -17,4 +17,4 @@ class Entry extends React.Component {
   }
 }
 
-export default TransactionEntry;
+export default Entry;
