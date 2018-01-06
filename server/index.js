@@ -58,7 +58,7 @@ app.post('/logout', (req, res) =>
 );
 
 app.post('/signup', (req, res) => 
-	helpers.hashPassword(req.body.password)
+	helpers.hashPassword(req.body)
 	.then(() => {
 		helpers.createSession(req)
 		.then(() => {
