@@ -98,6 +98,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" render={(props) => (
             <Home {...props}
+              data = {this.state.entries}
               submitLogout={this.submitLogout.bind(this)}
             />
           )}/>
@@ -110,10 +111,6 @@ class App extends React.Component {
             />
           )}/> 
         </Switch>
-        <h1>entries</h1>
-        <div>
-          <EntryList data = {this.state.entries} />
-        </div>
       </div>
   	)
   }
