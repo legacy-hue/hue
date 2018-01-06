@@ -38,6 +38,9 @@ app.post('/comments', (req, res) => {
   res.send('added comment');
 });
 
+app.post('/submit', helpers.checkUser, (req, res) => {
+  res.redirect('/submit');
+});
 
 /************************************************************/
 // Authentication routes
@@ -59,8 +62,6 @@ app.post('/logout', (req, res) => {
   })
 });
 
-
-
 app.post('/signup', (req, res) => 
 	helpers.hashPassword(req.body)
 	.then(() => {
@@ -79,17 +80,17 @@ app.post('/signup', (req, res) =>
 
 app.post('/login', (req, res) =>
   helpers.comparePassword(req.body)
-  .then((msg) => {
+  .then(() => {
   	helpers.createSession(req)
   	.then(() => {
-  		res.send('login post received, and session created');
+  		res.send('Login successful');
   	})
     .catch(() => {
-    	res.send('createSession failed');
+    	res.send('Error: failed to create session');
     })
   })
   .catch(() => {
-  	res.send('comparePassword failed');
+  	res.send('Incorrect password');
   })
 );
 
