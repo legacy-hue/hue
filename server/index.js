@@ -28,6 +28,17 @@ app.get('/comments', (req, res) => {
 
 });
 
+app.post('/entries', (req, res) => {
+  insert.entry(req.body);
+  res.send('added entry');
+});
+
+app.post('/comments', (req, res) => {
+  insert.comment(req.body);
+  res.send('added comment');
+});
+
+
 /************************************************************/
 // Authentication routes
 /************************************************************/
