@@ -1,6 +1,7 @@
   const bcrypt = require('bcrypt-nodejs');
 
   const insert = require('../database/inserts');
+  const query = require('../database/queries');
 
 /************************************************************/
 // Authentication Functions
@@ -31,14 +32,16 @@
   function comparePassword(req) {
     console.log('attempted password: ', req.password, ' user ', req.username);
     return new Promise((resolve, reject) => {
-      // var hash = DB query
-      bcrypt.compare(pw, hash, function(err, isMatch) {
-        if(isMatch) {
-          resolve('success');
-        } else {
-          reject('fail: ', err);
-        }
-      });
+      query.user(req.username).then((data) => {
+        // console.log(data[0].password);
+        bcrypt.compare(req.password, data[0].password, function(err, isMatch) {
+          if(isMatch) {
+            resolve('success');
+          } else {
+            reject('fail: ', err);
+          }
+        });
+      })
     })
   }
 
@@ -48,9 +51,9 @@
     return new Promise((resolve, reject) => {
       let newUser = req.body.username;
       console.log('user session: ', newUser);
-      req.session.regenerate(function() {
-        req.session.user = newUser;
-      })
+      // req.session.regenerate(function() {
+      //   req.session.user = newUser;
+      // })
       resolve();
     })
   }

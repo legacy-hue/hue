@@ -78,7 +78,7 @@ app.post('/login', (req, res) =>
   .then((msg) => {
   	helpers.createSession(req)
   	.then(() => {
-  		res.send('login post received, new session created');
+  		res.send('login post received, and called createSession');
   	})
     .catch(() => {
     	res.send('createSession failed');

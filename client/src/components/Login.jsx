@@ -28,4 +28,3 @@ var Login = (props) => (
 )
 
 export default Login;
-//props.submit.call('/signup')}
