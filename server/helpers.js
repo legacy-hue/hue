@@ -1,5 +1,7 @@
   const bcrypt = require('bcrypt-nodejs');
 
+  const insert = require('../database/inserts');
+
 /************************************************************/
 // Authentication Functions
 /************************************************************/
@@ -55,11 +57,14 @@
 
   // Invoked by post request to "/signup"
   // Store hash in your password DB.
-  function hashPassword(pw) {
+  function hashPassword(req) {
+    const pw = req.password;
+    const user = req.username;
     return new Promise((resolve, reject) => {
       bcrypt.hash(pw, null, null, function(err, hash) {
-        console.log('INPUT PW: ', pw, 'HASH PW: ', hash);
+        //console.log('INPUT PW: ', pw, 'HASH PW: ', hash, ' username: ', user);
         // Store hash in your password DB.
+        insert.user(user, hash);
         resolve();
       });
     })
