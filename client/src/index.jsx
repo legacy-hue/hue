@@ -29,7 +29,7 @@ class App extends React.Component {
     // .then(data => console.log(data.data));
 
     this.getEntries()
-    .then(data => this.setState({entries: data.data}));
+    .then(data => this.setState({entries: data.data})).then(() => console.log(this.state.entries));
   }
 
   getEntries(){
