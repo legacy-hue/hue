@@ -50,10 +50,11 @@
   function createSession(req) {
     return new Promise((resolve, reject) => {
       let newUser = req.body.username;
-      console.log('user session: ', newUser);
-      // req.session.regenerate(function() {
-      //   req.session.user = newUser;
-      // })
+      req.session.regenerate(function() {
+        console.log('Before Login: ', req.session);
+        req.session.user = newUser;
+        console.log('After Login: ', req.session);
+      })
       resolve();
     })
   }
@@ -65,17 +66,21 @@
     const user = req.username;
     return new Promise((resolve, reject) => {
       bcrypt.hash(pw, null, null, function(err, hash) {
-        //console.log('INPUT PW: ', pw, 'HASH PW: ', hash, ' username: ', user);
-        // Store hash in your password DB.
         insert.user(user, hash);
         resolve();
       });
     })
   }
 
+  // function sessionTest(req, callback) {
+  //   console.log('After Logout: ', req.session);
+  //   callback()
+  // } 
+
 /************************************************************/
 /************************************************************/
 
+//module.exports.sessionTest = test;
 module.exports.checkUser = checkUser;
 module.exports.comparePassword = comparePassword;
 module.exports.createSession = createSession;

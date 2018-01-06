@@ -51,11 +51,15 @@ app.get('/login', (req, res) =>
 	res.sendStatus(200)
 );
 
-app.post('/logout', (req, res) => 
-	req.session.destroy(function() {
-    res.send('logged out')
+app.post('/logout', (req, res) => {
+  req.session.destroy(function() {
+    //helpers.sessionTest(req, function() {
+      res.send('logged out')
+    //})
   })
-);
+});
+
+
 
 app.post('/signup', (req, res) => 
 	helpers.hashPassword(req.body)
@@ -78,7 +82,7 @@ app.post('/login', (req, res) =>
   .then((msg) => {
   	helpers.createSession(req)
   	.then(() => {
-  		res.send('login post received, and called createSession');
+  		res.send('login post received, and session created');
   	})
     .catch(() => {
     	res.send('createSession failed');
