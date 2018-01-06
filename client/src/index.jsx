@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
+import Submit from './components/Submit.jsx';
 import EntryList from './components/EntryList.jsx';
 
 class App extends React.Component {
@@ -16,6 +17,9 @@ class App extends React.Component {
     this.state = {
       username: '',
       password: '',
+      title: '',
+      url: '',
+      text: '',
       entries: []
     }
   }
@@ -45,10 +49,11 @@ class App extends React.Component {
   }
 
   postEntry(user, title, url){
+    user = 'joe'
     axios.post('/entries', {
       user: user,
-      title: title,
-      url: url
+      title: this.state.title,
+      url: this.state.url
     });
   }
 
@@ -88,6 +93,24 @@ class App extends React.Component {
     });
   }
 
+  titleChange(input) {
+    this.setState({
+      title: input.target.value
+    });
+  }
+
+  urlChange(input) {
+    this.setState({
+      url: input.target.value
+    });
+  }
+
+  textChange(input) {
+    this.setState({
+      text: input.target.value
+    });
+  }
+
   render() {
   	return (
       <div>
@@ -103,6 +126,14 @@ class App extends React.Component {
               submit={this.submit.bind(this)}
               usernameChange={this.usernameChange.bind(this)}
               passwordChange={this.passwordChange.bind(this)}
+            />
+          )}/> 
+          <Route exact path="/submit" render={(props) => (
+            <Submit {...props} 
+              submit={this.postEntry.bind(this)}
+              titleChange={this.titleChange.bind(this)}
+              urlChange={this.titleChange.bind(this)}
+              textChange={this.textChange.bind(this)}
             />
           )}/> 
         </Switch>
