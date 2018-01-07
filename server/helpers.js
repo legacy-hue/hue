@@ -6,34 +6,38 @@
 /************************************************************/
 // Authentication Functions
 /************************************************************/
-
-  function authenticate(req, callback) {
+  
+  // Invoked by a post request to "/login"
+  // Required input: attempted username and password
+  // On sucess: invokes comparePassword
+  // On failure: sends incorrect username response
+  function identifyUser(req, callback) {
     query.user(req.body.username).then((result) => {
       if (result.length === 0) {
         callback('Username does not exist.');
       } else {
          comparePassword(result, req)
-        .then(() => {
-          callback('Success');
+        .then((result) => {
+          callback(result);
         })
-        .catch(() => {
-          callback('Incorrect password.');
+        .catch((result) => {
+          callback(result);
         });       
       }
     })
   }
 
-  // Invoked by a post request to "/login"
-  // Input: attempted username and password
+  // Invoked by identifyUser
+  // Required input: attempted username and password
   // On sucess: invokes createSession
-  // On failure: sends failure response to user
+  // On failure: sends incorrect password response
   function comparePassword(result, req, callback) {
     return new Promise((resolve, reject) => {
       bcrypt.compare(req.body.password, result[0].password, function(err, isMatch) {
         if(isMatch) {
           resolve(createSession(req));
         } else {
-          reject();
+          reject('Incorrect password.');
         }
       });       
     })
@@ -42,32 +46,37 @@
   // Invoked by a post request to "/signup"
   // Input: attempted username and password
   // On success: invokes createSession
-  // On failure: sends failure response to user
+  // On failure: sends duplicate username response
   function hashPassword(req) {
     return new Promise((resolve, reject) => {
       bcrypt.hash(req.body.password, null, null, function(err, hash) {
         insert.user(req.body.username, hash)
-        .then(() => resolve(createSession(req)))
+        .then(() => resolve(createSession(req, function() {return true})))
         .catch(() => resolve('Sorry that username already exists.'));
       });
     })
   }
 
-  // Invoked by a post request to "/login" or "/signup"
-  // Input: username and a response function
+  // Invoked by comparePassword and hashPassword
+  // Required input: client request object
+  // On sucess: sends sucess response
   // On failure: browser will throw an error
-  // On sucess: sends sucess response to user
   function createSession(req, callback) {
     const newUser = req.body.username;
     const result = req.session.regenerate(function() {
       req.session.user = newUser;
+      callback();
+      console.log('createSession: ', req.session);
     })
-    return 'Success';
+    //return 'Success';
   }
 
   // Invoked by get request to "/submit"
-  // Returns username if they are logged in
+  // Required input: request, response, and next
+  // On success: sends username response
+  // On failure: sends false response
   function checkUser(req, res, next) {
+    console.log('checkUser: ', req.session);
     if (isLoggedIn(req)) {
       next();
     } else {
@@ -76,7 +85,9 @@
   }
 
   // Invoked by checkUser
-  // Checks if a user has an active session
+  // Required input: client request object
+  // On success: returns true
+  // On failure: returns false
   function isLoggedIn(req) {
     if (req.session.user) {
       return true;
@@ -87,8 +98,15 @@
 
 /************************************************************/
 /************************************************************/
-module.exports.authenticate = authenticate;
-module.exports.checkUser = checkUser;
-module.exports.comparePassword = comparePassword;
-module.exports.createSession = createSession;
-module.exports.hashPassword = hashPassword;
+// module.exports.identifyUser = identifyUser;
+// module.exports.checkUser = checkUser;
+// module.exports.comparePassword = comparePassword;
+// module.exports.createSession = createSession;
+// module.exports.hashPassword = hashPassword;
+module.exports = {
+  identifyUser,
+  comparePassword,
+  hashPassword,
+  createSession,
+  checkUser
+};

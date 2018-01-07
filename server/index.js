@@ -53,7 +53,7 @@ app.post('/signup', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  helpers.authenticate(req, (result) => {
+  helpers.identifyUser(req, (result) => {
     res.send(result);
   })
 });
