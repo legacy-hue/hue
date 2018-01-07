@@ -65,20 +65,15 @@ class App extends React.Component {
     });
   }
 
-  submit(url) {
-    $.ajax({
-      url: url,
-      type: 'POST',
-      data: {username: this.state.username,
-             password: this.state.password
-            }
-    })
-    .done((res) => {
-      console.log(res);
-    })
-    .fail((err) => {
-      console.log('error: ', err);
-    });
+  // checks if a user has permission to post things (is logged in)
+  authorize(url) {
+    return axios.get(url).then((res) => {console.log(res.data)});
+  }
+
+  // checks if a user is who they say they are (verifies username & password)
+  authenticate(url) {
+    axios.post(url, { username: this.state.username, password: this.state.password })
+    .then((res) => { alert(res.data)});
   }
 
   usernameChange(input) {
@@ -118,12 +113,13 @@ class App extends React.Component {
           <Route exact path="/" render={(props) => (
             <Home {...props}
               data = {this.state.entries}
-              submit={this.submit.bind(this)}
+              authorize={this.authorize.bind(this)}
+              authenticate={this.authenticate.bind(this)}
             />
           )}/>
           <Route exact path="/login" render={(props) => (
             <Login {...props} 
-              submit={this.submit.bind(this)}
+              authenticate={this.authenticate.bind(this)}
               usernameChange={this.usernameChange.bind(this)}
               passwordChange={this.passwordChange.bind(this)}
             />
@@ -148,6 +144,3 @@ ReactDOM.render((
     <App />
   </BrowserRouter>
 ), document.getElementById('app'))
-
-
-
