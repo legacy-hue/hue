@@ -20,10 +20,12 @@
   // Middleware on all routes to protected components
   // Redirects user if they are not logged in
   function checkUser(req, res, next) {
+    console.log('checkUser: ' , req.session);
     if (isLoggedIn(req)) {
       next();
     } else {
-      res.redirect('/login');
+      //res.redirect('/login');
+      res.send('not logged in');
     }
   }
 
@@ -50,16 +52,24 @@
 
   // Invoked by post request to "/login" or post request to "/signup"
   // Start an active session after successful login
-  function createSession(req) {
-    return new Promise((resolve, reject) => {
-      let newUser = req.body.username;
-      req.session.regenerate(function() {
-        console.log('Before Login: ', req.session);
-        req.session.user = newUser;
-        console.log('After Login: ', req.session);
-      })
-      resolve();
+  function createSession(req, callback) {
+    console.log('createSession ran');
+
+    let newUser = req.body.username;
+    var result = req.session.regenerate(function() {
+      req.session.user = newUser;
+      callback();
     })
+
+
+    // return new Promise((resolve, reject) => {  
+    //   req.session.regenerate(function() {
+    //     console.log('Before Login: ', req.session);
+    //     req.session.user = newUser;
+    //     console.log('After Login: ', req.session);
+    //   })
+    //   resolve();
+    // })
   }
 
   // Invoked by post request to "/signup"
@@ -69,8 +79,11 @@
     const user = req.username;
     return new Promise((resolve, reject) => {
       bcrypt.hash(pw, null, null, function(err, hash) {
-        insert.user(user, hash);
-        resolve();
+        insert.user(user, hash)
+        .then((x) => { resolve(console.log('x ', x)) })
+        .catch((y) => { reject(console.log('y ', y)) });
+        // insert.user(user, hash);
+        // resolve();
       });
     })
   }
