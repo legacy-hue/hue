@@ -9,7 +9,7 @@ var Login = (props) => (
 	    password: <input onChange={props.passwordChange}/>
 	    <br/>
 	    <br/>
-	    <button onClick={() => {props.submit('/login')}}>login</button>
+	    <button onClick={() => {props.authenticate('/login')}}>login</button>
 	  </div>
    
     <br/>
@@ -22,7 +22,7 @@ var Login = (props) => (
 	    password: <input onChange={props.passwordChange}/>
 	    <br/>
 	    <br/>
-	    <button onClick={() => {props.submit('/signup')}}>create account</button>
+	    <button onClick={() => {props.authenticate('/signup')}}>create account</button>
 	  </div>
   </div>
 )

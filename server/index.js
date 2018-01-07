@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-//var partials = require('express-partials');
 
 const helpers = require('./helpers');
 const db = require('../database/index');
@@ -11,15 +10,12 @@ const query = require('../database/queries');
 
 const app = express();
 
-//app.use(partials());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/../client/dist'));
-app.use(session({
-  secret: 'shhh, it\'s a secret',
-  resave: false,
-  saveUninitialized: true
-}));
+app.use(session({secret: 'dont hack me brah'}));
+
 
 app.get('/entries', (req, res) => {
   query.entries().then(data => {res.json(data)});
@@ -44,71 +40,32 @@ app.post('/comments', (req, res) => {
   res.send('added comment');
 });
 
-app.post('/submit', helpers.checkUser, (req, res) => {
-  res.send('success');
-  //res.redirect('/submit');
-});
 
 /************************************************************/
 // Authentication routes
 /************************************************************/
 
-app.get('/signup', (req, res) => 
-	res.sendStatus(200)
-);
-
-app.get('/login', (req, res) => 
-	res.sendStatus(200)
-);
-
-app.post('/logout', (req, res) => {
-  req.session.destroy(function() {
-    //helpers.sessionTest(req, function() {
-      res.send('logged out')
-    //})
-  })
-});
-
 app.post('/signup', (req, res) => {
-  // helpers.createSession(req, function() {
-  //   res.send('success');
-  // });
-	helpers.hashPassword(req.body)
-	.then(() => {
-    var user = req.body.username;
-		helpers.createSession(req, res)
-		.then(() => {
-	    res.send('Signup successful');
-		})
-		.catch(() => {
-			res.send('createSession failed');
-		})
-	})
-	.catch(() => {
-		//console.log('Username already exists');
-    res.send('Username already exists');
+	helpers.hashPassword(req)
+	.then((re) => {
+    res.send(re)
 	})
 });
 
 app.post('/login', (req, res) => {
-  // helpers.createSession(req, function() {
-  //   res.send('success');
-  // });
-  helpers.comparePassword(req.body)
-  .then(() => {
-  	helpers.createSession(req, function() {
-      res.send('Login successful');
-    })
-  	// .then(() => {
-  	// 	res.send('Login successful');
-  	// })
-   //  .catch(() => {
-   //  	res.send('Error: failed to create session');
-   //  })
+  helpers.authenticate(req, (result) => {
+    res.send(result);
   })
-  .catch(() => {
-  	res.send('Incorrect password');
+});
+
+app.post('/logout', (req, res) => {
+  req.session.destroy(function() {
+    res.send('Thanks for visiting!')
   })
+});
+
+app.get('/submit', helpers.checkUser, (req, res) => {
+  res.send(req.session.user);
 });
 
 /************************************************************/
