@@ -20,6 +20,7 @@
   // Middleware on all routes to protected components
   // Redirects user if they are not logged in
   function checkUser(req, res, next) {
+    console.log('checkUser: ' , req.session);
     if (isLoggedIn(req)) {
       next();
     } else {
@@ -50,16 +51,23 @@
 
   // Invoked by post request to "/login" or post request to "/signup"
   // Start an active session after successful login
-  function createSession(req) {
-    return new Promise((resolve, reject) => {
-      let newUser = req.body.username;
-      req.session.regenerate(function() {
-        console.log('Before Login: ', req.session);
-        req.session.user = newUser;
-        console.log('After Login: ', req.session);
-      })
-      resolve();
+  function createSession(req, callback) {
+    let newUser = req.body.username;
+    return req.session.regenerate(function() {
+      //console.log('Before Login: ', req.session);
+      req.session.user = newUser;
+      callback();
+      //res.send('success');
+      //console.log('After Login: ', req.session);
     })
+    // return new Promise((resolve, reject) => {  
+    //   req.session.regenerate(function() {
+    //     console.log('Before Login: ', req.session);
+    //     req.session.user = newUser;
+    //     console.log('After Login: ', req.session);
+    //   })
+    //   resolve();
+    // })
   }
 
   // Invoked by post request to "/signup"

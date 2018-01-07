@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+//var partials = require('express-partials');
 
 const helpers = require('./helpers');
-
 const db = require('../database/index');
 const insert = require('../database/inserts');
 const query = require('../database/queries');
@@ -11,9 +11,15 @@ const query = require('../database/queries');
 
 const app = express();
 
-app.use(bodyParser());
-app.use(session({secret: 'this-is-a-secret-token'}));
+//app.use(partials());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/../client/dist'));
+app.use(session({
+  secret: 'shhh, it\'s a secret',
+  resave: false,
+  saveUninitialized: true
+}));
 
 app.get('/entries', (req, res) => {
   query.entries().then(data => {res.json(data)});
@@ -62,38 +68,47 @@ app.post('/logout', (req, res) => {
   })
 });
 
-app.post('/signup', (req, res) => 
-	helpers.hashPassword(req.body)
-	.then(() => {
-		helpers.createSession(req)
-		.then(() => {
-	    res.send('Signup successful');
-		})
-		.catch(() => {
-			res.send('createSession failed');
-		})
-	})
-	.catch(() => {
-		//console.log('Username already exists');
-    res.send('Username already exists');
-	})
-);
+app.post('/signup', (req, res) => {
+  helpers.createSession(req, function() {
+    res.send('success');
+  });
+	// helpers.hashPassword(req.body)
+	// .then(() => {
+ //    var user = req.body.username;
+	// 	helpers.createSession(req, res)
+	// 	.then(() => {
+	//     res.send('Signup successful');
+	// 	})
+	// 	.catch(() => {
+	// 		res.send('createSession failed');
+	// 	})
+	// })
+	// .catch(() => {
+	// 	//console.log('Username already exists');
+ //    res.send('Username already exists');
+	// })
+});
 
-app.post('/login', (req, res) =>
-  helpers.comparePassword(req.body)
-  .then(() => {
-  	helpers.createSession(req)
-  	.then(() => {
-  		res.send('Login successful');
-  	})
-    .catch(() => {
-    	res.send('Error: failed to create session');
-    })
-  })
-  .catch(() => {
-  	res.send('Incorrect password');
-  })
-);
+app.post('/login', (req, res) => {
+
+  helpers.createSession(req, function() {
+    res.send('success');
+  });
+
+  // helpers.comparePassword(req.body)
+  // .then(() => {
+  // 	helpers.createSession(req)
+  // 	.then(() => {
+  // 		res.send('Login successful');
+  // 	})
+  //   .catch(() => {
+  //   	res.send('Error: failed to create session');
+  //   })
+  // })
+  // .catch(() => {
+  // 	res.send('Incorrect password');
+  // })
+});
 
 /************************************************************/
 /************************************************************/
