@@ -24,7 +24,8 @@
     if (isLoggedIn(req)) {
       next();
     } else {
-      res.redirect('/login');
+      //res.redirect('/login');
+      res.send('not logged in');
     }
   }
 
@@ -52,14 +53,15 @@
   // Invoked by post request to "/login" or post request to "/signup"
   // Start an active session after successful login
   function createSession(req, callback) {
+    console.log('createSession ran');
+
     let newUser = req.body.username;
-    return req.session.regenerate(function() {
-      //console.log('Before Login: ', req.session);
+    var result = req.session.regenerate(function() {
       req.session.user = newUser;
       callback();
-      //res.send('success');
-      //console.log('After Login: ', req.session);
     })
+
+
     // return new Promise((resolve, reject) => {  
     //   req.session.regenerate(function() {
     //     console.log('Before Login: ', req.session);

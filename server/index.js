@@ -45,7 +45,8 @@ app.post('/comments', (req, res) => {
 });
 
 app.post('/submit', helpers.checkUser, (req, res) => {
-  res.redirect('/submit');
+  res.send('success');
+  //res.redirect('/submit');
 });
 
 /************************************************************/
@@ -69,45 +70,45 @@ app.post('/logout', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-  helpers.createSession(req, function() {
-    res.send('success');
-  });
-	// helpers.hashPassword(req.body)
-	// .then(() => {
- //    var user = req.body.username;
-	// 	helpers.createSession(req, res)
-	// 	.then(() => {
-	//     res.send('Signup successful');
-	// 	})
-	// 	.catch(() => {
-	// 		res.send('createSession failed');
-	// 	})
-	// })
-	// .catch(() => {
-	// 	//console.log('Username already exists');
- //    res.send('Username already exists');
-	// })
+  // helpers.createSession(req, function() {
+  //   res.send('success');
+  // });
+	helpers.hashPassword(req.body)
+	.then(() => {
+    var user = req.body.username;
+		helpers.createSession(req, res)
+		.then(() => {
+	    res.send('Signup successful');
+		})
+		.catch(() => {
+			res.send('createSession failed');
+		})
+	})
+	.catch(() => {
+		//console.log('Username already exists');
+    res.send('Username already exists');
+	})
 });
 
 app.post('/login', (req, res) => {
-
-  helpers.createSession(req, function() {
-    res.send('success');
-  });
-
-  // helpers.comparePassword(req.body)
-  // .then(() => {
-  // 	helpers.createSession(req)
-  // 	.then(() => {
-  // 		res.send('Login successful');
-  // 	})
-  //   .catch(() => {
-  //   	res.send('Error: failed to create session');
-  //   })
-  // })
-  // .catch(() => {
-  // 	res.send('Incorrect password');
-  // })
+  // helpers.createSession(req, function() {
+  //   res.send('success');
+  // });
+  helpers.comparePassword(req.body)
+  .then(() => {
+  	helpers.createSession(req, function() {
+      res.send('Login successful');
+    })
+  	// .then(() => {
+  	// 	res.send('Login successful');
+  	// })
+   //  .catch(() => {
+   //  	res.send('Error: failed to create session');
+   //  })
+  })
+  .catch(() => {
+  	res.send('Incorrect password');
+  })
 });
 
 /************************************************************/
