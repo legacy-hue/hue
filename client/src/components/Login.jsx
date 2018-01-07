@@ -13,7 +13,7 @@ var Login = (props) => (
 	  </div>
    
     <br/>
-	  <a href="">Forgot your password?</a>
+	  <a href="https://www.youtube.com/watch?v=oHg5SJYRHA0" onClick={() => alert('Sorry we have no password recover system.')} >Forgot your password?</a>
 
 	  <div>
 	    <h4>Signup</h4>

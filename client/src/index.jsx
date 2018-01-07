@@ -73,7 +73,7 @@ class App extends React.Component {
   // checks if a user is who they say they are (verifies username & password)
   authenticate(url) {
     axios.post(url, { username: this.state.username, password: this.state.password })
-    .then((res) => { console.log(res.data)});
+    .then((res) => { alert(res.data)});
   }
 
   usernameChange(input) {

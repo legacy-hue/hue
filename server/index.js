@@ -47,13 +47,24 @@ app.post('/comments', (req, res) => {
 
 app.post('/signup', (req, res) => {
 	helpers.hashPassword(req)
-	.then((re) => {
-    res.send(re)
+  .then(() => {
+    helpers.createSession(req, function() {
+      res.send('Congratulations! Welcome to hue.');
+    })
 	})
+  .catch(() => {
+    res.send('Sorry that username already exists.');
+  })
 });
 
 app.post('/login', (req, res) => {
-  helpers.identifyUser(req, (result) => {
+  helpers.identifyUser(req)
+  .then(() => {
+    helpers.createSession(req, function() {
+      res.send('Login successful');
+    })      
+  })
+  .catch((result) => {
     res.send(result);
   })
 });

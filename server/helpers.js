@@ -11,19 +11,21 @@
   // Required input: attempted username and password
   // On sucess: invokes comparePassword
   // On failure: sends incorrect username response
-  function identifyUser(req, callback) {
-    query.user(req.body.username).then((result) => {
-      if (result.length === 0) {
-        callback('Username does not exist.');
-      } else {
-         comparePassword(result, req)
-        .then((result) => {
-          callback(result);
-        })
-        .catch((result) => {
-          callback(result);
-        });       
-      }
+  function identifyUser(req) {
+    return new Promise((resolve, reject) => {
+      query.user(req.body.username).then((result) => {
+        if (result.length === 0) {
+          reject('Username does not exist.');
+        } else {
+           comparePassword(result, req)
+          .then((result) => {
+            resolve(result);
+          })
+          .catch((result) => {
+            reject(result);
+          });       
+        }
+      })      
     })
   }
 
@@ -35,7 +37,7 @@
     return new Promise((resolve, reject) => {
       bcrypt.compare(req.body.password, result[0].password, function(err, isMatch) {
         if(isMatch) {
-          resolve(createSession(req));
+          resolve();
         } else {
           reject('Incorrect password.');
         }
@@ -51,8 +53,8 @@
     return new Promise((resolve, reject) => {
       bcrypt.hash(req.body.password, null, null, function(err, hash) {
         insert.user(req.body.username, hash)
-        .then(() => resolve(createSession(req, function() {return true})))
-        .catch(() => resolve('Sorry that username already exists.'));
+        .then(() => resolve())
+        .catch(() => reject());
       });
     })
   }
@@ -62,13 +64,11 @@
   // On sucess: sends sucess response
   // On failure: browser will throw an error
   function createSession(req, callback) {
-    const newUser = req.body.username;
-    const result = req.session.regenerate(function() {
+    let newUser = req.body.username;
+    var result = req.session.regenerate(function() {
       req.session.user = newUser;
       callback();
-      console.log('createSession: ', req.session);
     })
-    //return 'Success';
   }
 
   // Invoked by get request to "/submit"
@@ -98,11 +98,7 @@
 
 /************************************************************/
 /************************************************************/
-// module.exports.identifyUser = identifyUser;
-// module.exports.checkUser = checkUser;
-// module.exports.comparePassword = comparePassword;
-// module.exports.createSession = createSession;
-// module.exports.hashPassword = hashPassword;
+
 module.exports = {
   identifyUser,
   comparePassword,
