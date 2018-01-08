@@ -9,7 +9,10 @@ const entries = () => {
 }
 
 const comments = (entryid) => {
-  return knex('comments').where({entryid: entryid});
+  return knex('comments')
+  .where({entryid: entryid})
+  .join('users', 'comments.userid', '=', 'users.id')
+  .select('comments.id', 'comments.text', 'users.name');
 }
 
 const entriesByUser = name => {
