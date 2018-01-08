@@ -31,8 +31,14 @@ app.get('/comments', (req, res) => {
 });
 
 app.post('/entries', (req, res) => {
-  insert.entry(req.body);
-  res.send('added entry');
+  if(req.session.user){
+    let entry = req.body;
+    entry.user = req.session.user;
+    insert.entry(entry);
+    res.send('added entry');
+  }else{
+    res.send('entry not added; user not logged it');
+  }
 });
 
 app.post('/comments', (req, res) => {
