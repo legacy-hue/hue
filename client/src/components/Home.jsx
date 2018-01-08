@@ -11,7 +11,7 @@ var Home = (props) => (
 	  <br/>
     <Link to="/submit" >submit</Link>
     <h4>Welcome to hue</h4>
-    <EntryList data = {props.data}/>
+    <EntryList data = {props.data} setEntry = {props.setEntry}/>
   </div>
 )
 

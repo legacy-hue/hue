@@ -11,6 +11,8 @@ import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
 import Submit from './components/Submit.jsx';
 import EntryList from './components/EntryList.jsx';
+import CommentList from './components/CommentList.jsx';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -22,7 +24,7 @@ class App extends React.Component {
       url: '',
       text: '',
       entries: [],
-      comments: [],
+      currentEntry: -1,
       auth: false
     }
   }
@@ -37,7 +39,7 @@ class App extends React.Component {
   }
 
   getComments(entryid){
-    return axios.get('/entries', {
+    return axios.get('/comments', {
       params: {
         entryid: entryid
       }
@@ -109,6 +111,12 @@ class App extends React.Component {
     return this.state.auth
   }
 
+  setEntry(entryid){
+    this.setState({
+      currentEntry: entryid
+    });
+  }
+
   render() {
   	return (
       <div>
@@ -116,6 +124,7 @@ class App extends React.Component {
           <Route exact path="/" render={(props) => (
             <Home {...props}
               data = {this.state.entries}
+              setEntry = {this.setEntry.bind(this)}
               authorize={this.authorize.bind(this)}
               authenticate={this.authenticate.bind(this)}
             />
@@ -139,7 +148,8 @@ class App extends React.Component {
           )}/> 
           <Route exact path="/thread" render={(props) => (
             <CommentList {...props}
-              comments = {this.state.comments}
+              entry={this.state.currentEntry}
+              getComments={this.getComments.bind(this)}
             />
           )}/> 
         </Switch>

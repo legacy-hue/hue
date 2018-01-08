@@ -1,10 +1,29 @@
 import React from 'react';
 import CommentEntry from './CommentEntry.jsx';
 
-const CommentsList = (props) => (
-  <div>
-    {props.comments.map((comment, index) => <CommentEntry key = {index} comment={comment}/>)}
-  </div>
-);
 
-export default CommentsList;
+class CommentList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    	comments: []
+    };
+  }
+
+  componentDidMount() {
+  	console.log(this.props.entry);
+  	this.props.getComments(this.props.entry)
+  	.then(data => this.setState({comments: data.data}))
+  	.then(() => console.log(this.state.comments));
+  }
+
+  render () {
+    return (
+    	<div>
+    	  {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment}/>)}
+    	</div>
+    );
+  }
+}
+
+export default CommentList;
