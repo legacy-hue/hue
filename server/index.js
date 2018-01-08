@@ -24,8 +24,7 @@ app.get('/entries', (req, res) => {
 app.get('/comments', (req, res) => {
 
   //req.body must contain entryid for comments you want
-
-  let entryid = req.body.entryid;
+  let entryid = req.query.entryid;
   query.comments(entryid).then(data => {res.json(data)});
 
 });

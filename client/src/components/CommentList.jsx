@@ -11,7 +11,6 @@ class CommentList extends React.Component {
   }
 
   componentDidMount() {
-  	console.log(this.props.entry);
   	this.props.getComments(this.props.entry)
   	.then(data => this.setState({comments: data.data}))
   	.then(() => console.log(this.state.comments));
