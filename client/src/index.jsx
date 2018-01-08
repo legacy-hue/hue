@@ -8,6 +8,7 @@ import $ from 'jquery';
 import axios from 'axios';
 import { Divider, Form, Label, Button, Header, Menu } from 'semantic-ui-react'
 
+import './style.scss'
 import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
 import Submit from './components/Submit.jsx';
