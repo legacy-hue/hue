@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
@@ -145,7 +145,7 @@ class App extends React.Component {
 }
 
 ReactDOM.render((
-  <BrowserRouter>
+  <HashRouter>
     <App />
-  </BrowserRouter>
+  </HashRouter>
 ), document.getElementById('app'))
