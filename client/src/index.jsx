@@ -21,8 +21,7 @@ class App extends React.Component {
       title: '',
       url: '',
       text: '',
-      entries: [],
-      auth: false
+      entries: []
     }
   }
 
@@ -47,7 +46,7 @@ class App extends React.Component {
     axios.post('/entries', {
       title: this.state.title,
       url: this.state.url
-    });
+    }).then((res) => {console.log(res.data)});
   }
 
   postComment(user, text, entryid){
@@ -58,19 +57,10 @@ class App extends React.Component {
     });
   }
 
-  // checks if a user has permission to post things (is logged in)
-  authorize(res) {
-    console.log('authorize: ', res.data)
-    this.setState({
-      auth: res.data
-    })
-  }
-
   // checks if a user is who they say they are (verifies username & password)
   authenticate(url) {
     axios.post(url, { username: this.state.username, password: this.state.password })
-    //.then((res) => { alert(res.data)});
-    .then((res) => { axios.get('/submit').then((res) => { this.authorize(res)})});
+    .then((res) => { console.log('authenticate: ', res.data)});
   }
 
   usernameChange(input) {
@@ -103,11 +93,6 @@ class App extends React.Component {
     });
   }
 
-  isAuthenticated(){
-    console.log('auth state: ', this.state.auth);
-    return this.state.auth
-  }
-
   render() {
   	return (
       <div>
@@ -115,7 +100,6 @@ class App extends React.Component {
           <Route exact path="/" render={(props) => (
             <Home {...props}
               data = {this.state.entries}
-              authorize={this.authorize.bind(this)}
               authenticate={this.authenticate.bind(this)}
             />
           )}/>
@@ -127,14 +111,12 @@ class App extends React.Component {
             />
           )}/> 
           <Route exact path="/submit" render={(props) => (
-            this.isAuthenticated() === true
-            ? <Submit {...props} 
+            <Submit {...props} 
               submit={this.postEntry.bind(this)}
               titleChange={this.titleChange.bind(this)}
               urlChange={this.urlChange.bind(this)}
               textChange={this.textChange.bind(this)}
             />
-            : <Redirect to='/login' />
           )}/> 
           )}/> 
         </Switch>
