@@ -2,7 +2,7 @@ import React from 'react';
 import { Divider, Form, Label, Button, Header } from 'semantic-ui-react'
 
 var Login = (props) => (
-	<div class="ui one column stackable center aligned page grid">
+	<div class="ui center aligned segment">
 	<Form>
 		<Header as='h3'>Log In</Header>
 	  <Form.Field inline>
@@ -11,8 +11,10 @@ var Login = (props) => (
 	  <Form.Field inline>
 	    <input onChange={props.passwordChange} placeholder='Password'/>
 	  </Form.Field>
+	  <Form.Field inline>
 	  <Button onClick={() => {props.authenticate('/login')}}>login</Button>
-	<a href="https://www.youtube.com/watch?v=oHg5SJYRHA0" onClick={() => alert('Sorry this feature is still in development.')} >Forgot your password?</a>
+		</Form.Field>
+	  <a href="https://www.youtube.com/watch?v=oHg5SJYRHA0" onClick={() => alert('Sorry this feature is still in development.')} >Forgot your password?</a>
 		<Header as='h3'>Sign Up</Header>
 	  <Form.Field inline>
 	    <input onChange={props.usernameChange} placeholder='Username'/>

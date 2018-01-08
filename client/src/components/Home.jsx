@@ -16,4 +16,3 @@ var Home = (props) => (
 )
 
 export default Home;
-//onClick={() => props.authorize('\submit')}

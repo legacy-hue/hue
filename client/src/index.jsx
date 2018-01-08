@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import $ from 'jquery';
 import axios from 'axios';
+import { Divider, Form, Label, Button, Header, Menu } from 'semantic-ui-react'
 
 import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
@@ -24,7 +25,6 @@ class App extends React.Component {
       url: '',
       text: '',
       entries: [],
-      auth: false,
       currentEntry: -1
     }
   }
@@ -50,7 +50,7 @@ class App extends React.Component {
     axios.post('/entries', {
       title: this.state.title,
       url: this.state.url
-    });
+    }).then((res) => {console.log(res.data)});
   }
 
   postComment(user, text, entryid){
@@ -61,19 +61,10 @@ class App extends React.Component {
     });
   }
 
-  // checks if a user has permission to post things (is logged in)
-  authorize(res) {
-    console.log('authorize: ', res.data)
-    this.setState({
-      auth: res.data
-    })
-  }
-
   // checks if a user is who they say they are (verifies username & password)
   authenticate(url) {
     axios.post(url, { username: this.state.username, password: this.state.password })
-    //.then((res) => { alert(res.data)});
-    .then((res) => { axios.get('/submit').then((res) => { this.authorize(res)})});
+    .then((res) => { console.log('authenticate: ', res.data)});
   }
 
   usernameChange(input) {
@@ -106,9 +97,8 @@ class App extends React.Component {
     });
   }
 
-  isAuthenticated(){
-    console.log('auth state: ', this.state.auth);
-    return this.state.auth
+  authenticate() {
+    return false
   }
 
   setEntry(entryid){
@@ -120,25 +110,24 @@ class App extends React.Component {
   render() {
   	return (
       <div>
-        <Switch>
-          <Route exact path="/" render={(props) => (
-            <Home {...props}
+        <Switch class="ui three item menu">
+          <Route exact path="/" class="item" render={(props) => (
+            <Home class="item" {...props}
               data = {this.state.entries}
               setEntry = {this.setEntry.bind(this)}
-              authorize={this.authorize.bind(this)}
               authenticate={this.authenticate.bind(this)}
             />
           )}/>
-          <Route exact path="/login" render={(props) => (
-            <Login {...props} 
+          <Route exact path="/login" class="item" render={(props) => (
+            <Login class="item" {...props} 
               authenticate={this.authenticate.bind(this)}
               usernameChange={this.usernameChange.bind(this)}
               passwordChange={this.passwordChange.bind(this)}
             />
           )}/> 
-          <Route exact path="/submit" render={(props) => (
-            this.isAuthenticated() === true
-            ? <Submit {...props} 
+          <Route exact path="/submit" class="item" render={(props) => (
+            this.authenticate() === true
+            ? <Submit class="item" {...props} 
               submit={this.postEntry.bind(this)}
               titleChange={this.titleChange.bind(this)}
               urlChange={this.urlChange.bind(this)}

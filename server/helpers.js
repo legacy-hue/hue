@@ -76,15 +76,14 @@
   // On success: sends username response
   // On failure: sends false response
   function checkUser(req, res, next) {
-    console.log('checkUser: ', req.session);
     if (isLoggedIn(req)) {
       next();
     } else {
-      res.send(false);
+      res.send('Not logged in');
     }
   }
 
-  // Invoked by checkUser
+  // Invoked post request to entries and comments
   // Required input: client request object
   // On success: returns true
   // On failure: returns false
