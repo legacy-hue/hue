@@ -27,6 +27,9 @@ var Login = (props) => (
 
 export default Login;
 
+// display messages for user:
 // add state to track if user is logged in or not
 // update login state with authentication call
 // use styled component to show or hide label based on state
+
+// add form controls
