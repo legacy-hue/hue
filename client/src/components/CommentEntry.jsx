@@ -11,7 +11,7 @@ class CommentEntry extends React.Component {
   render () {
     return (
       <div>
-        <span>{this.props.userid}: {this.props.text}</span>
+        <span>{this.props.comment.userid}: {this.props.comment.text}</span>
       </div>
     );
   }
