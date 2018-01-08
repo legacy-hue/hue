@@ -30,18 +30,14 @@ app.get('/comments', (req, res) => {
 
 });
 
-app.post('/entries', (req, res) => {
-  if(req.session.user){
-    let entry = req.body;
-    entry.user = req.session.user;
-    insert.entry(entry);
-    res.send('added entry');
-  }else{
-    res.send('entry not added; user not logged it');
-  }
+app.post('/entries', helpers.checkUser, (req, res) => {
+  let entry = req.body;
+  entry.user = req.session.user;
+  insert.entry(entry);
+  res.send('added entry')
 });
 
-app.post('/comments', (req, res) => {
+app.post('/comments', helpers.checkUser, (req, res) => {
   insert.comment(req.body);
   res.send('added comment');
 });
@@ -79,10 +75,6 @@ app.post('/logout', (req, res) => {
   req.session.destroy(function() {
     res.send('Thanks for visiting!')
   })
-});
-
-app.get('/submit', helpers.checkUser, (req, res) => {
-  res.send(true); //req.session.user
 });
 
 /************************************************************/
