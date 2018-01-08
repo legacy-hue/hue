@@ -111,24 +111,24 @@ class App extends React.Component {
   render() {
   	return (
       <div>
-        <Switch class="ui three item menu">
-          <Route exact path="/" class="item" render={(props) => (
-            <Home class="item" {...props}
+        <Switch>
+          <Route exact path="/" render={(props) => (
+            <Home {...props}
               data = {this.state.entries}
               setEntry = {this.setEntry.bind(this)}
               authenticate={this.authenticate.bind(this)}
             />
           )}/>
-          <Route exact path="/login" class="item" render={(props) => (
-            <Login class="item" {...props} 
+          <Route exact path="/login" render={(props) => (
+            <Login {...props} 
               authenticate={this.authenticate.bind(this)}
               usernameChange={this.usernameChange.bind(this)}
               passwordChange={this.passwordChange.bind(this)}
             />
           )}/> 
-          <Route exact path="/submit" class="item" render={(props) => (
+          <Route exact path="/submit" render={(props) => (
             this.authorize() === true
-            ? <Submit class="item" {...props} 
+            ? <Submit {...props} 
               submit={this.postEntry.bind(this)}
               titleChange={this.titleChange.bind(this)}
               urlChange={this.urlChange.bind(this)}
