@@ -77,6 +77,11 @@ app.post('/logout', (req, res) => {
   })
 });
 
+app.get('/submit', helpers.checkUser, (req, res) => {
+  console.log('submit ran')
+  res.send(true);
+})
+
 /************************************************************/
 /************************************************************/
 
