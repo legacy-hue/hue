@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import $ from 'jquery';
 import axios from 'axios';
+import { Divider, Form, Label, Button, Header, Menu } from 'semantic-ui-react'
 
 import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
@@ -93,30 +94,36 @@ class App extends React.Component {
     });
   }
 
+  authenticate() {
+    return false
+  }
+
   render() {
   	return (
       <div>
-        <Switch>
-          <Route exact path="/" render={(props) => (
-            <Home {...props}
+        <Switch class="ui three item menu">
+          <Route exact path="/" class="item" render={(props) => (
+            <Home class="item" {...props}
               data = {this.state.entries}
               authenticate={this.authenticate.bind(this)}
             />
           )}/>
-          <Route exact path="/login" render={(props) => (
-            <Login {...props} 
+          <Route exact path="/login" class="item" render={(props) => (
+            <Login class="item" {...props} 
               authenticate={this.authenticate.bind(this)}
               usernameChange={this.usernameChange.bind(this)}
               passwordChange={this.passwordChange.bind(this)}
             />
           )}/> 
-          <Route exact path="/submit" render={(props) => (
-            <Submit {...props} 
+          <Route exact path="/submit" class="item" render={(props) => (
+            this.authenticate() === true
+            ? <Submit class="item" {...props} 
               submit={this.postEntry.bind(this)}
               titleChange={this.titleChange.bind(this)}
               urlChange={this.urlChange.bind(this)}
               textChange={this.textChange.bind(this)}
             />
+            : <Redirect to='/login' />
           )}/> 
           )}/> 
         </Switch>
