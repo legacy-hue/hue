@@ -43,9 +43,7 @@ class App extends React.Component {
   }
 
   postEntry(user, title, url){
-    user = 'joe'
     axios.post('/entries', {
-      user: user,
       title: this.state.title,
       url: this.state.url
     });
