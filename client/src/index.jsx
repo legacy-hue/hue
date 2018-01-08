@@ -21,7 +21,8 @@ class App extends React.Component {
       title: '',
       url: '',
       text: '',
-      entries: []
+      entries: [],
+      auth: false
     }
   }
 
@@ -58,14 +59,18 @@ class App extends React.Component {
   }
 
   // checks if a user has permission to post things (is logged in)
-  authorize(url) {
-    return axios.get(url).then((res) => {res.data});
+  authorize(res) {
+    console.log('authorize: ', res.data)
+    this.setState({
+      auth: res.data
+    })
   }
 
   // checks if a user is who they say they are (verifies username & password)
   authenticate(url) {
     axios.post(url, { username: this.state.username, password: this.state.password })
-    .then((res) => { alert(res.data)});
+    //.then((res) => { alert(res.data)});
+    .then((res) => { axios.get('/submit').then((res) => { this.authorize(res)})});
   }
 
   usernameChange(input) {
@@ -99,7 +104,8 @@ class App extends React.Component {
   }
 
   isAuthenticated(){
-    return true;
+    console.log('auth state: ', this.state.auth);
+    return this.state.auth
   }
 
   render() {

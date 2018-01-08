@@ -9,10 +9,11 @@ var Home = (props) => (
 	  <br/>
 	  <Link to="/login" onClick={() => props.authenticate('\logout')}>logout</Link>
 	  <br/>
-    <Link to="/submit" onClick={() => props.authorize('\submit')}>submit</Link>
+    <Link to="/submit" >submit</Link>
     <h4>Welcome to hue</h4>
     <EntryList data = {props.data}/>
   </div>
 )
 
 export default Home;
+//onClick={() => props.authorize('\submit')}
