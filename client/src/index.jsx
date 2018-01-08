@@ -24,8 +24,8 @@ class App extends React.Component {
       url: '',
       text: '',
       entries: [],
-      currentEntry: -1,
-      auth: false
+      auth: false,
+      currentEntry: -1
     }
   }
 
