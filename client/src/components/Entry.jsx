@@ -10,7 +10,7 @@ class Entry extends React.Component {
   }
 
   handleClick() {
-    this.props.setEntry(this.props.data.id);
+    this.props.setEntry(this.props.data);
   }
 
   render () {

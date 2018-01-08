@@ -25,7 +25,7 @@ class App extends React.Component {
       url: '',
       text: '',
       entries: [],
-      currentEntry: -1
+      currentEntry: {}
     }
   }
 
