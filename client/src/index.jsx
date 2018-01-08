@@ -97,8 +97,9 @@ class App extends React.Component {
     });
   }
 
-  authenticate() {
-    return false
+  authorize() {
+    axios.get('/submit').then((res) => {console.log(res)});
+    return true;
   }
 
   setEntry(entryid){
@@ -126,7 +127,7 @@ class App extends React.Component {
             />
           )}/> 
           <Route exact path="/submit" class="item" render={(props) => (
-            this.authenticate() === true
+            this.authorize() === true
             ? <Submit class="item" {...props} 
               submit={this.postEntry.bind(this)}
               titleChange={this.titleChange.bind(this)}
