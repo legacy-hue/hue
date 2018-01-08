@@ -59,7 +59,7 @@ class App extends React.Component {
 
   // checks if a user has permission to post things (is logged in)
   authorize(url) {
-    return axios.get(url).then((res) => {console.log(res.data)});
+    return axios.get(url).then((res) => {res.data});
   }
 
   // checks if a user is who they say they are (verifies username & password)
