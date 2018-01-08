@@ -22,6 +22,7 @@ class App extends React.Component {
       url: '',
       text: '',
       entries: [],
+      comments: [],
       auth: false
     }
   }
@@ -136,6 +137,10 @@ class App extends React.Component {
             />
             : <Redirect to='/login' />
           )}/> 
+          <Route exact path="/thread" render={(props) => (
+            <CommentList {...props}
+              comments = {this.state.comments}
+            />
           )}/> 
         </Switch>
       </div>
