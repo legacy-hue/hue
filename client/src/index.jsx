@@ -22,9 +22,6 @@ class App extends React.Component {
     this.state = {
       username: '',
       password: '',
-      title: '',
-      url: '',
-      text: '',
       entries: [],
       currentEntry: -1,
       auth: true
@@ -49,15 +46,16 @@ class App extends React.Component {
   }
 
   postEntry(title, url){
+    if(url.slice(0, 4) !== 'http'){
+      url = '//' + url;
+    }
     axios.post('/entries', {
-      title: this.state.title,
-      url: this.state.url
+      title: title,
+      url: url
     }).then((res) => {console.log(res.data)});
   }
 
   postComment(text, entryid){
-    console.log('hello');
-    console.log(text, entryid);
     return axios.post('/comments', {
       text: text,
       entryid: entryid
@@ -79,24 +77,6 @@ class App extends React.Component {
   passwordChange(input) {
     this.setState({
       password: input.target.value
-    });
-  }
-
-  titleChange(input) {
-    this.setState({
-      title: input.target.value
-    });
-  }
-
-  urlChange(input) {
-    this.setState({
-      url: input.target.value
-    });
-  }
-
-  textChange(input) {
-    this.setState({
-      text: input.target.value
     });
   }
 
@@ -142,10 +122,7 @@ class App extends React.Component {
           <Route exact path="/submit" render={(props) => (
             this.state.auth === true
             ? <Submit {...props} 
-              submit={this.postEntry.bind(this)}
-              titleChange={this.titleChange.bind(this)}
-              urlChange={this.urlChange.bind(this)}
-              textChange={this.textChange.bind(this)}
+              postEntry={this.postEntry.bind(this)}
             />
             : <Redirect to='/login' />
           )}/> 
