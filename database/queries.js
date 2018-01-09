@@ -5,7 +5,9 @@ const user = (name) => {
 }
 
 const entries = () => {
-  return knex('entries');
+  return knex('entries')
+  .join('users', 'entries.userid', '=', 'users.id')
+  .select('entries.id', 'entries.url', 'entries.title', 'users.name');
 }
 
 const comments = (entryid) => {

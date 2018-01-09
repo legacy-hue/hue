@@ -39,6 +39,7 @@ class CommentList extends React.Component {
 	    	<div className="entry ui message">
 	    	  <div>
 	    	    <a className = "link header" href={this.props.entry.url}>{this.props.entry.title}</a>
+            <span> by {this.props.entry.name}</span>
 	    	  </div>
 	    	</div>
 	    	<br/>
