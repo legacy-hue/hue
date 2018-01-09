@@ -79,7 +79,7 @@
     if (isLoggedIn(req)) {
       next();
     } else {
-      res.send('Not logged in');
+      res.send(false);
     }
   }
 
