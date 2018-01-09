@@ -1,2 +1,2 @@
-web: npm run react-dev
+web: npm run build
 web: node server/index.js
