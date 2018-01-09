@@ -36,9 +36,9 @@ class CommentList extends React.Component {
   render () {
     return (
     	<div>
-	    	<div className="entry" class="ui message">
+	    	<div className="entry ui message">
 	    	  <div>
-	    	    <a className = "link" href={this.props.entry.url} class="header">{this.props.entry.title}</a>
+	    	    <a className = "link header" href={this.props.entry.url}>{this.props.entry.title}</a>
 	    	  </div>
 	    	</div>
 	    	<br/>
