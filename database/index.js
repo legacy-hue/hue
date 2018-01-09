@@ -1,11 +1,11 @@
-const config = require('../config');
+//const config = require('../config');
 
 const knex = require('knex')({
   client: 'pg',
   connection: {
-    host : '127.0.0.1',
-    user : config.dbUser,
-    password : config.dbPass,
+    host : process.env.DATABASE_URL || '127.0.0.1',
+    user : process.env.DATABASE_USER || config.dbUser,
+    password : process.env.DATABASE_PASSWORD || config.dbPass,
     database : 'hue'
   }
 });
