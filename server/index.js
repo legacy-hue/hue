@@ -22,8 +22,6 @@ app.get('/entries', (req, res) => {
 });
 
 app.get('/comments', (req, res) => {
-
-  //req.body must contain entryid for comments you want
   let entryid = req.query.entryid;
   query.comments(entryid).then(data => {res.json(data)});
 
@@ -37,7 +35,9 @@ app.post('/entries', helpers.checkUser, (req, res) => {
 });
 
 app.post('/comments', helpers.checkUser, (req, res) => {
-  insert.comment(req.body);
+  let comment = req.body;
+  comment.user = req.session.user;
+  insert.comment(comment);
   res.send('added comment');
 });
 
