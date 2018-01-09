@@ -9,7 +9,7 @@ var Login = (props) => (
 	    <input onChange={props.usernameChange} placeholder='Username'/>
 	  </Form.Field>
 	  <Form.Field inline>
-	    <input onChange={props.passwordChange} placeholder='Password'/>
+	    <input onChange={props.passwordChange} placeholder='Password' type='password' />
 	  </Form.Field>
 	  <Form.Field inline>
 	  <Button onClick={() => {props.authenticate('/login')}}>login</Button>
@@ -20,7 +20,7 @@ var Login = (props) => (
 	    <input onChange={props.usernameChange} placeholder='Username'/>
 	  </Form.Field>
 	  <Form.Field inline>
-	    <input onChange={props.passwordChange} placeholder='Password'/>
+	    <input onChange={props.passwordChange} placeholder='Password' type='password' />
 	  </Form.Field>
 	  <Button onClick={() => {props.authenticate('/signup')}}>create account</Button>
   </Form> 
