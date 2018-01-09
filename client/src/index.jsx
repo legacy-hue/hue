@@ -48,16 +48,17 @@ class App extends React.Component {
     });
   }
 
-  postEntry(user, title, url){
+  postEntry(title, url){
     axios.post('/entries', {
       title: this.state.title,
       url: this.state.url
     }).then((res) => {console.log(res.data)});
   }
 
-  postComment(user, text, entryid){
-    axios.post('/comments', {
-      user: user,
+  postComment(text, entryid){
+    console.log('hello');
+    console.log(text, entryid);
+    return axios.post('/comments', {
       text: text,
       entryid: entryid
     });
@@ -152,6 +153,7 @@ class App extends React.Component {
             <CommentList {...props}
               entry={this.state.currentEntry}
               getComments={this.getComments.bind(this)}
+              postComment={this.postComment.bind(this)}
             />
           )}/> 
         </Switch>
