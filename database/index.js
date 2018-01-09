@@ -3,10 +3,10 @@
 const knex = require('knex')({
   client: 'pg',
   connection: {
-    host : process.env.DATABASE_URL || '127.0.0.1',
+    host : process.env.DATABASE_HOST || '127.0.0.1',
     user : process.env.DATABASE_USER || config.dbUser,
     password : process.env.DATABASE_PASSWORD || config.dbPass,
-    database : 'hue'
+    database : process.env.DATABASE_NAME ||  'hue'
   }
 });
 
