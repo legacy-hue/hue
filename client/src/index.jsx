@@ -26,7 +26,8 @@ class App extends React.Component {
       url: '',
       text: '',
       entries: [],
-      currentEntry: {}
+      currentEntry: -1,
+      auth: true
     }
   }
 
@@ -65,7 +66,7 @@ class App extends React.Component {
   // checks if a user is who they say they are (verifies username & password)
   authenticate(url) {
     axios.post(url, { username: this.state.username, password: this.state.password })
-    .then((res) => { console.log('authenticate: ', res.data)});
+    .then((res) => {console.log('authenticate: ', res.data)});
   }
 
   usernameChange(input) {
@@ -99,8 +100,17 @@ class App extends React.Component {
   }
 
   authorize() {
-    axios.get('/submit').then((res) => {console.log(res)});
-    return true;
+    axios.get('/submit').then((res) => {
+      this.isAuthorized(res.data);
+
+    });
+  }
+
+  isAuthorized(res) {
+    console.log('isAuthorized: ', res)
+    this.setState({
+      auth: res
+    });
   }
 
   setEntry(entryid){
@@ -118,6 +128,7 @@ class App extends React.Component {
               data = {this.state.entries}
               setEntry = {this.setEntry.bind(this)}
               authenticate={this.authenticate.bind(this)}
+              authorize={this.authorize.bind(this)}
             />
           )}/>
           <Route exact path="/login" render={(props) => (
@@ -128,7 +139,7 @@ class App extends React.Component {
             />
           )}/> 
           <Route exact path="/submit" render={(props) => (
-            this.authorize() === true
+            this.state.auth === true
             ? <Submit {...props} 
               submit={this.postEntry.bind(this)}
               titleChange={this.titleChange.bind(this)}
