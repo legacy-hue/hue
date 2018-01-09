@@ -10,8 +10,8 @@ class CommentEntry extends React.Component {
 
   render () {
     return (
-      <div class="ui message">
-        <span class="header">{this.props.comment.name}: {this.props.comment.text}</span>
+      <div className="ui message">
+        <span className="header">{this.props.comment.name}: {this.props.comment.text}</span>
       </div>
     );
   }

@@ -20,21 +20,21 @@ class Home extends React.Component {
   render (props) {
     return (
       <Wrapper>
-        <div class="ui three item menu" style={{background: '#ff6600'}}>
+        <div className="ui three item menu" style={{background: '#ff6600'}}>
           <Link to="/login">
-            <Button class="item">Login/Signup</Button>
+            <Button>Login/Signup</Button>
           </Link>
 
           <Link to="/login">
-            <Button class="item" onClick={() => this.props.authenticate('\logout')}>Logout</Button>
+            <Button onClick={() => this.props.authenticate('\logout')}>Logout</Button>
           </Link>
 
           <Link to="/submit">
-            <Button class="item">Submit</Button>
+            <Button>Submit</Button>
           </Link>
         </div>
         
-        <h1 class="ui header item">Welcome to hue</h1>
+        <h1 className="ui header item">Welcome to hue</h1>
         <Divider></Divider>
         <EntryList data = {this.props.data} setEntry = {this.props.setEntry}/>
       </Wrapper>      

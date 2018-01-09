@@ -2,7 +2,7 @@ import React from 'react';
 import { Divider, Form, Label, Button, Header } from 'semantic-ui-react'
 
 var Login = (props) => (
-	<div class="ui center aligned segment">
+	<div className="ui center aligned segment">
 	<Form>
 		<Header as='h3'>Log In</Header>
 	  <Form.Field inline>

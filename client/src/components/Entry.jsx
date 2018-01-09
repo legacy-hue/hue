@@ -15,9 +15,9 @@ class Entry extends React.Component {
 
   render () {
     return (
-      <div className="entry" class="ui message">
+      <div className="entry ui message">
         <div>
-          <a className = "link" href={this.props.data.url} class="header">{this.props.data.title}</a>
+          <a className="link header" href={this.props.data.url}>{this.props.data.title}</a>
         </div>
         <div>
           <Link to="/thread" onClick={this.handleClick}>comments</Link>
