@@ -83,6 +83,6 @@ app.get('/submit', helpers.checkUser, (req, res) => {
 /************************************************************/
 /************************************************************/
 
-let port = process.env.port || 1234;
+let port = process.env.PORT || 1234;
 
 app.listen(1234, () => console.log(`Example app listening on port ${port}!`))
