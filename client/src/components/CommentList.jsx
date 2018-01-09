@@ -1,7 +1,6 @@
 import React from 'react';
 import CommentEntry from './CommentEntry.jsx';
 
-
 class CommentList extends React.Component {
   constructor(props) {
     super(props);
