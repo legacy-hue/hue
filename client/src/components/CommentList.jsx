@@ -46,7 +46,7 @@ class CommentList extends React.Component {
 
   render () {
     return (
-    	<Feed>
+    	<div>
 	    	<div>
 	    	  <div>
 <<<<<<< HEAD
@@ -67,7 +67,7 @@ class CommentList extends React.Component {
 				</div>
 	    	<br/>
     	  {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment}/>)}
-    	</Feed>
+    	</div>
     );
   }
 }
