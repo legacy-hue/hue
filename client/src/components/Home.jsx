@@ -20,7 +20,7 @@ class Home extends React.Component {
   render (props) {
     return (
       <Wrapper>
-        <Menu widths='five' className="myMenu">
+        <Menu className="myMenu">
 
          <Menu.Item name='home' className="nav">
             <Link to="/">
@@ -46,15 +46,13 @@ class Home extends React.Component {
             </Link>
           </Menu.Item>
 
-          <Menu.Item name='username'>
+          <Menu.Item position='right' name='username'>
             <i class="user icon"></i>
             {this.props.user}
           </Menu.Item>
 
         </Menu>
-        
-        <h1 className="ui header item">See what's trending</h1>
-        <Divider></Divider>
+      
         <EntryList data = {this.props.data}/>
       </Wrapper>      
     );
