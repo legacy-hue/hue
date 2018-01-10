@@ -110,7 +110,6 @@ class App extends React.Component {
     this.setState({
       auth: res.user
     });
-    console.log('Nav mounted and updated auth state: ', this.state.auth)
   }
 
   render() {
