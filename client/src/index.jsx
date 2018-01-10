@@ -68,15 +68,11 @@ class App extends React.Component {
   }
 
   deleteEntry(entryid){
-    return axios.delete('/entries', {
-      id: entryid
-    });
+    return axios.delete(`/entry?id=${entryid}`);
   }
 
   deleteComment(commentid){
-    return axios.delete('/comments', {
-      id: commentid
-    });
+    return axios.delete(`/comment?=id?${commentid}`);
   }
   
   isURL(str){
