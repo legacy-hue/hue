@@ -32,21 +32,21 @@ class Home extends React.Component {
 
             <Menu.Item name='submit' className="nav">
               <Link to="/submit" className="text">
-                Submit
+                New Post
               </Link>
             </Menu.Item>
+              <Menu.Menu position="right">
+              <Menu.Item name='logout' position='right' className="nav">
+                <Link to="/login" className="text" onClick={() => this.props.authenticate('\logout')}>
+                  Logout
+                </Link>
+              </Menu.Item>
 
-            <Menu.Item name='logout' position='right' className="nav">
-              <Link to="/login" className="text" onClick={() => this.props.authenticate('\logout')}>
-                Logout
-              </Link>
-            </Menu.Item>
-
-            <Menu.Item position='right' name='username' className="nav">
-              <i className="user icon"></i>
-              {this.props.user} 
-            </Menu.Item>
-
+              <Menu.Item position='right' name='username' className="nav">
+                <i className="user icon"></i>
+                {this.props.user} 
+              </Menu.Item>
+            </Menu.Menu>
           </Menu>
         
           <EntryList data = {this.props.data}/>
@@ -66,21 +66,21 @@ class Home extends React.Component {
 
             <Menu.Item name='submit' className="nav">
               <Link to="/submit" className="text">
-                Submit
+                New Post
               </Link>
             </Menu.Item>
+              <Menu.Menu position="right">
+              <Menu.Item name='login' className="nav">
+                <Link to="/login" className="text">
+                  Login
+                </Link>
+              </Menu.Item>
 
-            <Menu.Item name='login' floated='right' className="nav">
-              <Link to="/login" className="text">
-                Login
-              </Link>
-            </Menu.Item>
-
-            <Menu.Item position='right' name='username' className="nav">
-              <i className="user icon"></i>
-              {this.props.user} 
-            </Menu.Item>
-
+              <Menu.Item name='username' className="nav">
+                <i className="user icon"></i>
+                {this.props.user} 
+              </Menu.Item>
+            </Menu.Menu>
           </Menu>
         
           <EntryList data = {this.props.data}/>
