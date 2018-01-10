@@ -20,22 +20,39 @@ class Home extends React.Component {
   render (props) {
     return (
       <Wrapper>
-        <div className="ui three item menu" style={{background: '#ff6600'}}>
-          <Link to="/login">
-            <Button>Login/Signup</Button>
-          </Link>
+        <Menu className="myMenu">
 
-          <Link to="/login">
-            <Button onClick={() => this.props.authenticate('\logout')}>Logout</Button>
-          </Link>
+         <Menu.Item name='home' className="nav">
+            <Link to="/">
+              <h1 className="text">hue</h1>
+            </Link>
+          </Menu.Item>
 
-          <Link to="/submit">
-            <Button>Submit</Button>
-          </Link>
-        </div>
-        
-        <h1 className="ui header item">Welcome to hue</h1>
-        <Divider></Divider>
+          <Menu.Item name='login/signup' className="nav">
+            <Link to="/login" className="text">
+              Login/Signup
+            </Link>
+          </Menu.Item>
+
+          <Menu.Item name='logout' className="nav">
+            <Link to="/login" className="text" onClick={() => this.props.authenticate('\logout')}>
+              Logout
+            </Link>
+          </Menu.Item>
+
+          <Menu.Item name='submit' className="nav">
+            <Link to="/submit" className="text">
+              Submit
+            </Link>
+          </Menu.Item>
+
+          <Menu.Item position='right' name='username' className="nav">
+            <i class="user icon"></i>
+            {this.props.user}
+          </Menu.Item>
+
+        </Menu>
+      
         <EntryList data = {this.props.data}/>
       </Wrapper>      
     );
@@ -43,3 +60,32 @@ class Home extends React.Component {
 }
 
 export default Home;
+
+
+
+        // <Menu widths='four'>
+
+        //   <Menu.Item name='hue' header>
+        //     <Link to="/">
+        //     <Button>hue</Button>
+        //     </Link>
+        //   </Menu.Item>
+
+        //   <Menu.Item name='submit'>
+        //     <Link to="/submit">
+        //       <Button>New Post</Button>
+        //     </Link>
+        //   </Menu.Item>
+
+        //   <Menu.Item name='login/logout'>
+        //     <Link to="/login">
+        //       <Button onClick={() => this.props.authenticate('\logout')}>Login/Logout</Button>
+        //     </Link>
+        //   </Menu.Item>
+
+        //   <Menu.Item name='username'>
+        //     <i class="user icon"></i>
+        //     {this.props.user}
+        //   </Menu.Item>
+
+        // </Menu>

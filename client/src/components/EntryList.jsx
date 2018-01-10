@@ -7,7 +7,7 @@ const Wrapper = styles.div`
 `;
 
 const EntryList = (props) => (
-  <Wrapper>
+  <Wrapper className="myList">
     {props.data.map((data, index) => <Entry key = {index} data={data}/>)}
   </Wrapper>
 );

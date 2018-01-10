@@ -1,5 +1,33 @@
-$myColor: gray;
-
 body {
-	background: $myColor;
+	background: #d9d9d9 !important;
+}
+
+.myList {
+	background: white !important;
+}
+
+// .button {
+//   background: LightCyan !important;
+//   &:hover {
+//     background: DarkCyan !important;
+//   }
+//   &::before {
+//     content: "";
+//     display: block;
+//   }
+// }
+
+.myMenu {
+	background: #ff6600 !important;
+}
+
+.nav { 
+	background: #ff6600 !important;
+  &:hover {
+    background: #ffc299 !important;
+  }
+}
+
+.text {
+	color: black !important;
 }

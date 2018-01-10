@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Feed } from 'semantic-ui-react'
 
 class CommentEntry extends React.Component {
   constructor(props) {
@@ -10,11 +10,31 @@ class CommentEntry extends React.Component {
 
   render () {
     return (
-      <div className="ui message">
-        <span className="header">{this.props.comment.name}: {this.props.comment.text}</span>
-      </div>
+      <Feed>
+        <Feed.Event>
+          <Feed.Content>
+            <Feed.Summary>
+              {this.props.comment.name}: 
+            </Feed.Summary>
+            <Feed.Meta>
+              {this.props.comment.text}
+            </Feed.Meta>
+          </Feed.Content>
+        </Feed.Event>
+      </Feed>
     );
   }
 }
 
 export default CommentEntry;
+
+
+
+
+      // <Feed>
+      //   <Feed.Event>
+      //     <Feed.Summary>{this.props.comment.name}</Feed.Summary>
+      //     <Feed.Extra text>{this.props.comment.text}</Feed.Extra>
+      //   </Feed.Event>
+      // </Feed>
+
