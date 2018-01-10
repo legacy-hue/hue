@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import $ from 'jquery';
 import axios from 'axios';
+import styles from 'styled-components';
 import { Divider, Form, Label, Button, Header, Menu } from 'semantic-ui-react'
 
 import './style.scss'
@@ -14,7 +15,11 @@ import Login from './components/Login.jsx';
 import Submit from './components/Submit.jsx';
 import EntryList from './components/EntryList.jsx';
 import CommentList from './components/CommentList.jsx';
+import Nav from './components/NavBar.jsx';
 
+const Wrapper = styles.div`
+  margin: .7% 8%;
+`;
 
 class App extends React.Component {
   constructor(props) {
@@ -105,11 +110,17 @@ class App extends React.Component {
     this.setState({
       auth: res.user
     });
+    console.log('Nav mounted and updated auth state: ', this.state.auth)
   }
 
   render() {
   	return (
-      <div>
+      <Wrapper> 
+        <Nav 
+          user={this.state.auth}
+          authenticate={this.authenticate.bind(this)}
+          authorize={this.authorize.bind(this)}
+        />
         <Switch className="myList">
           <Route exact path="/" render={(props) => (
             <Home {...props}
@@ -120,7 +131,8 @@ class App extends React.Component {
             />
           )}/>
           <Route exact path="/login" render={(props) => (
-            <Login {...props} 
+            <Login {...props}
+              authorize={this.authorize.bind(this)} 
               authenticate={this.authenticate.bind(this)}
               usernameChange={this.usernameChange.bind(this)}
               passwordChange={this.passwordChange.bind(this)}
@@ -141,7 +153,7 @@ class App extends React.Component {
             />
           )}/> 
         </Switch>
-      </div>
+      </Wrapper> 
   	)
   }
 
