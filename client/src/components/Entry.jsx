@@ -21,7 +21,7 @@ class Entry extends React.Component {
           <span> by {this.props.data.name}</span>
         </div>
         <div>
-          <Link to="/thread" onClick={this.handleClick}>comments</Link>
+          <Link to={`/thread/${this.props.data.id}`}onClick={this.handleClick}>comments</Link>
         </div>
       </div>
     );

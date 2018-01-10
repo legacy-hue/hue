@@ -2,7 +2,7 @@ import React from 'react';
 import CommentEntry from './CommentEntry.jsx';
 
 class CommentList extends React.Component {
-  constructor(props) {
+  constructor(props, params) {
     super(props);
     this.state = {
     	comments: [],
@@ -13,9 +13,15 @@ class CommentList extends React.Component {
   }
 
   componentDidMount() {
-  	this.props.getComments(this.props.entry.id)
+  	this.props.getComments(this.props.match.params.id)
   	.then(data => this.setState({comments: data.data}))
   	.then(() => console.log(this.state.comments));
+  }
+
+  componentWillReceiveProps(nextprops){
+    nextprops.getComments(nextprops.match.params.id)
+    .then(data => this.setState({comments: data.data}))
+    .then(() => console.log(this.state.comments));
   }
 
   handleClick() {

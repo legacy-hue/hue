@@ -126,7 +126,7 @@ class App extends React.Component {
             />
             : <Redirect to='/login' />
           )}/> 
-          <Route exact path="/thread" render={(props) => (
+          <Route exact path="/thread/:id" render={(props) => (
             <CommentList {...props}
               entry={this.state.currentEntry}
               getComments={this.getComments.bind(this)}
