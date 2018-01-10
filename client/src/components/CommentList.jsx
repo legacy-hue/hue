@@ -1,5 +1,6 @@
 import React from 'react';
 import { Feed } from 'semantic-ui-react'
+import { Redirect } from 'react-router-dom';
 import CommentEntry from './CommentEntry.jsx';
 
 class CommentList extends React.Component {
@@ -8,7 +9,8 @@ class CommentList extends React.Component {
     this.state = {
       entry: {},
     	comments: [],
-    	comment: ''
+    	comment: '',
+      redirect: false
     };
     this.textChange = this.textChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -16,6 +18,13 @@ class CommentList extends React.Component {
 
   componentDidMount() {
     this.props.getEntry(this.props.match.params.id)
+    .then(data => {
+        if(data.data.length === 0){
+          this.setState({redirect:  true});
+        }
+        return data;
+      }
+    )
     .then(data => this.setState({entry: data.data[0]}));
 
   	this.props.getComments(this.props.match.params.id)
@@ -24,6 +33,13 @@ class CommentList extends React.Component {
 
   componentWillReceiveProps(nextprops){
     this.props.getEntry(this.props.match.params.id)
+    .then(data => {
+        if(data.data.length === 0){
+          this.setState({redirect:  true});
+        }
+        return data;
+      }
+    )
     .then(data => this.setState({entry: data.data[0]}));
 
     this.props.getComments(nextprops.match.params.id)
@@ -45,6 +61,10 @@ class CommentList extends React.Component {
   }
 
   render () {
+    if(this.state.redirect){
+      return <Redirect to='/'/>;
+    }
+
     return (
     	<div>
 	    	<div>
