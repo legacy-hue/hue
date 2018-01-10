@@ -6,7 +6,14 @@ class CommentEntry extends React.Component {
     super(props);
     this.state = {
     };
+    this.handleClick = this.handleClick.bind(this);
   }
+
+  handleClick() {
+    this.props.deleteComment(this.props.comment.id)
+    .then(() => console.log('deleted comment'));
+  }
+
 
   render () {
     if(this.props.user === this.props.comment.name){
@@ -20,9 +27,9 @@ class CommentEntry extends React.Component {
               <Feed.Meta>
                 {this.props.comment.text}
               </Feed.Meta>
-              <div>
+              <button onClick={this.handleClick}>
                 delete
-              </div>
+              </button>
             </Feed.Content>
           </Feed.Event>
         </Feed>

@@ -7,7 +7,14 @@ class Entry extends React.Component {
     super(props);
     this.state = {
     };
+    this.handleClick = this.handleClick.bind(this);
   }
+
+  handleClick() {
+    this.props.deleteEntry(this.props.data.id)
+    .then(() => console.log('deleted entry'));
+  }
+
   render () {
     if(this.props.user === this.props.data.name){
       return (
@@ -32,7 +39,7 @@ class Entry extends React.Component {
                   <Icon name='thumbs down' />
                 </Feed.Like>
                 13 Points
-                <Link to={`/thread/${this.props.data.id}`}>Remove</Link>
+                <button onClick={this.handleClick}>Remove</button>
               </Feed.Meta>
             </Feed.Content>
           </Feed.Event>

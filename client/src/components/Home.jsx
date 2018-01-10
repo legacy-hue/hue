@@ -52,6 +52,7 @@ class Home extends React.Component {
           <EntryList 
           data = {this.props.data}
           user = {this.props.user}
+          deleteEntry = {this.props.deleteEntry}
           />
         </Wrapper>);
 
@@ -89,6 +90,7 @@ class Home extends React.Component {
           <EntryList 
           data = {this.props.data}
           user = {this.props.user}
+          deleteEntry = {this.props.deleteEntry}
           />
         </Wrapper>    
       );

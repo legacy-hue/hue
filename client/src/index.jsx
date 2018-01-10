@@ -48,15 +48,6 @@ class App extends React.Component {
     });
   }
 
-  isURL(str){
-    let regexp =  /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
-    if (regexp.test(str)){
-      return true;
-    }else{
-      return false;
-    }
-  }
-
   postEntry(title, url, text){
     if(this.isURL(url)){
       if(url.slice(0, 4) !== 'http'){
@@ -76,6 +67,27 @@ class App extends React.Component {
     });
   }
 
+  deleteEntry(entryid){
+    return axios.delete('/entries', {
+      id: entryid
+    });
+  }
+
+  deleteComment(commentid){
+    return axios.delete('/comments', {
+      id: commentid
+    });
+  }
+  
+  isURL(str){
+    let regexp =  /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+    if (regexp.test(str)){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   usernameChange(input) {
     this.setState({
       username: input.target.value
@@ -93,7 +105,6 @@ class App extends React.Component {
   authenticate(url) {
     return axios.post(url, { username: this.state.username, password: this.state.password });
   }
-
 
   authorize() {
     axios.get('/submit').then((res) => {
@@ -117,6 +128,7 @@ class App extends React.Component {
               data = {this.state.entries}
               authenticate={this.authenticate.bind(this)}
               authorize={this.authorize.bind(this)}
+              deleteEntry={this.deleteEntry.bind(this)}
             />
           )}/>
           <Route exact path="/login" render={(props) => (
@@ -138,6 +150,7 @@ class App extends React.Component {
               user = {this.state.auth}
               getComments={this.getComments.bind(this)}
               postComment={this.postComment.bind(this)}
+              deleteComment={this.deleteComment.bind(this)}
               getEntry={this.getEntry.bind(this)}
             />
           )}/> 

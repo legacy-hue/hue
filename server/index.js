@@ -7,9 +7,7 @@ const db = require('../database/index');
 const insert = require('../database/inserts');
 const query = require('../database/queries');
 
-
 const app = express();
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,6 +43,15 @@ app.post('/comments', helpers.checkUser, (req, res) => {
   res.send('added comment');
 });
 
+app.delete('/entries', helpers.checkUser, (req, res) => {
+  console.log('THIS IS THE DELETE ENTRY SERVER FUNCTION');
+  res.send('deleted entry');
+});
+
+app.delete('/comments', helpers.checkUser, (req, res) => {
+  console.log('THIS IS THE DELETE COMMENT SERVER FUNCTION');
+  res.send('delted comment');
+});
 
 /************************************************************/
 // Authentication routes
