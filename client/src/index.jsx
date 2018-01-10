@@ -135,6 +135,7 @@ class App extends React.Component {
           )}/> 
           <Route exact path="/thread/:id" render={(props) => (
             <CommentList {...props}
+              user = {this.state.auth}
               getComments={this.getComments.bind(this)}
               postComment={this.postComment.bind(this)}
               getEntry={this.getEntry.bind(this)}

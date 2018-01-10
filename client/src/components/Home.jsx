@@ -49,7 +49,10 @@ class Home extends React.Component {
 
           </Menu>
         
-          <EntryList data = {this.props.data}/>
+          <EntryList 
+          data = {this.props.data}
+          user = {this.props.user}
+          />
         </Wrapper>);
 
     } else {
@@ -83,7 +86,10 @@ class Home extends React.Component {
 
           </Menu>
         
-          <EntryList data = {this.props.data}/>
+          <EntryList 
+          data = {this.props.data}
+          user = {this.props.user}
+          />
         </Wrapper>    
       );
     }
