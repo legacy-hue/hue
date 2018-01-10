@@ -53,14 +53,3 @@ class CommentEntry extends React.Component {
 }
 
 export default CommentEntry;
-
-
-
-
-      // <Feed>
-      //   <Feed.Event>
-      //     <Feed.Summary>{this.props.comment.name}</Feed.Summary>
-      //     <Feed.Extra text>{this.props.comment.text}</Feed.Extra>
-      //   </Feed.Event>
-      // </Feed>
-

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Divider, Form, Label, Button, Header, Menu } from 'semantic-ui-react'
 
 class Submit extends React.Component {
   constructor(props) {
@@ -40,17 +41,23 @@ class Submit extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className="ui segment">
         <div>
           <h4>Submit</h4>
-          Title: <input onChange={this.titleChange}/>
-          <br/>
-          URL: <input onChange={this.urlChange}/>
-          <br/>
-          Text: <input onChange={this.textChange}/>
-          <br/>
-          <br/>
-          <button onClick={this.handleClick}>submit</button>
+          <Form>
+            <Form.Field>
+              <label>Title</label>
+              <input placeholder='This is a site about cats' onChange={this.titleChange}/>
+            </Form.Field>
+            <Form.Field>
+              <label>URL</label>
+              <input placeholder='cats.com' onChange={this.urlChange}/>
+            </Form.Field>
+            <Form.TextArea label='Text' placeholder='how neat is that...' />
+            <Form.Field>
+              <Button onClick={this.handleClick}>submit</Button>
+            </Form.Field>
+          </Form>
         </div>
       </div>
     );

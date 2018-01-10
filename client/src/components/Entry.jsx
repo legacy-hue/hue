@@ -56,20 +56,21 @@ class Entry extends React.Component {
           <Feed.Content>
             <Feed.Date>3 days ago</Feed.Date>
             <Feed.Summary>
-              <a>{this.props.data.name}</a> created a post
+              <a href={this.props.data.url}>{this.props.data.title}</a>
+              
             </Feed.Summary>
             <Feed.Extra text>
-              <a href={this.props.data.url}>{this.props.data.title}</a>
+              by {this.props.data.name}
             </Feed.Extra>
             <Feed.Meta>
               <Feed.Like>
                 <Icon name='thumbs up' />
               </Feed.Like>
-              <Link to={`/thread/${this.props.data.id}`}>comments</Link>
               <Feed.Like>
                 <Icon name='thumbs down' />
               </Feed.Like>
               13 Points
+              <Link to={`/thread/${this.props.data.id}`}>comments</Link>
             </Feed.Meta>
           </Feed.Content>
         </Feed.Event>
