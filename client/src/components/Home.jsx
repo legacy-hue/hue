@@ -16,7 +16,11 @@ class Home extends React.Component {
 
   render (props) {
     return (  
-      <EntryList data = {this.props.data}/>
+      <EntryList 
+        data = {this.props.data}
+        user = {this.props.user}
+        deleteEntry = {this.props.deleteEntry}
+      />
     );
   }
 }

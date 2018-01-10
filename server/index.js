@@ -6,10 +6,9 @@ const helpers = require('./helpers');
 const db = require('../database/index');
 const insert = require('../database/inserts');
 const query = require('../database/queries');
-
+const deletes = require('../database/deletes');
 
 const app = express();
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,6 +44,13 @@ app.post('/comments', helpers.checkUser, (req, res) => {
   res.send('added comment');
 });
 
+app.delete('/entry', helpers.checkUser, (req, res) => {
+  deletes.entry(req.query.id).then(data => {res.send('deleted entry')});
+});
+
+app.delete('/comment', helpers.checkUser, (req, res) => {
+  deletes.comment(req.query.id).then(data => {res.send('delted comment')});
+});
 
 /************************************************************/
 // Authentication routes
