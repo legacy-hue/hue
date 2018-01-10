@@ -10,6 +10,13 @@ const entries = () => {
   .select('entries.id', 'entries.url', 'entries.title', 'users.name');
 }
 
+const entry = (entryid) => {
+  return knex('entries')
+  .where({'entries.id': entryid})
+  .join('users', 'entries.userid', '=', 'users.id')
+  .select('entries.id', 'entries.url', 'entries.title', 'users.name');
+}
+
 const comments = (entryid) => {
   return knex('comments')
   .where({entryid: entryid})
@@ -31,6 +38,7 @@ const commentsByUser = (name) => {
 module.exports = {
   user,
   entries,
+  entry,
   comments,
   entriesByUser,
   commentsByUser

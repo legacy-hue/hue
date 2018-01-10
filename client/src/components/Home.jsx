@@ -36,7 +36,7 @@ class Home extends React.Component {
         
         <h1 className="ui header item">Welcome to hue</h1>
         <Divider></Divider>
-        <EntryList data = {this.props.data} setEntry = {this.props.setEntry}/>
+        <EntryList data = {this.props.data}/>
       </Wrapper>      
     );
   }

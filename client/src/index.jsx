@@ -23,7 +23,6 @@ class App extends React.Component {
       username: '',
       password: '',
       entries: [],
-      currentEntry: -1,
       auth: true
     }
   }
@@ -35,6 +34,10 @@ class App extends React.Component {
 
   getEntries(){
     return axios.get('/entries');
+  }
+
+  getEntry(entryid){
+    return axios.get(`/entry?id=${entryid}`);
   }
 
   getComments(entryid){
@@ -83,7 +86,6 @@ class App extends React.Component {
   authorize() {
     axios.get('/submit').then((res) => {
       this.isAuthorized(res.data);
-
     });
   }
 
@@ -94,12 +96,6 @@ class App extends React.Component {
     });
   }
 
-  setEntry(entryid){
-    this.setState({
-      currentEntry: entryid
-    });
-  }
-
   render() {
   	return (
       <div>
@@ -107,7 +103,6 @@ class App extends React.Component {
           <Route exact path="/" render={(props) => (
             <Home {...props}
               data = {this.state.entries}
-              setEntry = {this.setEntry.bind(this)}
               authenticate={this.authenticate.bind(this)}
               authorize={this.authorize.bind(this)}
             />
@@ -128,9 +123,9 @@ class App extends React.Component {
           )}/> 
           <Route exact path="/thread/:id" render={(props) => (
             <CommentList {...props}
-              entry={this.state.currentEntry}
               getComments={this.getComments.bind(this)}
               postComment={this.postComment.bind(this)}
+              getEntry={this.getEntry.bind(this)}
             />
           )}/> 
         </Switch>

@@ -6,11 +6,6 @@ class Entry extends React.Component {
     super(props);
     this.state = {
     };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    this.props.setEntry(this.props.data);
   }
 
   render () {
@@ -21,7 +16,7 @@ class Entry extends React.Component {
           <span> by {this.props.data.name}</span>
         </div>
         <div>
-          <Link to={`/thread/${this.props.data.id}`}onClick={this.handleClick}>comments</Link>
+          <Link to={`/thread/${this.props.data.id}`}>comments</Link>
         </div>
       </div>
     );
