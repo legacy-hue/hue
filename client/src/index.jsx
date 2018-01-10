@@ -23,7 +23,7 @@ class App extends React.Component {
       username: '',
       password: '',
       entries: [],
-      auth: true
+      auth: false
     }
   }
 
