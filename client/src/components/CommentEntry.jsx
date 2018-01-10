@@ -9,6 +9,25 @@ class CommentEntry extends React.Component {
   }
 
   render () {
+    if(this.props.user === this.props.comment.name){
+      return (
+        <Feed>
+          <Feed.Event>
+            <Feed.Content>
+              <Feed.Summary>
+                {this.props.comment.name}: 
+              </Feed.Summary>
+              <Feed.Meta>
+                {this.props.comment.text}
+              </Feed.Meta>
+              <div>
+                delete
+              </div>
+            </Feed.Content>
+          </Feed.Event>
+        </Feed>
+      );
+    }
     return (
       <Feed>
         <Feed.Event>
