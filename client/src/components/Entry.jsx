@@ -24,10 +24,18 @@ class Entry extends React.Component {
             </Feed.Extra>
             <Feed.Meta>
               <Feed.Like>
-                <Icon name='like' />
-                41 Likes
+                <Icon name='thumbs up' />
               </Feed.Like>
+<<<<<<< HEAD
               <Link to={`/thread/${this.props.data.id}`}>comments</Link>
+=======
+              <Feed.Like>
+                <Icon name='thumbs down' />
+              </Feed.Like>
+              13 Points
+              <Link to={`/thread/${this.props.data.id}`}onClick={this.handleClick}>Comments</Link>
+              <Link to={`/thread/${this.props.data.id}`}>Remove</Link>
+>>>>>>> Change like icon to up/down thumbs
             </Feed.Meta>
           </Feed.Content>
         </Feed.Event>
