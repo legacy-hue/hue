@@ -1,5 +1,24 @@
-$myColor: gray;
+$bodyBackground: gray;
 
 body {
-	background: $myColor;
+	background: $bodyBackground;
+}
+
+.button {
+  background: LightCyan !important;
+  &:hover {
+    background: DarkCyan !important;
+  }
+  &::before {
+    content: "";
+    display: block;
+  }
+}
+
+.nav { 
+	background: #ff3300 !important;
+}
+
+.text {
+	color: black !important;
 }
