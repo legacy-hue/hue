@@ -81,7 +81,7 @@ app.post('/logout', (req, res) => {
 });
 
 app.get('/submit', helpers.checkUser, (req, res) => {
-  res.send(true);
+  res.send(req.session);
 })
 
 /************************************************************/

@@ -101,18 +101,20 @@ class App extends React.Component {
   }
 
   isAuthorized(res) {
-    console.log('isAuthorized: ', res)
+    console.log('isAuthorized: ', res.user)
     this.setState({
-      auth: res
+      auth: res.user
     });
   }
 
   render() {
+    console.log(this.state.auth)
   	return (
       <div>
         <Switch>
           <Route exact path="/" render={(props) => (
             <Home {...props}
+              user={this.state.auth}
               data = {this.state.entries}
               authenticate={this.authenticate.bind(this)}
               authorize={this.authorize.bind(this)}
@@ -126,7 +128,7 @@ class App extends React.Component {
             />
           )}/> 
           <Route exact path="/submit" render={(props) => (
-            this.state.auth === true
+            this.state.auth !== undefined
             ? <Submit {...props} 
               postEntry={this.postEntry.bind(this)}
             />

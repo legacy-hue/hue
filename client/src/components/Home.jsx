@@ -20,7 +20,7 @@ class Home extends React.Component {
   render (props) {
     return (
       <Wrapper>
-        <div className="ui three item menu" style={{background: '#ff6600'}}>
+        <Menu widths='four'>
           <Link to="/login">
             <Button>Login/Signup</Button>
           </Link>
@@ -32,7 +32,13 @@ class Home extends React.Component {
           <Link to="/submit">
             <Button>Submit</Button>
           </Link>
-        </div>
+
+          <Menu.Item name='username'>
+            <i class="user icon"></i>
+            {this.props.user}
+          </Menu.Item>
+
+        </Menu>
         
         <h1 className="ui header item">Welcome to hue</h1>
         <Divider></Divider>
@@ -43,3 +49,32 @@ class Home extends React.Component {
 }
 
 export default Home;
+
+
+
+        // <Menu widths='four'>
+
+        //   <Menu.Item name='hue' header>
+        //     <Link to="/">
+        //     <Button>hue</Button>
+        //     </Link>
+        //   </Menu.Item>
+
+        //   <Menu.Item name='submit'>
+        //     <Link to="/submit">
+        //       <Button>New Post</Button>
+        //     </Link>
+        //   </Menu.Item>
+
+        //   <Menu.Item name='login/logout'>
+        //     <Link to="/login">
+        //       <Button onClick={() => this.props.authenticate('\logout')}>Login/Logout</Button>
+        //     </Link>
+        //   </Menu.Item>
+
+        //   <Menu.Item name='username'>
+        //     <i class="user icon"></i>
+        //     {this.props.user}
+        //   </Menu.Item>
+
+        // </Menu>
