@@ -1,22 +1,31 @@
-$bodyBackground: gray;
+// body {
+// 	background: #e6e6e6 !important;
+// }
 
-body {
-	background: $bodyBackground;
+.myList {
+	background: #a6a6a6 !important;
 }
 
-.button {
-  background: LightCyan !important;
-  &:hover {
-    background: DarkCyan !important;
-  }
-  &::before {
-    content: "";
-    display: block;
-  }
+// .button {
+//   background: LightCyan !important;
+//   &:hover {
+//     background: DarkCyan !important;
+//   }
+//   &::before {
+//     content: "";
+//     display: block;
+//   }
+// }
+
+.myMenu {
+	background: #ff6600 !important;
 }
 
 .nav { 
-	background: #ff3300 !important;
+	background: #ff6600 !important;
+  &:hover {
+    background: #ffc299 !important;
+  }
 }
 
 .text {

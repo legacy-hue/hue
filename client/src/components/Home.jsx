@@ -20,29 +20,29 @@ class Home extends React.Component {
   render (props) {
     return (
       <Wrapper>
-        <Menu widths='five' className="nav">
+        <Menu widths='five' className="myMenu">
 
-         <Menu.Item name='home'>
+         <Menu.Item name='home' className="nav">
             <Link to="/">
               <h1 className="text">hue</h1>
             </Link>
           </Menu.Item>
 
-          <Menu.Item name='login/signup'>
-            <Link to="/login">
-              <Button className="button">Login/Signup</Button>
+          <Menu.Item name='login/signup' className="nav">
+            <Link to="/login" className="text">
+              Login/Signup
             </Link>
           </Menu.Item>
 
-          <Menu.Item name='logout'>
-            <Link to="/login">
-              <Button className="button" onClick={() => this.props.authenticate('\logout')}>Logout</Button>
+          <Menu.Item name='logout' className="nav">
+            <Link to="/login" className="text" onClick={() => this.props.authenticate('\logout')}>
+              Logout
             </Link>
           </Menu.Item>
 
-          <Menu.Item name='submit'>
-            <Link to="/submit">
-              <Button className="button">Submit</Button>
+          <Menu.Item name='submit' className="nav">
+            <Link to="/submit" className="text">
+              Submit
             </Link>
           </Menu.Item>
 

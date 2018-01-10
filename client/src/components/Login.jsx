@@ -32,7 +32,7 @@ class Login extends React.Component {
             <Button type="submit">Login</Button>
           </Form.Field>
         </Form>
-
+        <br></br>
 
         <Form id="signup" onSubmit={this.onSubmit}>
           <Header as='h3'>Sign Up</Header>

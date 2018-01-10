@@ -111,7 +111,7 @@ class App extends React.Component {
     console.log(this.state.auth)
   	return (
       <div>
-        <Switch>
+        <Switch className="myList">
           <Route exact path="/" render={(props) => (
             <Home {...props}
               user={this.state.auth}
