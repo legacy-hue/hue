@@ -57,8 +57,8 @@ class App extends React.Component {
     }
   }
 
-  postEntry(title, url){
-    if(isURL(url)){
+  postEntry(title, url, text){
+    if(this.isURL(url)){
       if(url.slice(0, 4) !== 'http'){
         url = '//' + url;
       }

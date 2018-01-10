@@ -16,7 +16,8 @@ knex.schema.hasTable('users').then(function(exists) {
       table.increments();
       table.string('name').unique();
       table.string('password');
-      table.timestamps();
+      table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'))
+      table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'))
     }).then(function (table) {
       console.log('Created Table users');
     });
@@ -28,8 +29,10 @@ knex.schema.hasTable('users').then(function(exists) {
         table.increments();
         table.string('title');
         table.string('url');
+        table.string('text');
         table.integer('userid').references('users.id');
-        table.timestamps();
+        table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'))
+        table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'))
       }).then(function (table) {
         console.log('Created Table entries');
       });
@@ -43,7 +46,8 @@ knex.schema.hasTable('users').then(function(exists) {
         table.string('text');
         table.integer('userid').references('users.id');
         table.integer('entryid').references('entries.id');
-        table.timestamps();
+        table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'))
+        table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'))
       }).then(function (table) {
         console.log('Created Table comments');
       });

@@ -30,9 +30,9 @@ class CommentList extends React.Component {
   }
 
   handleClick() {
-  	this.props.postComment(this.state.comment, this.props.entry.id)
+  	this.props.postComment(this.state.comment, this.props.match.params.id)
   	.then(() => {
-  		this.props.getComments(this.props.entry.id)
+  		this.props.getComments(this.props.match.params.id)
   		.then(data => this.setState({comments: data.data}))
   	});
   }
