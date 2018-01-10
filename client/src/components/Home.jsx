@@ -46,7 +46,7 @@ class Home extends React.Component {
             </Link>
           </Menu.Item>
 
-          <Menu.Item position='right' name='username'>
+          <Menu.Item position='right' name='username' className="nav">
             <i class="user icon"></i>
             {this.props.user}
           </Menu.Item>

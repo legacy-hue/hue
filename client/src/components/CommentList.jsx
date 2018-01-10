@@ -1,4 +1,5 @@
 import React from 'react';
+import { Feed } from 'semantic-ui-react'
 import CommentEntry from './CommentEntry.jsx';
 
 class CommentList extends React.Component {
@@ -45,11 +46,16 @@ class CommentList extends React.Component {
 
   render () {
     return (
-    	<div>
-	    	<div className="entry ui message">
+    	<Feed>
+	    	<div>
 	    	  <div>
+<<<<<<< HEAD
 	    	    <a className = "link header" href={this.state.entry.url}>{this.state.entry.title}</a>
             <span> by {this.state.entry.name}</span>
+=======
+	    	    <a href={this.props.entry.url}>{this.props.entry.title}</a>
+            <span> by {this.props.entry.name}</span>
+>>>>>>> Add styling to entry feed
 	    	  </div>
 	    	</div>
 	    	<br/>
@@ -61,7 +67,7 @@ class CommentList extends React.Component {
 				</div>
 	    	<br/>
     	  {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment}/>)}
-    	</div>
+    	</Feed>
     );
   }
 }
