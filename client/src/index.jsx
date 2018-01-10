@@ -76,12 +76,6 @@ class App extends React.Component {
     });
   }
 
-  // checks if a user is who they say they are (verifies username & password)
-  authenticate(url) {
-    return axios.post(url, { username: this.state.username, password: this.state.password })
-    // .then((res) => {console.log('authenticate: ', res.data)});
-  }
-
   usernameChange(input) {
     this.setState({
       username: input.target.value
@@ -94,6 +88,13 @@ class App extends React.Component {
     });
   }
 
+  // Invoked by Login.jsx onComponentDidMount
+  // Verifies attempted username & password
+  authenticate(url) {
+    return axios.post(url, { username: this.state.username, password: this.state.password });
+  }
+
+
   authorize() {
     axios.get('/submit').then((res) => {
       this.isAuthorized(res.data);
@@ -101,14 +102,12 @@ class App extends React.Component {
   }
 
   isAuthorized(res) {
-    console.log('isAuthorized: ', res.user)
     this.setState({
       auth: res.user
     });
   }
 
   render() {
-    console.log(this.state.auth)
   	return (
       <div>
         <Switch className="myList">
