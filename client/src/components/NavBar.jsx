@@ -14,7 +14,7 @@ class Nav extends React.Component {
         <Menu className="myMenu">
 
          <Menu.Item name='home' className="nav">
-            <Link to="/" onClick={() => this.props.authenticate('\home')}>
+            <Link to="/">
               <h1 className="text">hue</h1>
             </Link>
           </Menu.Item>

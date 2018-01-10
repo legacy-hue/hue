@@ -1,15 +1,11 @@
 import React from 'react';
 import Entry from './Entry.jsx';
-import styles from 'styled-components';
-
-const Wrapper = styles.div`
-  border: 15px black;
-`;
+import { Divider, Form, Label, Button, Header, Menu } from 'semantic-ui-react'
 
 const EntryList = (props) => (
-  <Wrapper className="myList">
+  <div className="ui segment">
     {props.data.map((data, index) => <Entry key = {index} data={data} user={props.user} deleteEntry={props.deleteEntry}/>)}
-  </Wrapper>
+  </div>
 );
 
 export default EntryList;
