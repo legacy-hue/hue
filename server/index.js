@@ -24,7 +24,11 @@ app.get('/entries', (req, res) => {
 app.get('/comments', (req, res) => {
   let entryid = req.query.entryid;
   query.comments(entryid).then(data => {res.json(data)});
+});
 
+app.get('/entry', (req, res) => {
+  let entryid = req.query.id;
+  query.entry(entryid).then(data => {res.json(data)});
 });
 
 app.post('/entries', helpers.checkUser, (req, res) => {

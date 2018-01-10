@@ -5,6 +5,7 @@ class CommentList extends React.Component {
   constructor(props, params) {
     super(props);
     this.state = {
+      entry: {},
     	comments: [],
     	comment: ''
     };
@@ -13,15 +14,19 @@ class CommentList extends React.Component {
   }
 
   componentDidMount() {
+    this.props.getEntry(this.props.match.params.id)
+    .then(data => this.setState({entry: data.data[0]}));
+
   	this.props.getComments(this.props.match.params.id)
-  	.then(data => this.setState({comments: data.data}))
-  	.then(() => console.log(this.state.comments));
+  	.then(data => this.setState({comments: data.data}));
   }
 
   componentWillReceiveProps(nextprops){
-    nextprops.getComments(nextprops.match.params.id)
-    .then(data => this.setState({comments: data.data}))
-    .then(() => console.log(this.state.comments));
+    this.props.getEntry(this.props.match.params.id)
+    .then(data => this.setState({entry: data.data[0]}));
+
+    this.props.getComments(nextprops.match.params.id)
+    .then(data => this.setState({comments: data.data}));
   }
 
   handleClick() {
@@ -43,8 +48,8 @@ class CommentList extends React.Component {
     	<div>
 	    	<div className="entry ui message">
 	    	  <div>
-	    	    <a className = "link header" href={this.props.entry.url}>{this.props.entry.title}</a>
-            <span> by {this.props.entry.name}</span>
+	    	    <a className = "link header" href={this.state.entry.url}>{this.state.entry.title}</a>
+            <span> by {this.state.entry.name}</span>
 	    	  </div>
 	    	</div>
 	    	<br/>
