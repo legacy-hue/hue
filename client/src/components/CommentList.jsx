@@ -32,7 +32,7 @@ class CommentList extends React.Component {
   }
 
   componentWillReceiveProps(nextprops){
-    this.props.getEntry(this.props.match.params.id)
+    this.props.getEntry(nextprops.match.params.id)
     .then(data => {
         if(data.data.length === 0){
           this.setState({redirect:  true});
