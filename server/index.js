@@ -45,7 +45,9 @@ app.post('/comments', helpers.checkUser, (req, res) => {
 });
 
 app.delete('/entry', helpers.checkUser, (req, res) => {
-  deletes.entry(req.query.id).then(data => {res.send('deleted entry')});
+  deletes.comments(req.query.id).then(() => {
+    deletes.entry(req.query.id).then(data => {res.send('deleted entry')});
+  })
 });
 
 app.delete('/comment', helpers.checkUser, (req, res) => {

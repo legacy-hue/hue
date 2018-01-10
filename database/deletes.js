@@ -6,6 +6,12 @@ const entry = (entryid) => {
   .del();
 }
 
+const comments = (entryid) => {
+  return knex('comments')
+  .where({'entryid': entryid})
+  .del();
+}
+
 const comment = (commentid) => {
   return knex('comments')
   .where({'id': commentid})
@@ -14,5 +20,6 @@ const comment = (commentid) => {
 
 module.exports = {
   entry,
-  comment
+  comment,
+  comments
 };

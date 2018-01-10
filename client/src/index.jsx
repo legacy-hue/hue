@@ -77,7 +77,8 @@ class App extends React.Component {
   }
 
   deleteComment(commentid){
-    return axios.delete(`/comment?=id?${commentid}`);
+    console.log(commentid);
+    return axios.delete(`/comment?id=${commentid}`);
   }
   
   isURL(str){
