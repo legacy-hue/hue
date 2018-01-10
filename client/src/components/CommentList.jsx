@@ -49,13 +49,8 @@ class CommentList extends React.Component {
     	<div>
 	    	<div>
 	    	  <div>
-<<<<<<< HEAD
-	    	    <a className = "link header" href={this.state.entry.url}>{this.state.entry.title}</a>
+	    	    <a href={this.state.entry.url}>{this.state.entry.title}</a>
             <span> by {this.state.entry.name}</span>
-=======
-	    	    <a href={this.props.entry.url}>{this.props.entry.title}</a>
-            <span> by {this.props.entry.name}</span>
->>>>>>> Add styling to entry feed
 	    	  </div>
 	    	</div>
 	    	<br/>
