@@ -54,13 +54,21 @@ class App extends React.Component {
   }
 
   postEntry(title, url, text){
+    if(url === ''){
+      axios.post('/entries', {
+        title: title,
+        url: 'none',
+        text: text
+      }).then((res) => {console.log(res.data)});
+    }
     if(this.isURL(url)){
       if(url.slice(0, 4) !== 'http'){
         url = '//' + url;
       }
       axios.post('/entries', {
         title: title,
-        url: url
+        url: url,
+        text: text
       }).then((res) => {console.log(res.data)});
     }
   }
