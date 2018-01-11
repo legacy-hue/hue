@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Feed, Icon, Divider } from 'semantic-ui-react'
 
-import CommentEntry from './CommentEntry.jsx';
 import Entry from './Entry.jsx';
+import CommentEntry from './CommentEntry.jsx';
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -27,13 +27,14 @@ class UserProfile extends React.Component {
       }
     )
     .then(data => this.setState({entries: data.data}));
-    //.then(data => console.log('set state as: ', data.data));
-    // this.props.getUserComments(this.props.match.params.name)
-    // .then(data => this.setState({comments: data.data}));
+    
+    this.props.getUserComments(this.props.match.params.name)
+    .then(data => this.setState({comments: data.data}));
   }
 
   componentWillReceiveProps(nextprops){
-    this.props.getUserEntries(nextprops.params.name)
+    //console.log('componentWillReceiveProps: ', nextprops)
+    this.props.getUserEntries(nextprops.match.params.name)
     .then(data => {
         if(data.data.length === 0){
           this.setState({redirect:  true});
@@ -43,8 +44,8 @@ class UserProfile extends React.Component {
     )
     .then(data => this.setState({entry: data.data}));
 
-    // this.props.getUserComments(nextprops.params.name)
-    // .then(data => this.setState({comments: data.data}));
+    this.props.getUserComments(nextprops.match.params.name)
+    .then(data => this.setState({comments: data.data}));
   }
 
 
@@ -54,9 +55,10 @@ class UserProfile extends React.Component {
   }
 
   render (props) {
+    console.log(this.state.comments)
     return (
       <div>
-        User Page
+        {this.props.match.params.name}'s posts:
         <div>
           {this.state.entries.map((entry, index) => 
             <Entry 
@@ -66,8 +68,16 @@ class UserProfile extends React.Component {
               deleteEntry={this.props.deleteEntry}
             />)}
         </div>
+        {this.props.match.params.name}'s comments:
         <div>
-        
+          {this.state.comments.map((comment, index) => 
+            <CommentEntry
+              key = {index}
+              comment = {comment}
+              user = {this.props.match.params.name}
+              deleteComment = {this.props.deleteComment}
+            />
+          )}
         </div>
       </div>
     )
@@ -75,3 +85,5 @@ class UserProfile extends React.Component {
 }
 
 export default UserProfile;
+
+
