@@ -20,10 +20,21 @@ app.get('/entries', (req, res) => {
   query.entries().then(data => {res.json(data)});
 });
 
+app.get('/userEntries', (req, res) => {
+  // console.log('userEntries: ', req.query.id);
+  let userid = req.query.id;
+  query.entriesByUser(userid).then(data => {res.json(data)});
+})
+
 app.get('/comments', (req, res) => {
   let entryid = req.query.entryid;
   query.comments(entryid).then(data => {res.json(data)});
 });
+
+app.get('/userComments', (req, res) => {
+  console.log('userComments: ', req.query.id);
+  res.sendStatus(200)
+})
 
 app.get('/entry', (req, res) => {
   let entryid = req.query.id;

@@ -21,25 +21,24 @@ class Entry extends React.Component {
         <div>
         <Feed>
           <Feed.Event>
-            <Feed.Label image='http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg' />
             <Feed.Content>
               <Feed.Date>3 days ago</Feed.Date>
               <Feed.Summary>
-                <a>{this.props.data.name}</a> created a post
+                <a href={this.props.data.url}>{this.props.data.title}</a>
               </Feed.Summary>
               <Feed.Extra text>
-                <a href={this.props.data.url}>{this.props.data.title}</a>
+                by <Link to={`/user/${this.props.data.name}`}>{this.props.data.name}</Link>
               </Feed.Extra>
               <Feed.Meta>
                 <Feed.Like>
                   <Icon name='thumbs up' />
                 </Feed.Like>
-                <Link to={`/thread/${this.props.data.id}`}>comments</Link>
                 <Feed.Like>
                   <Icon name='thumbs down' />
                 </Feed.Like>
                 13 Points
-                <button onClick={this.handleClick}>Remove</button>
+                <Link to={`/thread/${this.props.data.id}`}>comments</Link>
+                <a onClick={this.handleClick}>remove</a>
               </Feed.Meta>
             </Feed.Content>
           </Feed.Event>
@@ -52,15 +51,13 @@ class Entry extends React.Component {
       <div>
       <Feed>
         <Feed.Event>
-          <Feed.Label image='http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg' />
           <Feed.Content>
             <Feed.Date>3 days ago</Feed.Date>
             <Feed.Summary>
               <a href={this.props.data.url}>{this.props.data.title}</a>
-              
             </Feed.Summary>
             <Feed.Extra text>
-              by {this.props.data.name}
+              by <Link to={`/user/${this.props.data.name}`}>{this.props.data.name}</Link>
             </Feed.Extra>
             <Feed.Meta>
               <Feed.Like>
@@ -82,16 +79,3 @@ class Entry extends React.Component {
 }
 
 export default Entry;
-
-
-
-// <<<<<<< HEAD
-//       <div className="entry ui message">
-//         <div>
-//           <a className="link header" href={this.props.data.url}>{this.props.data.title}</a>
-//           <span> by {this.props.data.name}</span>
-//         </div>
-//         <div>
-//           <Link to={`/thread/${this.props.data.id}`}>comments</Link>
-//         </div>
-// =======
