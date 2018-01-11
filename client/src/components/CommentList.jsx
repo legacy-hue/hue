@@ -61,7 +61,6 @@ class CommentList extends React.Component {
   }
 
   render () {
-    console.log(this.state.entry);
     if(this.state.redirect){
       return <Redirect to='/'/>;
     }

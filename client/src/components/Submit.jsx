@@ -17,8 +17,13 @@ class Submit extends React.Component {
 
   handleClick() {
     const {history} = this.props;
-    this.props.postEntry(this.state.title, this.state.url, this.state.text);
-    history.push('/');
+    this.props.postEntry(this.state.title, this.state.url, this.state.text)
+    .then((res) => {
+      if(res.data === 'success'){
+        this.props.getEntries();
+        history.push('/');
+      }
+    });
   }
 
   titleChange(input) {
