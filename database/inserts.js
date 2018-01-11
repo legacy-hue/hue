@@ -12,9 +12,24 @@ const entry = (entry) => {
   let name = entry.user;
   let title = entry.title;
   let url = entry.url;
+  let text = entry.text;
   let userid = knex('users').where({name: name}).select('id');
-  knex('entries').insert({title: title, url: url, userid: userid})
-  .then(function() {console.log(`inserted entry ${title}`)})
+  knex('entries').insert({title: title, url: url, userid: userid, text: text})
+  .then(function() {console.log(`inserted entry ${title} by ${name}`)})
+  .catch(function(error) {console.log('DID NOT ADD COMMENT: ' + error)});;
+}
+
+const textEntry = entry => {
+  let name = entry.user;
+  let title = entry.title;
+  let url = entry.url;
+  let text = entry.text;
+  let userid = knex('users').where({name: name}).select('id');
+  knex('entries').insert({title: title, userid: userid, text: text}, 'id')
+  .then(data => {
+    return knex('entries').where({id: data[0]}).update({url: `#/thread/${data[0]}`});
+  })
+  .then(function() {console.log(`inserted entry ${title} by ${name}`)})
   .catch(function(error) {console.log('DID NOT ADD ENTRY: ' + error)});
 }
 
@@ -27,10 +42,11 @@ const comment = (comment) => {
   let userid = knex('users').where({name: name}).select('id');
   knex('comments').insert({text: text, userid: userid, entryid: entry})
   .then(function() {console.log(`inserted comment by ${name}`)})
-  .catch(function(error) {console.log('DID NOT ADD COMMENT: ' + error)});
+  .catch(function(error) {console.log('DID NOT ADD ENTRY: ' + error)});
 }
 
 
 module.exports.user = user;
 module.exports.entry = entry;
+module.exports.textEntry = textEntry;
 module.exports.comment = comment;

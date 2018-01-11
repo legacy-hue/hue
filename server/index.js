@@ -44,7 +44,11 @@ app.get('/entry', (req, res) => {
 app.post('/entries', helpers.checkUser, (req, res) => {
   let entry = req.body;
   entry.user = req.session.user;
-  insert.entry(entry);
+  if(entry.url === 'none'){
+    insert.textEntry(entry);
+  }else{
+    insert.entry(entry);
+  }
   res.send('added entry')
 });
 
