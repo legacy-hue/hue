@@ -34,20 +34,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getEntries()
-    .then(data => this.setState({entries: data.data}));
-  }
-
-  getUserEntries(user) {
-    return axios.get(`/userEntries?id=${user}`);
-  }
-
-  getUserComments(user) {
-    return axios.get(`/userComments?id=${user}`);
+    this.getEntries();
   }
 
   getEntries(){
-    return axios.get('/entries');
+    return axios.get('/entries')
+    .then(data => this.setState({entries: data.data}));
   }
 
   getEntry(entryid){
@@ -62,23 +54,31 @@ class App extends React.Component {
     });
   }
 
+  getUserEntries(user) {
+    return axios.get(`/userEntries?id=${user}`);
+  }
+
+  getUserComments(user) {
+    return axios.get(`/userComments?id=${user}`);
+  }
+
   postEntry(title, url, text){
     if(url === ''){
-      axios.post('/entries', {
+      return axios.post('/entries', {
         title: title,
         url: 'none',
         text: text
-      }).then((res) => {console.log(res.data)});
+      });
     }
     if(this.isURL(url)){
       if(url.slice(0, 4) !== 'http'){
         url = '//' + url;
       }
-      axios.post('/entries', {
+      return axios.post('/entries', {
         title: title,
         url: url,
         text: text
-      }).then((res) => {console.log(res.data)});
+      });
     }
   }
 
@@ -166,6 +166,7 @@ class App extends React.Component {
           <Route exact path="/submit" render={(props) => (
             this.state.auth !== undefined
             ? <Submit {...props} 
+              getEntries={this.getEntries.bind(this)}
               postEntry={this.postEntry.bind(this)}
               authorize={this.authorize.bind(this)}
             />
