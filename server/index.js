@@ -44,15 +44,21 @@ app.get('/entry', (req, res) => {
 app.post('/entries', helpers.checkUser, (req, res) => {
   let entry = req.body;
   entry.user = req.session.user;
-  if(entry.url === 'none'){
-    insert.textEntry(entry)
-    .then(() => res.send('success'))
-    .catch(() => res.send('failure'));
+  console.log(entry);
+  if(entry.title === '' || ((entry.text === '') && (entry.url === 'none'))) {
+    res.send('failure');
   }else{
-    insert.entry(entry)
-    .then(() => res.send('success'))
-    .catch(() => res.send('failure'));
+    if(entry.url === 'none'){
+      insert.textEntry(entry)
+      .then(() => res.send('success'))
+      .catch(() => res.send('failure'));
+    }else{
+      insert.entry(entry)
+      .then(() => res.send('success'))
+      .catch(() => res.send('failure'));
+    }
   }
+
 });
 
 app.post('/comments', helpers.checkUser, (req, res) => {
