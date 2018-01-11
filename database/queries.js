@@ -37,9 +37,8 @@ const commentsByUser = (name) => {
   return knex('comments')
   .where({userid: userid})
   .join('users', 'comments.userid', '=', 'users.id')
-  .select('comments.id', 'comments.text', 'users.name');
+  .select('comments.id', 'comments.text', 'users.name', 'comments.entryid');
 }
-
 
 module.exports = {
   user,

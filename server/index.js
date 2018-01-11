@@ -41,6 +41,10 @@ app.get('/entry', (req, res) => {
   query.entry(entryid).then(data => {res.json(data)});
 });
 
+app.get('/title', (re1, res) => {
+  // query.
+})
+
 app.post('/entries', helpers.checkUser, (req, res) => {
   let entry = req.body;
   entry.user = req.session.user;

@@ -189,6 +189,7 @@ class App extends React.Component {
               getUserComments={this.getUserComments.bind(this)}
               getUserEntries={this.getUserEntries.bind(this)}
               authorize={this.authorize.bind(this)}
+              getEntry={this.getEntry.bind(this)}
             />
           )}/> 
         </Switch>

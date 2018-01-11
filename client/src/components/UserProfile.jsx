@@ -4,6 +4,7 @@ import { Feed, Icon, Divider } from 'semantic-ui-react'
 
 import Entry from './Entry.jsx';
 import CommentEntry from './CommentEntry.jsx';
+import CommentData from './CommentData.jsx';
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -66,14 +67,21 @@ class UserProfile extends React.Component {
             />)}
         </div>
         {this.props.match.params.name}'s comments:
+
         <div>
-          {this.state.comments.map((comment, index) => 
+          {this.state.comments.map((comment, index) => {
+            return ( <div key={index}>
+            <CommentData 
+              comment = {comment}
+              getEntry={this.props.getEntry}
+            />
+
             <CommentEntry
-              key = {index}
               comment = {comment}
               user = {this.props.user}
               deleteComment = {this.props.deleteComment}
-            />
+            /> 
+            </div>)}
           )}
         </div>
       </div>
@@ -82,5 +90,3 @@ class UserProfile extends React.Component {
 }
 
 export default UserProfile;
-
-
