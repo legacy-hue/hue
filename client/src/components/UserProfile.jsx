@@ -71,7 +71,7 @@ class UserProfile extends React.Component {
             <CommentEntry
               key = {index}
               comment = {comment}
-              user = {this.props.match.params.name}
+              user = {this.props.user}
               deleteComment = {this.props.deleteComment}
             />
           )}
