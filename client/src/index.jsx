@@ -16,6 +16,7 @@ import Submit from './components/Submit.jsx';
 import EntryList from './components/EntryList.jsx';
 import CommentList from './components/CommentList.jsx';
 import Nav from './components/NavBar.jsx';
+import UserProfile from './components/UserProfile.jsx'
 
 const Wrapper = styles.div`
   margin: .7% 8%;
@@ -35,6 +36,14 @@ class App extends React.Component {
   componentDidMount() {
     this.getEntries()
     .then(data => this.setState({entries: data.data}));
+  }
+
+  getUserEntries(user) {
+    return axios.get(`/userEntries?id=${user}`)
+  }
+
+  getUserComments(user) {
+    return axios.get(`/userComments?id=${user}`).then((res) => {console.log(res)});
   }
 
   getEntries(){
@@ -160,6 +169,14 @@ class App extends React.Component {
               postComment={this.postComment.bind(this)}
               deleteComment={this.deleteComment.bind(this)}
               getEntry={this.getEntry.bind(this)}
+            />
+          )}/> 
+          <Route exact path="/user/:name" render={(props) => (
+            <UserProfile {...props}
+              user={this.state.auth}
+              deleteEntry={this.deleteEntry.bind(this)}
+              getUserComments={this.getUserComments.bind(this)}
+              getUserEntries={this.getUserEntries.bind(this)}
             />
           )}/> 
         </Switch>
