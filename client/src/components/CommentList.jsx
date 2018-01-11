@@ -61,29 +61,53 @@ class CommentList extends React.Component {
   }
 
   render () {
+    console.log(this.state.entry);
     if(this.state.redirect){
       return <Redirect to='/'/>;
     }
-
+    if(this.state.entry.text === ''){
+      return (
+      	<div>
+  	    	<div>
+  	    	  <div>
+  	    	    <a href={this.state.entry.url}>{this.state.entry.title}</a>
+              <span> by {this.state.entry.name}</span>
+  	    	  </div>
+  	    	</div>
+  	    	<br/>
+  	    	<div>
+  	    	<h4>Submit Comment</h4>
+  				<input onChange={this.textChange}/>
+  				<br/>
+  				<button onClick={this.handleClick}>submit</button>
+  				</div>
+  	    	<br/>
+      	  {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment}/>)}
+      	</div>
+      );
+    }
     return (
-    	<div>
-	    	<div>
-	    	  <div>
-	    	    <a href={this.state.entry.url}>{this.state.entry.title}</a>
-            <span> by {this.state.entry.name}</span>
-	    	  </div>
-	    	</div>
-	    	<br/>
-	    	<div>
-	    	<h4>Submit Comment</h4>
-				<input onChange={this.textChange}/>
-				<br/>
-				<button onClick={this.handleClick}>submit</button>
-				</div>
-	    	<br/>
-    	  {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment}/>)}
-    	</div>
-    );
+        <div>
+          <div>
+            <div>
+              <a href={this.state.entry.url}>{this.state.entry.title}</a>
+              <span> by {this.state.entry.name}</span>
+            </div>
+            <div>
+              <span>{this.state.entry.text}</span>
+            </div>
+          </div>
+          <br/>
+          <div>
+          <h4>Submit Comment</h4>
+          <input onChange={this.textChange}/>
+          <br/>
+          <button onClick={this.handleClick}>submit</button>
+          </div>
+          <br/>
+          {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment}/>)}
+        </div>
+      );
   }
 }
 

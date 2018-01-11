@@ -7,14 +7,14 @@ const user = (name) => {
 const entries = () => {
   return knex('entries')
   .join('users', 'entries.userid', '=', 'users.id')
-  .select('entries.id', 'entries.url', 'entries.title', 'users.name');
+  .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'users.name');
 }
 
 const entry = (entryid) => {
   return knex('entries')
   .where({'entries.id': entryid})
   .join('users', 'entries.userid', '=', 'users.id')
-  .select('entries.id', 'entries.url', 'entries.title', 'users.name');
+  .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'users.name');
 }
 
 const comments = (entryid) => {
@@ -29,7 +29,7 @@ const entriesByUser = name => {
   return knex('entries')
   .where({userid: userid})
   .join('users', 'entries.userid', '=', 'users.id')
-  .select('entries.id', 'entries.url', 'entries.title', 'users.name');  
+  .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'users.name');  
 }
 
 const commentsByUser = (name) => {
