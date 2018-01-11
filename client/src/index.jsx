@@ -167,6 +167,7 @@ class App extends React.Component {
             this.state.auth !== undefined
             ? <Submit {...props} 
               postEntry={this.postEntry.bind(this)}
+              authorize={this.authorize.bind(this)}
             />
             : <Redirect to='/login' />
           )}/> 

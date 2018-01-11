@@ -39,6 +39,10 @@ class Submit extends React.Component {
     });
   }
 
+  componentDidMount() {
+    this.props.authorize()
+  }
+
   render () {
     return (
       <div className="ui segment">
