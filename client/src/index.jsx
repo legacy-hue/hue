@@ -186,6 +186,7 @@ class App extends React.Component {
               deleteComment={this.deleteComment.bind(this)}
               getUserComments={this.getUserComments.bind(this)}
               getUserEntries={this.getUserEntries.bind(this)}
+              authorize={this.authorize.bind(this)}
             />
           )}/> 
         </Switch>

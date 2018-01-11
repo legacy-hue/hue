@@ -17,7 +17,7 @@ class UserProfile extends React.Component {
   }
 
   componentDidMount() {
-   // console.log(this.props.match.params.name)
+    this.props.authorize()
     this.props.getUserEntries(this.props.match.params.name)
     .then(data => {
         if(data.data.length === 0){
@@ -33,7 +33,6 @@ class UserProfile extends React.Component {
   }
 
   componentWillReceiveProps(nextprops){
-    //console.log('componentWillReceiveProps: ', nextprops)
     this.props.getUserEntries(nextprops.match.params.name)
     .then(data => {
         if(data.data.length === 0){
@@ -48,14 +47,12 @@ class UserProfile extends React.Component {
     .then(data => this.setState({comments: data.data}));
   }
 
-
   handleClick() {
     // this.props.deleteEntry(this.props.data.id)
     // .then(() => console.log('handleClick ran'));
   }
 
   render (props) {
-    console.log(this.state.comments)
     return (
       <div>
         {this.props.match.params.name}'s posts:
