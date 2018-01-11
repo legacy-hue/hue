@@ -39,11 +39,11 @@ class App extends React.Component {
   }
 
   getUserEntries(user) {
-    return axios.get(`/userEntries?id=${user}`)
+    return axios.get(`/userEntries?id=${user}`);
   }
 
   getUserComments(user) {
-    return axios.get(`/userComments?id=${user}`).then((res) => {console.log(res)});
+    return axios.get(`/userComments?id=${user}`);
   }
 
   getEntries(){
@@ -167,6 +167,7 @@ class App extends React.Component {
             this.state.auth !== undefined
             ? <Submit {...props} 
               postEntry={this.postEntry.bind(this)}
+              authorize={this.authorize.bind(this)}
             />
             : <Redirect to='/login' />
           )}/> 
@@ -183,8 +184,10 @@ class App extends React.Component {
             <UserProfile {...props}
               user={this.state.auth}
               deleteEntry={this.deleteEntry.bind(this)}
+              deleteComment={this.deleteComment.bind(this)}
               getUserComments={this.getUserComments.bind(this)}
               getUserEntries={this.getUserEntries.bind(this)}
+              authorize={this.authorize.bind(this)}
             />
           )}/> 
         </Switch>
