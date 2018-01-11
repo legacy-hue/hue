@@ -153,6 +153,7 @@ class App extends React.Component {
               authenticate={this.authenticate.bind(this)}
               authorize={this.authorize.bind(this)}
               deleteEntry={this.deleteEntry.bind(this)}
+              getEntries={this.getEntries.bind(this)}
             />
           )}/>
           <Route exact path="/login" render={(props) => (

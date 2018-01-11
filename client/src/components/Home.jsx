@@ -20,6 +20,7 @@ class Home extends React.Component {
         data = {this.props.data}
         user = {this.props.user}
         deleteEntry = {this.props.deleteEntry}
+        getEntries = {this.props.getEntries}
       />
     );
   }

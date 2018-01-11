@@ -11,7 +11,10 @@ class CommentEntry extends React.Component {
 
   handleClick() {
     this.props.deleteComment(this.props.comment.id)
-    .then(() => console.log('deleted comment'));
+    .then(() => {
+      console.log('deleted comment');
+      this.props.afterDelete();
+    });
   }
 
 

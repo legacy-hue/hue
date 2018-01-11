@@ -54,6 +54,11 @@ class CommentList extends React.Component {
   	});
   }
 
+  afterDelete() {
+    this.props.getComments(this.props.match.params.id)
+    .then(data => this.setState({comments: data.data}));
+  }
+
   textChange(input) {
     this.setState({
       comment: input.target.value
@@ -81,7 +86,7 @@ class CommentList extends React.Component {
   				<button onClick={this.handleClick}>submit</button>
   				</div>
   	    	<br/>
-      	  {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment}/>)}
+      	  {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
       	</div>
       );
     }
@@ -104,7 +109,7 @@ class CommentList extends React.Component {
           <button onClick={this.handleClick}>submit</button>
           </div>
           <br/>
-          {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment}/>)}
+          {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
         </div>
       );
   }
