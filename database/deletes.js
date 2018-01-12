@@ -25,10 +25,15 @@ const comment = (commentid) => {
 }
 
 const commentVotes = (entryid) => {
-  console.log('entryid: ', entryid)
   return knex('comments_votes')
   .where({'entryid': entryid})
   .del();
+}
+
+const commentVotesByComment = (commentid) => {
+  return knex('comments_votes')
+  .where({'commentid': commentid})
+  .del();  
 }
 
 module.exports = {
@@ -36,5 +41,6 @@ module.exports = {
   entryVotes,
   comment,
   commentVotes,
+  commentVotesByComment,
   comments
 };

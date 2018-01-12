@@ -145,7 +145,6 @@ app.post('/comments', helpers.checkUser, (req, res) => {
 });
 
 app.delete('/entry', helpers.checkUser, (req, res) => {
-  console.log('id: ', req.query.id)
   deletes.commentVotes(req.query.id).then(() => {
     deletes.entryVotes(req.query.id).then(() => {
       deletes.comments(req.query.id).then(() => {     
@@ -156,7 +155,11 @@ app.delete('/entry', helpers.checkUser, (req, res) => {
 });
 
 app.delete('/comment', helpers.checkUser, (req, res) => {
-  deletes.comment(req.query.id).then(data => {res.send('deleted comment')});
+
+  deletes.commentVotesByComment(req.query.id).then(() => {
+    deletes.comment(req.query.id).then(data => {res.send('deleted comment')});
+  })
+
 });
 
 /************************************************************/
