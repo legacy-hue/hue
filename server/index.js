@@ -57,19 +57,19 @@ app.get('/getCommentVotes', (req, res) => {
     res.json(data)});
 })
 
-app.post('/upVote', helpers.checkVote, (req, res) => {
+app.post('/upVote', (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
   insert.upVote(vote, id).then((data) => {res.json(data)});
 })
 
-app.post('/downVote', helpers.checkVote, (req, res) => {
+app.post('/downVote', (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
   insert.downVote(vote, id).then((data) => {res.json(data)})
 })
 
-app.post('/upVoteComment', helpers.checkVote, (req, res) => {
+app.post('/upVoteComment', (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
   insert.upVoteComment(vote, id).then((data) => {res.json(data)});
@@ -84,8 +84,9 @@ app.post('/upVoteComment', helpers.checkVote, (req, res) => {
 app.post('/downVoteComment', (req, res) => {
   let userid = req.query.user;
   let commentid = req.query.comment;
-  //console.log(`downVoteComment: userid: ${userid} commentid: ${commentid}`);
-  helpers.checkVote(userid, commentid, function(canVote) {
+  console.log(`downVoteComment: userid: ${userid} commentid: ${commentid}`);
+  
+  helpers.checkCommentVote(userid, commentid, function(canVote) {
     if (canVote) {
       insert.downVoteComment(commentid).then((data) => {res.json(data)})
     } else {

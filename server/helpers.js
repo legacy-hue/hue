@@ -7,23 +7,30 @@
 // Prestige (karma) middleware
 /************************************************************/
 
-function checkVote(userid, commentid, callback) {
-  console.log(`checkVote: userid ${userid} commentid ${commentid}`)
-  query.getUserVotes(userid, commentid).then((data)=> {
-    console.log('checkVote recieved: ', data[0])
+function checkCommentVote(userid, commentid, callback) {
+  console.log(`checkCommentVote: userid ${userid} commentid ${commentid}`)
+  query.checkCommentVote(userid, commentid).then((data)=> {
+    console.log('checkCommentVote recieved: ', data[0])
     const voted = data[0];
     if (voted === undefined) {
-      insert.recordVote(userid, commentid).then(() => {callback(true)})
+      insert.recordCommentVote(userid, commentid).then(() => {callback(true)})
     } else {
       callback(false);
     }
   })
-  // if (true) {
-  //   insert.recordVote(userid, commentid).then(() => {callback()})
-  //   //next();
-  // } else {
-  //   res.send(false);
-  // }
+}
+
+function checkEntryVote(userid, entryid, callback) {
+  console.log(`checkEntryVote: userid ${userid} entryid ${entryid}`)
+  query.checkEntryVote(userid, entryid).then((data)=> {
+    console.log('checkEntryVote recieved: ', data[0])
+    const voted = data[0];
+    if (voted === undefined) {
+      insert.recordEntryVote(userid, entryid).then(() => {callback(true)})
+    } else {
+      callback(false);
+    }
+  })
 }
 
 /************************************************************/
@@ -122,7 +129,7 @@ function checkVote(userid, commentid, callback) {
 /************************************************************/
 
 module.exports = {
-  checkVote,
+  checkCommentVote,
   identifyUser,
   comparePassword,
   hashPassword,

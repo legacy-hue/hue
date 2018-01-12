@@ -56,10 +56,17 @@ const getCommentVotes = (commentid) => {
   .select('comments.up_votes', 'comments.down_votes');
 }
 // query db to see if user has voted
-const getUserVotes = (userid, postid) => {
-  return knex('votes')
-  .where({userid: userid, commentid: postid})
-  .select('votes.voted')
+const checkEntryVote = (userid, entryid) => {
+  return knex('entries_votes')
+  .where({userid: userid, entryid: entryid})
+  .select('entries_votes.voted')
+}
+
+const checkCommentVote = (userid, commentid) => {
+  console.log('checkCommentVote: ', userid, commentid);
+  return knex('comments_votes')
+  .where({userid: userid, commentid: commentid})
+  .select('comments_votes.voted')
 }
 
 /************************************************************/
@@ -74,5 +81,6 @@ module.exports = {
   commentsByUser,
   getEntryVotes,
   getCommentVotes,
-  getUserVotes
+  checkEntryVote,
+  checkCommentVote
 };

@@ -78,21 +78,37 @@ const downVoteComment = (id) => {
     'down_votes': knex.raw('down_votes - 1'),
   })
 }
-// record vote for user
-const recordVote = (userid, commentid) => {
-  return knex('votes')
+
+const recordEntryVote = (userid, entryid) => {
+  return knex('entries_votes')
+  .insert({userid: userid, entryid: entryid, voted: true})
+}
+
+const recordCommentVote = (userid, commentid) => {
+  return knex('comments_votes')
   .insert({userid: userid, commentid: commentid, voted: true})
 }
 
 /************************************************************/
 /************************************************************/
-
-module.exports.upVote = upVote;
-module.exports.downVote = downVote;
-module.exports.upVoteComment = upVoteComment;
-module.exports.downVoteComment = downVoteComment;
-module.exports.recordVote = recordVote;
-module.exports.user = user;
-module.exports.entry = entry;
-module.exports.textEntry = textEntry;
-module.exports.comment = comment;
+module.exports = {
+  user,
+  entry,
+  textEntry,
+  comment,
+  upVote,
+  downVote,
+  upVoteComment,
+  downVoteComment,
+  recordEntryVote,
+  recordCommentVote
+}
+// module.exports.upVote = upVote;
+// module.exports.downVote = downVote;
+// module.exports.upVoteComment = upVoteComment;
+// module.exports.downVoteComment = downVoteComment;
+// module.exports.recordVote = recordVote;
+// module.exports.user = user;
+// module.exports.entry = entry;
+// module.exports.textEntry = textEntry;
+// module.exports.comment = comment;
