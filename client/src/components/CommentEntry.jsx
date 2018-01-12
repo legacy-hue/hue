@@ -29,7 +29,8 @@ class CommentEntry extends React.Component {
   }
 
   downVote() {
-    axios.post(`/downVoteComment?id=${this.props.comment.id}`)
+    console.log(`user: ${this.props.user} comment: ${this.props.comment.id}`)
+    axios.post(`/downVoteComment?user=${this.props.user}&&comment=${this.props.comment.id}`)
     .then(() => {
       this.getCommentVotes();
     })

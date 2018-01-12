@@ -75,10 +75,23 @@ app.post('/upVoteComment', helpers.checkVote, (req, res) => {
   insert.upVoteComment(vote, id).then((data) => {res.json(data)});
 })
 
-app.post('/downVoteComment', helpers.checkVote, (req, res) => {
-  let vote = req.query.vote;
-  let id = req.query.id;
-  insert.downVoteComment(vote, id).then((data) => {res.json(data)})
+// app.post('/downVoteComment', helpers.checkVote, (req, res) => {
+//   let vote = req.query.vote;
+//   let id = req.query.id;
+//   insert.downVoteComment(vote, id).then((data) => {res.json(data)})
+// })
+
+app.post('/downVoteComment', (req, res) => {
+  let userid = req.query.user;
+  let commentid = req.query.comment;
+  //console.log(`downVoteComment: userid: ${userid} commentid: ${commentid}`);
+  helpers.checkVote(userid, commentid, function(canVote) {
+    if (canVote) {
+      insert.downVoteComment(commentid).then((data) => {res.json(data)})
+    } else {
+      res.sendStatus(201)
+    }
+  })  
 })
 
 /************************************************************/

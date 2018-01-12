@@ -7,15 +7,23 @@
 // Prestige (karma) middleware
 /************************************************************/
 
-function checkVote() {
-  console.log('checkVote ran')
-  // call query.getUserVotes and stop them if they already voted
-  if (true) {
-    // call insert.recordVote
-    next();
-  } else {
-    res.send(false);
-  }
+function checkVote(userid, commentid, callback) {
+  console.log(`checkVote: userid ${userid} commentid ${commentid}`)
+  query.getUserVotes(userid, commentid).then((data)=> {
+    console.log('checkVote recieved: ', data[0])
+    const voted = data[0];
+    if (voted === undefined) {
+      insert.recordVote(userid, commentid).then(() => {callback(true)})
+    } else {
+      callback(false);
+    }
+  })
+  // if (true) {
+  //   insert.recordVote(userid, commentid).then(() => {callback()})
+  //   //next();
+  // } else {
+  //   res.send(false);
+  // }
 }
 
 /************************************************************/

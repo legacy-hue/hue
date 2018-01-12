@@ -71,7 +71,7 @@ const upVoteComment = (vote, id) => {
   })
 }
 
-const downVoteComment = (vote, id) => {
+const downVoteComment = (id) => {
   return knex('comments')
   .where({id: id})
   .update({
@@ -79,10 +79,9 @@ const downVoteComment = (vote, id) => {
   })
 }
 // record vote for user
-const recordVote(postid) {
-  return knex('useres')
-  .where({name: name})
-  .insert({posts: postid})
+const recordVote = (userid, commentid) => {
+  return knex('votes')
+  .insert({userid: userid, commentid: commentid, voted: true})
 }
 
 /************************************************************/

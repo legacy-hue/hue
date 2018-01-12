@@ -56,10 +56,10 @@ const getCommentVotes = (commentid) => {
   .select('comments.up_votes', 'comments.down_votes');
 }
 // query db to see if user has voted
-const getUserVotes = (name) => {
-  return knex('users')
-  .where({name: name})
-  .select('users.votes')
+const getUserVotes = (userid, postid) => {
+  return knex('votes')
+  .where({userid: userid, commentid: postid})
+  .select('votes.voted')
 }
 
 /************************************************************/
