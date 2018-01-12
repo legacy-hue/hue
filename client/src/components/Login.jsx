@@ -11,9 +11,11 @@ class Login extends React.Component {
     e.preventDefault();
     const { history } = this.props;
     this.props.authenticate(e.target.id).then((res) => {
-      if ((res.data === 'Login successful')
-         || (res.data === 'Congratulations! Welcome to hue.'))
+      if ((res.data === 'Login successful') || (res.data === 'Congratulations! Welcome to hue.')) {
         history.push('/');
+      } else {
+        alert(res.data);
+      }
     });
   }
 
