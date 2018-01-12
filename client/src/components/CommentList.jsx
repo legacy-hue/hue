@@ -159,15 +159,6 @@ class CommentList extends React.Component {
             )}
           </Comment.Group>
         </div>
-        <br/>
-        <div>
-        <h4>Submit Comment</h4>
-        <input onChange={this.textChange}/>
-        <br/>
-        <button onClick={this.handleClick}>submit</button>
-        </div>
-        <br/>
-        {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)} entry={this.state.entry.id}/>)}
       </div>
     );
   }
