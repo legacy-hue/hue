@@ -23,7 +23,6 @@ class Entry extends React.Component {
   }
 
   upVote() {
-    //console.log(`user: ${this.props.user} entry: ${this.props.data.id}`)
     axios.post(`/upVoteEntry?user=${this.props.user}&&entry=${this.props.data.id}`)
     .then(() => {
       this.getEntryVotes();
@@ -31,7 +30,6 @@ class Entry extends React.Component {
   }
 
   downVote() {
-    //console.log(`user: ${this.props.user} entry: ${this.props.data.id}`)
     axios.post(`/downVoteEntry?user=${this.props.user}&&entry=${this.props.data.id}`)
     .then(() => {
       this.getEntryVotes();
@@ -39,10 +37,8 @@ class Entry extends React.Component {
   }
 
   getEntryVotes() {
-    //console.log('getEntryVotes started')
     axios.get(`/getEntryVotes?id=${this.props.data.id}`)
     .then((obj) => {
-      //console.log('getEntryVotes finished ', obj.data)
       const prest = obj.data[0].up_votes + obj.data[0].down_votes
       this.setState({
         thumbsUp: obj.data[0].up_votes,
@@ -52,7 +48,7 @@ class Entry extends React.Component {
     })
   }
 
-  componentDidMount() {
+  componentWillReceiveProps(nextprops){
     this.getEntryVotes();
   }
 
@@ -101,7 +97,6 @@ class Entry extends React.Component {
             <Feed.Extra text>
               by <Link to={`/user/${this.props.data.name}`}>{this.props.data.name}</Link>
             </Feed.Extra>
-
               <Feed.Meta>
                 <Feed.Like>
                   <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
@@ -113,7 +108,6 @@ class Entry extends React.Component {
                 {this.state.thumbsDown}
                 <Link to={`/thread/${this.props.data.id}`}>comments</Link>
               </Feed.Meta>
-
           </Feed.Content>
         </Feed.Event>
       </Feed>

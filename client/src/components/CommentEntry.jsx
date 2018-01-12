@@ -22,7 +22,6 @@ class CommentEntry extends React.Component {
   }
 
   upVote() {
-    //console.log(`user: ${this.props.user} comment: ${this.props.comment.id}`)
     axios.post(`/upVoteComment?user=${this.props.user}&&comment=${this.props.comment.id}&&entry=${this.props.entry.id}`)
     .then(() => {
       this.getCommentVotes();
@@ -30,7 +29,6 @@ class CommentEntry extends React.Component {
   }
 
   downVote() {
-    //console.log(`user: ${this.props.user} comment: ${this.props.comment.id}`)
     axios.post(`/downVoteComment?user=${this.props.user}&&comment=${this.props.comment.id}&&entry=${this.props.entry.id}`)
     .then(() => {
       this.getCommentVotes();
@@ -49,9 +47,12 @@ class CommentEntry extends React.Component {
     })
   }
 
+  // componentDidMount() {
+  //   this.getCommentVotes();
+  // }
 
-  componentDidMount() {
-    this.getCommentVotes();
+  componentWillReceiveProps() {
+    this.getCommentVotes();    
   }
 
   render () {
@@ -69,7 +70,6 @@ class CommentEntry extends React.Component {
               <button onClick={this.handleClick}>
                 delete
               </button>
-
               <Feed.Meta>
                 <Feed.Like>
                   <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
@@ -80,7 +80,6 @@ class CommentEntry extends React.Component {
                 </Feed.Like>
                 {this.state.thumbsDown}
               </Feed.Meta>
-
             </Feed.Content>
           </Feed.Event>
         </Feed>
@@ -93,7 +92,6 @@ class CommentEntry extends React.Component {
             <Feed.Summary>
               {this.props.comment.name}: 
             </Feed.Summary>
-
               <Feed.Meta>
                 <Feed.Like>
                   <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
@@ -104,7 +102,6 @@ class CommentEntry extends React.Component {
                 </Feed.Like>
                 {this.state.thumbsDown}
               </Feed.Meta>
-
           </Feed.Content>
         </Feed.Event>
       </Feed>

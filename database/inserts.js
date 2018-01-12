@@ -9,7 +9,6 @@ const user = (name, pass) => {
 //Expect entry obj with user, title, url
 
 const entry = (entry) => {
-  console.log('insert entry ran: ', entry.user, entry.title, entry.url, entry.text)
   let name = entry.user;
   let title = entry.title;
   let url = entry.url;

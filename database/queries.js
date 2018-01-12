@@ -45,6 +45,7 @@ const commentsByUser = (name) => {
 /************************************************************/
 
 const getEntryVotes = (entryid) => {
+  console.log('getEntryVotes should be 14: ', entryid);
   return knex('entries')
   .where({'entries.id': entryid})
   .select('entries.up_votes', 'entries.down_votes');
