@@ -8,9 +8,7 @@
 /************************************************************/
 
 function checkCommentVote(userid, commentid, entryid, callback) {
-  //console.log(`checkCommentVote: userid ${userid} commentid ${commentid}`)
   query.checkCommentVote(userid, commentid).then((data)=> {
-    //console.log('checkCommentVote recieved: ', data[0])
     const voted = data[0];
     if (voted === undefined) {
       insert.recordCommentVote(userid, commentid, entryid).then(() => {callback(true)})
@@ -21,9 +19,7 @@ function checkCommentVote(userid, commentid, entryid, callback) {
 }
 
 function checkEntryVote(userid, entryid, callback) {
-  //console.log(`checkEntryVote: userid ${userid} entryid ${entryid}`)
   query.checkEntryVote(userid, entryid).then((data)=> {
-    //console.log('checkEntryVote recieved: ', data[0])
     const voted = data[0];
     if (voted === undefined) {
       insert.recordEntryVote(userid, entryid).then(() => {callback(true)})

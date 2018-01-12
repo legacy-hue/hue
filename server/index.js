@@ -21,7 +21,6 @@ app.get('/entries', (req, res) => {
 });
 
 app.get('/userEntries', (req, res) => {
-  // console.log('userEntries: ', req.query.id);
   let userid = req.query.id;
   query.entriesByUser(userid).then(data => {res.json(data)});
 })
@@ -39,6 +38,51 @@ app.get('/userComments', (req, res) => {
 app.get('/entry', (req, res) => {
   let entryid = req.query.id;
   query.entry(entryid).then(data => {res.json(data)});
+});
+
+app.post('/entries', helpers.checkUser, (req, res) => {
+  let entry = req.body;
+  entry.user = req.session.user;
+  if(entry.title === '' || ((entry.text === '') && (entry.url === 'none'))) {
+    res.send('failure');
+  }else{
+    if(entry.url === 'none'){
+      insert.textEntry(entry)
+      .then(() => res.send('success'))
+      .catch(() => res.send('failure'));
+    }else{
+      insert.entry(entry)
+      .then(() => res.send('success'))
+      .catch(() => res.send('failure'));
+    }
+  }
+});
+
+app.post('/comments', helpers.checkUser, (req, res) => {
+  let comment = req.body;
+  comment.user = req.session.user;
+  insert.comment(comment);
+  res.send('added comment');
+});
+
+app.delete('/entry', helpers.checkUser, (req, res) => {
+  deletes.commentVotes(req.query.id).then(() => {
+    deletes.entryVotes(req.query.id).then(() => {
+      deletes.comments(req.query.id).then(() => {     
+        deletes.entry(req.query.id).then(data => {
+          res.send('deleted entry')
+        });
+      })
+    })
+  })
+});
+
+app.delete('/comment', helpers.checkUser, (req, res) => {
+  deletes.commentVotesByComment(req.query.id).then(() => {
+    deletes.comment(req.query.id).then(data => {
+      res.send('deleted comment')
+    });
+  })
 });
 
 /************************************************************/
@@ -106,53 +150,6 @@ app.post('/downVoteEntry', helpers.checkUser, (req, res) => {
     }
   })  
 })
-
-/************************************************************/
-/************************************************************/
-
-app.post('/entries', helpers.checkUser, (req, res) => {
-  let entry = req.body;
-  entry.user = req.session.user;
-  if(entry.title === '' || ((entry.text === '') && (entry.url === 'none'))) {
-    res.send('failure');
-  }else{
-    if(entry.url === 'none'){
-      insert.textEntry(entry)
-      .then(() => res.send('success'))
-      .catch(() => res.send('failure'));
-    }else{
-      insert.entry(entry)
-      .then(() => res.send('success'))
-      .catch(() => res.send('failure'));
-    }
-  }
-
-});
-
-app.post('/comments', helpers.checkUser, (req, res) => {
-  let comment = req.body;
-  comment.user = req.session.user;
-  insert.comment(comment);
-  res.send('added comment');
-});
-
-app.delete('/entry', helpers.checkUser, (req, res) => {
-  deletes.commentVotes(req.query.id).then(() => {
-    deletes.entryVotes(req.query.id).then(() => {
-      deletes.comments(req.query.id).then(() => {     
-        deletes.entry(req.query.id).then(data => {res.send('deleted entry')});
-      })
-    })
-  })
-});
-
-app.delete('/comment', helpers.checkUser, (req, res) => {
-
-  deletes.commentVotesByComment(req.query.id).then(() => {
-    deletes.comment(req.query.id).then(data => {res.send('deleted comment')});
-  })
-
-});
 
 /************************************************************/
 // Authentication routes

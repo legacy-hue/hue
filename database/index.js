@@ -79,7 +79,6 @@ knex.schema.hasTable('users').then(function(exists) {
         table.string('voted');
         table.string('userid').references('users.name');
         table.integer('entryid').references('entries.id');
-        //table.integer('commentid').references('comments.id');        
       }).then(function(table) {
         console.log('Created Table entries_votes');
       })

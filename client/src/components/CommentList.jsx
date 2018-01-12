@@ -91,27 +91,27 @@ class CommentList extends React.Component {
       );
     }
     return (
+      <div>
         <div>
           <div>
-            <div>
-              <a href={this.state.entry.url}>{this.state.entry.title}</a>
-              <span> by {this.state.entry.name}</span>
-            </div>
-            <div>
-              <span>{this.state.entry.text}</span>
-            </div>
+            <a href={this.state.entry.url}>{this.state.entry.title}</a>
+            <span> by {this.state.entry.name}</span>
           </div>
-          <br/>
           <div>
-          <h4>Submit Comment</h4>
-          <input onChange={this.textChange}/>
-          <br/>
-          <button onClick={this.handleClick}>submit</button>
+            <span>{this.state.entry.text}</span>
           </div>
-          <br/>
-          {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
         </div>
-      );
+        <br/>
+        <div>
+        <h4>Submit Comment</h4>
+        <input onChange={this.textChange}/>
+        <br/>
+        <button onClick={this.handleClick}>submit</button>
+        </div>
+        <br/>
+        {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
+      </div>
+    );
   }
 }
 
