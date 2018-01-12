@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Feed, Icon, Divider } from 'semantic-ui-react'
+import ta from 'time-ago';
 
 class Entry extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class Entry extends React.Component {
         <Feed>
           <Feed.Event>
             <Feed.Content>
-              <Feed.Date>3 days ago</Feed.Date>
+              <Feed.Date>{ta.ago(this.props.data.created_at)}</Feed.Date>
               <Feed.Summary>
                 <a href={this.props.data.url}>{this.props.data.title}</a>
               </Feed.Summary>
@@ -55,7 +56,7 @@ class Entry extends React.Component {
       <Feed>
         <Feed.Event>
           <Feed.Content>
-            <Feed.Date>3 days ago</Feed.Date>
+            <Feed.Date>{ta.ago(this.props.data.created_at)}</Feed.Date>
             <Feed.Summary>
               <a href={this.props.data.url}>{this.props.data.title}</a>
             </Feed.Summary>

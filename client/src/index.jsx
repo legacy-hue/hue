@@ -39,7 +39,9 @@ class App extends React.Component {
 
   getEntries(){
     return axios.get('/entries')
-    .then(data => this.setState({entries: data.data}));
+    .then(data => {
+      this.setState({entries: data.data})
+    });
   }
 
   getEntry(entryid){
