@@ -80,6 +80,7 @@ class UserProfile extends React.Component {
               comment = {comment}
               user = {this.props.user}
               deleteComment = {this.props.deleteComment}
+              entry={comment.entryid}
             /> 
             </div>)}
           )}
