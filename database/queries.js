@@ -7,21 +7,21 @@ const user = (name) => {
 const entries = () => {
   return knex('entries')
   .join('users', 'entries.userid', '=', 'users.id')
-  .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'users.name');
+  .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'entries.created_at', 'users.name');
 }
 
 const entry = (entryid) => {
   return knex('entries')
   .where({'entries.id': entryid})
   .join('users', 'entries.userid', '=', 'users.id')
-  .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'users.name');
+  .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'entries.created_at', 'users.name');
 }
 
 const comments = (entryid) => {
   return knex('comments')
   .where({entryid: entryid})
   .join('users', 'comments.userid', '=', 'users.id')
-  .select('comments.id', 'comments.text', 'users.name');
+  .select('comments.id', 'comments.text', 'comments.created_at', 'users.name');
 }
 
 const entriesByUser = name => {
@@ -29,7 +29,7 @@ const entriesByUser = name => {
   return knex('entries')
   .where({userid: userid})
   .join('users', 'entries.userid', '=', 'users.id')
-  .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'users.name');  
+  .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'entries.created_at', 'users.name');  
 }
 
 const commentsByUser = (name) => {
@@ -37,7 +37,7 @@ const commentsByUser = (name) => {
   return knex('comments')
   .where({userid: userid})
   .join('users', 'comments.userid', '=', 'users.id')
-  .select('comments.id', 'comments.text', 'users.name', 'comments.entryid');
+  .select('comments.id', 'comments.text', 'comments.created_at', 'comments.entryid', 'users.name');
 }
 
 module.exports = {
