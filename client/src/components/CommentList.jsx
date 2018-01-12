@@ -74,28 +74,16 @@ class CommentList extends React.Component {
       return (
       	<div>
   	    	<div className = 'ui segment'>
-            <Feed>
-              <Feed.Event>
-                <Feed.Content>
-                  <Feed.Date>{ta.ago(this.state.entry.created_at)}</Feed.Date>
-                  <Feed.Summary>
-                    <a href={this.state.entry.url}>{this.state.entry.title}</a>
-                  </Feed.Summary>
-                  <Feed.Extra text>
-                    by <Link to={`/user/${this.state.entry.name}`}>{this.state.entry.name}</Link>
-                  </Feed.Extra>
-                  <Feed.Meta>
-                    <Feed.Like>
-                      <Icon name='thumbs up' />
-                    </Feed.Like>
-                    <Feed.Like>
-                      <Icon name='thumbs down' />
-                    </Feed.Like>
-                    13 Points
-                  </Feed.Meta>
-                </Feed.Content>
-              </Feed.Event>
-            </Feed>
+            <Item>
+              <Item.Content>
+                <Item.Header><a href={this.state.entry.url}>{this.state.entry.title}</a></Item.Header>
+              </Item.Content>
+              <Item.Extra>
+                <Icon name='thumbs up' />
+                <Icon name='thumbs down'/>
+                by <Link to={`/user/${this.state.entry.name}`}>{this.state.entry.name}</Link> {ta.ago(this.state.entry.created_at)} 
+              </Item.Extra>
+            </Item>
   	    	</div>
   	    	<div>
           <Form>
