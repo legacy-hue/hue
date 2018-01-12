@@ -1,6 +1,6 @@
 import React from 'react';
-import { Feed, Comment, Header, Form, Button } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom';
+import { Feed, Comment, Header, Form, Button, Icon } from 'semantic-ui-react'
+import { Redirect, Link } from 'react-router-dom';
 import CommentEntry from './CommentEntry.jsx';
 import ta from 'time-ago';
 
@@ -73,20 +73,37 @@ class CommentList extends React.Component {
     if(this.state.entry.text === ''){
       return (
       	<div>
-  	    	<div>
-  	    	  <div>
-  	    	    <a href={this.state.entry.url}>{this.state.entry.title}</a>
-              <span> by {this.state.entry.name}</span>
-  	    	  </div>
+  	    	<div className = 'ui segment'>
+            <Feed>
+              <Feed.Event>
+                <Feed.Content>
+                  <Feed.Date>{ta.ago(this.state.entry.created_at)}</Feed.Date>
+                  <Feed.Summary>
+                    <a href={this.state.entry.url}>{this.state.entry.title}</a>
+                  </Feed.Summary>
+                  <Feed.Extra text>
+                    by <Link to={`/user/${this.state.entry.name}`}>{this.state.entry.name}</Link>
+                  </Feed.Extra>
+                  <Feed.Meta>
+                    <Feed.Like>
+                      <Icon name='thumbs up' />
+                    </Feed.Like>
+                    <Feed.Like>
+                      <Icon name='thumbs down' />
+                    </Feed.Like>
+                    13 Points
+                    <Link to={`/thread/${this.state.entry.id}`}>comments</Link>
+                  </Feed.Meta>
+                </Feed.Content>
+              </Feed.Event>
+            </Feed>
   	    	</div>
-  	    	<br/>
   	    	<div>
           <Form>
-            <Form.TextArea onChange={this.textChange}/>
+            <Form.TextArea placeholder='Comment here...' onChange={this.textChange}/>
             <Button content='Submit Comment' labelPosition='left' icon='edit' primary onClick={this.handleClick}/>
           </Form>
           </div>
-  	    	<br/>
       	  <Comment.Group>
             <Header as='h3' dividing>Comments</Header>
             {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
@@ -96,23 +113,37 @@ class CommentList extends React.Component {
     }
     return (
         <div>
-          <div>
-            <div>
-              <a href={this.state.entry.url}>{this.state.entry.title}</a>
-              <span> by {this.state.entry.name}</span>
-            </div>
-            <div>
-              <span>{this.state.entry.text}</span>
-            </div>
+          <div className = 'ui segment'>
+            <Feed>
+                <Feed.Event>
+                  <Feed.Content>
+                    <Feed.Date>{ta.ago(this.state.entry.created_at)}</Feed.Date>
+                    <Feed.Summary>
+                      <a href={this.state.entry.url}>{this.state.entry.title}</a>
+                    </Feed.Summary>
+                    <Feed.Extra text>
+                      by <Link to={`/user/${this.state.entry.name}`}>{this.state.entry.name}</Link>
+                    </Feed.Extra>
+                    <Feed.Meta>
+                      <Feed.Like>
+                        <Icon name='thumbs up' />
+                      </Feed.Like>
+                      <Feed.Like>
+                        <Icon name='thumbs down' />
+                      </Feed.Like>
+                      13 Points
+                      <Link to={`/thread/${this.state.entry.id}`}>comments</Link>
+                    </Feed.Meta>
+                  </Feed.Content>
+                </Feed.Event>
+              </Feed>
           </div>
-          <br/>
           <div>
           <Form>
-            <Form.TextArea onChange={this.textChange}/>
+            <Form.TextArea placeholder='Comment here...' onChange={this.textChange}/>
             <Button content='Submit Comment' labelPosition='left' icon='edit' primary onClick={this.handleClick}/>
           </Form>
           </div>
-          <br/>
           <Comment.Group>
             <Header as='h3' dividing>Comments</Header>
             {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
