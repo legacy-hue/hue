@@ -45,13 +45,28 @@ const comment = (comment) => {
 const upVote = (vote, id) => {
   return knex('entries')
   .where('id', '=', id)
-  .increment('up_votes', 1)
+  .update({
+    'up_votes': knex.raw('up_votes + 1'),
+    'prestige': knex.raw('prestige + 1')
+  })
+  // .increment('up_votes', 1)
+  // .increment('prestige', 1)
 }
+
+  // .update({
+  //   'updated_at': new Date(),
+  //   'count': knex.raw('count + 1')
+  // });
 
 const downVote = (vote, id) => {
   return knex('entries')
   .where({id: id})
-  .decrement('down_votes', 1)
+  .update({
+    'down_votes': knex.raw('down_votes - 1'),
+    'prestige': knex.raw('prestige - 1')
+  })
+  // .decrement('down_votes', 1)
+  // .decrement('prestige', 1)
 }
 
 module.exports.upVote = upVote;
