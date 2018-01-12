@@ -36,6 +36,10 @@ class Login extends React.Component {
             <Button type="submit">Login</Button>
           </Form.Field>
         </Form>
+
+        <br></br>
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> Forgot password? </a>
+        <br></br>
         <br></br>
 
         <Form id="signup" onSubmit={this.onSubmit}>
