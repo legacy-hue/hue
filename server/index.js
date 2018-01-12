@@ -63,6 +63,12 @@ app.post('/downVote', (req, res) => {
   insert.downVote(vote, id).then((data) => {res.json(data)})
 })
 
+app.get('/downVote', (req, res) => {
+  let vote = req.query.vote;
+  let id = req.query.id;
+  insert.getDownVote(vote, id).then((data) => {res.json(data)});
+})
+
 app.post('/upVoteComment', (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;

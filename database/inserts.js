@@ -58,7 +58,7 @@ const upVote = (vote, id) => {
 const getUpVote = (vote, id) => {
   return knex('entries')
   .where('id', '=', id)
-  .select('entries.prestige');
+  .select('entries.up_votes');
 }
 
 const downVote = (vote, id) => {
@@ -68,6 +68,12 @@ const downVote = (vote, id) => {
     'down_votes': knex.raw('down_votes - 1'),
     'prestige': knex.raw('prestige - 1')
   })
+}
+
+const getDownVote = (vote, id) => {
+  return knex('entries')
+  .where('id', '=', id)
+  .select('entries.down_votes');
 }
 
 const upVoteComment = (vote, id) => {
@@ -94,6 +100,7 @@ const downVoteComment = (vote, id) => {
 module.exports.upVote = upVote;
 module.exports.getUpVote = getUpVote;
 module.exports.downVote = downVote;
+module.exports.getDownVote = getDownVote;
 module.exports.upVoteComment = upVoteComment;
 module.exports.downVoteComment = downVoteComment;
 module.exports.user = user;

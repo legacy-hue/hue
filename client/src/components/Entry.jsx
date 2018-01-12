@@ -9,7 +9,7 @@ class Entry extends React.Component {
     this.state = {
       upVotes: 0,
       downVotes: 0,
-      total: 0
+      prestige: 0
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -24,27 +24,27 @@ class Entry extends React.Component {
 
   upVote() {
     axios.post(`/upVote?id=${this.props.data.id}`)
-    .then((curUpVotes) => {
+    .then(() => {
       axios.get(`/upVote?id=${this.props.data.id}`)
       .then((upVotes) => {
-        console.log(upVotes.data[0].prestige)
+        console.log(upVotes)
         this.setState({
-          upVotes: upVotes.data[0].prestige
+          upVotes: upVotes.data[0].up_votes,
+          prestige: this.state.prestige += 1
         })        
       })
     })
   }
 
   downVote() {
-    //axios.post(`/downVote?id=${this.props.data.id}&&vote=${vote}`)
     axios.post(`/downVote?id=${this.props.data.id}`)
-    .then((curDownVotes) => {
+    .then(() => {
       axios.get(`/downVote?id=${this.props.data.id}`)
       .then((downVotes) => {
-        console.log(downVotes)
-      // this.setState({
-      //   downVotes: curDownVotes
-      // })
+        this.setState({
+          downVotes: downVotes.data[0].down_votes,
+          prestige: this.state.prestige -= 1
+        })
       })
     })
   }
@@ -71,6 +71,8 @@ class Entry extends React.Component {
                   <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
                 </Feed.Like>
                 {this.state.upVotes} up votes
+                {this.state.downVotes} down votes
+                {this.state.prestige} prestige
                 <Link to={`/thread/${this.props.data.id}`}>comments</Link>
                 <a onClick={this.handleClick}>remove</a>
               </Feed.Meta>
