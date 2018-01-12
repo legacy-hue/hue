@@ -4,6 +4,32 @@
   const query = require('../database/queries');
 
 /************************************************************/
+// Prestige (karma) middleware
+/************************************************************/
+
+function checkCommentVote(userid, commentid, entryid, callback) {
+  query.checkCommentVote(userid, commentid).then((data)=> {
+    const voted = data[0];
+    if (voted === undefined) {
+      insert.recordCommentVote(userid, commentid, entryid).then(() => {callback(true)})
+    } else {
+      callback(false);
+    }
+  })
+}
+
+function checkEntryVote(userid, entryid, callback) {
+  query.checkEntryVote(userid, entryid).then((data)=> {
+    const voted = data[0];
+    if (voted === undefined) {
+      insert.recordEntryVote(userid, entryid).then(() => {callback(true)})
+    } else {
+      callback(false);
+    }
+  })
+}
+
+/************************************************************/
 // Authentication Functions
 /************************************************************/
   
@@ -99,6 +125,8 @@
 /************************************************************/
 
 module.exports = {
+  checkCommentVote,
+  checkEntryVote,
   identifyUser,
   comparePassword,
   hashPassword,

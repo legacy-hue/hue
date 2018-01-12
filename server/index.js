@@ -21,7 +21,6 @@ app.get('/entries', (req, res) => {
 });
 
 app.get('/userEntries', (req, res) => {
-  // console.log('userEntries: ', req.query.id);
   let userid = req.query.id;
   query.entriesByUser(userid).then(data => {res.json(data)});
 })
@@ -41,14 +40,9 @@ app.get('/entry', (req, res) => {
   query.entry(entryid).then(data => {res.json(data)});
 });
 
-app.get('/title', (re1, res) => {
-  // query.
-})
-
 app.post('/entries', helpers.checkUser, (req, res) => {
   let entry = req.body;
   entry.user = req.session.user;
-  console.log(entry);
   if(entry.title === '' || ((entry.text === '') && (entry.url === 'none'))) {
     res.send('failure');
   }else{
@@ -62,7 +56,6 @@ app.post('/entries', helpers.checkUser, (req, res) => {
       .catch(() => res.send('failure'));
     }
   }
-
 });
 
 app.post('/comments', helpers.checkUser, (req, res) => {
@@ -73,14 +66,90 @@ app.post('/comments', helpers.checkUser, (req, res) => {
 });
 
 app.delete('/entry', helpers.checkUser, (req, res) => {
-  deletes.comments(req.query.id).then(() => {
-    deletes.entry(req.query.id).then(data => {res.send('deleted entry')});
+  deletes.commentVotes(req.query.id).then(() => {
+    deletes.entryVotes(req.query.id).then(() => {
+      deletes.comments(req.query.id).then(() => {     
+        deletes.entry(req.query.id).then(data => {
+          res.send('deleted entry')
+        });
+      })
+    })
   })
 });
 
 app.delete('/comment', helpers.checkUser, (req, res) => {
-  deletes.comment(req.query.id).then(data => {res.send('delted comment')});
+  deletes.commentVotesByComment(req.query.id).then(() => {
+    deletes.comment(req.query.id).then(data => {
+      res.send('deleted comment')
+    });
+  })
 });
+
+/************************************************************/
+// Prestige (karma) routes
+/************************************************************/
+
+app.get('/getEntryVotes', (req, res) => {
+  let id = req.query.id;
+  query.getEntryVotes(id).then((data) => {
+    res.json(data)});
+})
+
+app.get('/getCommentVotes', (req, res) => {
+  let id = req.query.id;
+  query.getCommentVotes(id).then((data) => {
+    res.json(data)});
+})
+
+app.post('/upVoteComment', helpers.checkUser, (req, res) => {
+  let userid = req.query.user;
+  let commentid = req.query.comment;
+  let entryid = req.query.entry;
+  helpers.checkCommentVote(userid, commentid, entryid, function(canVote) {
+    if (canVote) {
+      insert.upVoteComment(commentid).then((data) => {res.json(data)})
+    } else {
+      res.sendStatus(201)
+    }
+  })  
+})
+
+app.post('/downVoteComment', helpers.checkUser, (req, res) => {
+  let userid = req.query.user;
+  let commentid = req.query.comment;
+  let entryid = req.query.entry;
+  helpers.checkCommentVote(userid, commentid, entryid, function(canVote) {
+    if (canVote) {
+      insert.downVoteComment(commentid).then((data) => {res.json(data)})
+    } else {
+      res.sendStatus(201)
+    }
+  })  
+})
+
+app.post('/upVoteEntry', helpers.checkUser, (req, res) => {
+  let userid = req.query.user;
+  let entryid = req.query.entry;
+  helpers.checkEntryVote(userid, entryid, function(canVote) {
+    if (canVote) {
+      insert.upVoteEntry(entryid).then((data) => {res.json(data)})
+    } else {
+      res.sendStatus(201)
+    }
+  })  
+})
+
+app.post('/downVoteEntry', helpers.checkUser, (req, res) => {
+  let userid = req.query.user;
+  let entryid = req.query.entry;
+  helpers.checkEntryVote(userid, entryid, function(canVote) {
+    if (canVote) {
+      insert.downVoteEntry(entryid).then((data) => {res.json(data)})
+    } else {
+      res.sendStatus(201)
+    }
+  })  
+})
 
 /************************************************************/
 // Authentication routes

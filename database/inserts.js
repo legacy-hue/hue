@@ -14,7 +14,7 @@ const entry = (entry) => {
   let url = entry.url;
   let text = entry.text;
   let userid = knex('users').where({name: name}).select('id');
-  return knex('entries').insert({title: title, url: url, userid: userid, text: text});
+  return knex('entries').insert({title: title, url: url, userid: userid, text: text, up_votes: 0, down_votes: 0});
 }
 
 const textEntry = entry => {
@@ -36,13 +36,70 @@ const comment = (comment) => {
   let text = comment.text;
   let entry = comment.entryid;
   let userid = knex('users').where({name: name}).select('id');
-  knex('comments').insert({text: text, userid: userid, entryid: entry})
+  knex('comments').insert({text: text, userid: userid, entryid: entry, up_votes: 0, down_votes: 0})
   .then(function() {console.log(`inserted comment by ${name}`)})
   .catch(function(error) {console.log('DID NOT ADD ENTRY: ' + error)});
 }
 
+/************************************************************/
+// Prestige (karma) inserts
+/************************************************************/
 
-module.exports.user = user;
-module.exports.entry = entry;
-module.exports.textEntry = textEntry;
-module.exports.comment = comment;
+
+const upVoteEntry = (id) => {
+  return knex('entries')
+  .where({id: id})
+  .update({
+    'up_votes': knex.raw('up_votes + 1'),
+  })
+}
+
+const downVoteEntry = (id) => {
+  return knex('entries')
+  .where({id: id})
+  .update({
+    'down_votes': knex.raw('down_votes - 1'),
+  })
+}
+
+const upVoteComment = (id) => {
+  return knex('comments')
+  .where('id', '=', id)
+  .update({
+    'up_votes': knex.raw('up_votes + 1'),
+  })
+}
+
+const downVoteComment = (id) => {
+  return knex('comments')
+  .where({id: id})
+  .update({
+    'down_votes': knex.raw('down_votes - 1'),
+  })
+}
+
+const recordEntryVote = (userid, entryid) => {
+  return knex('entries_votes')
+  .insert({userid: userid, entryid: entryid, voted: true})
+}
+
+const recordCommentVote = (userid, commentid, entryid) => {
+  return knex('comments_votes')
+  .insert({userid: userid, commentid: commentid, voted: true, entryid: entryid})
+}
+
+/************************************************************/
+/************************************************************/
+
+module.exports = {
+  user,
+  entry,
+  textEntry,
+  comment,
+  upVoteEntry,
+  downVoteEntry,
+  upVoteComment,
+  downVoteComment,
+  recordEntryVote,
+  recordCommentVote
+}

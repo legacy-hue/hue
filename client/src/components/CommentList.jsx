@@ -106,12 +106,13 @@ class CommentList extends React.Component {
           </div>
       	  <Comment.Group>
             <Header as='h3' dividing>Comments</Header>
-            {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
+            {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)} entry={this.state.entry}/>)}
           </Comment.Group>
       	</div>
       );
     }
     return (
+      <div>
         <div>
           <div className = 'ui segment'>
             <Feed>
@@ -149,7 +150,17 @@ class CommentList extends React.Component {
             {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
           </Comment.Group>
         </div>
-      );
+        <br/>
+        <div>
+        <h4>Submit Comment</h4>
+        <input onChange={this.textChange}/>
+        <br/>
+        <button onClick={this.handleClick}>submit</button>
+        </div>
+        <br/>
+        {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
+      </div>
+    );
   }
 }
 
