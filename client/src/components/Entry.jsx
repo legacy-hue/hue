@@ -101,10 +101,19 @@ class Entry extends React.Component {
             <Feed.Extra text>
               by <Link to={`/user/${this.props.data.name}`}>{this.props.data.name}</Link>
             </Feed.Extra>
-            <Feed.Meta>
-             {this.state.prestige} prestige 
-              <Link to={`/thread/${this.props.data.id}`}>  comments</Link>
-            </Feed.Meta>
+
+              <Feed.Meta>
+                <Feed.Like>
+                  <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
+                </Feed.Like>
+                {this.state.thumbsUp}
+                <Feed.Like>
+                  <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
+                </Feed.Like>
+                {this.state.thumbsDown}
+                <Link to={`/thread/${this.props.data.id}`}>comments</Link>
+              </Feed.Meta>
+
           </Feed.Content>
         </Feed.Event>
       </Feed>

@@ -57,12 +57,10 @@ app.get('/getCommentVotes', (req, res) => {
     res.json(data)});
 })
 
-app.post('/upVoteComment', (req, res) => {
+app.post('/upVoteComment', helpers.checkUser, (req, res) => {
   let userid = req.query.user;
   let commentid = req.query.comment;
   let entryid = req.query.entry;
-  //console.log(`upVoteComment: userid: ${userid} commentid: ${commentid}`);
-
   helpers.checkCommentVote(userid, commentid, entryid, function(canVote) {
     if (canVote) {
       insert.upVoteComment(commentid).then((data) => {res.json(data)})
@@ -72,12 +70,10 @@ app.post('/upVoteComment', (req, res) => {
   })  
 })
 
-app.post('/downVoteComment', (req, res) => {
+app.post('/downVoteComment', helpers.checkUser, (req, res) => {
   let userid = req.query.user;
   let commentid = req.query.comment;
   let entryid = req.query.entry;
-  //console.log(`downVoteComment: userid: ${userid} commentid: ${commentid}`);
-
   helpers.checkCommentVote(userid, commentid, entryid, function(canVote) {
     if (canVote) {
       insert.downVoteComment(commentid).then((data) => {res.json(data)})
@@ -87,11 +83,9 @@ app.post('/downVoteComment', (req, res) => {
   })  
 })
 
-app.post('/upVoteEntry', (req, res) => {
+app.post('/upVoteEntry', helpers.checkUser, (req, res) => {
   let userid = req.query.user;
   let entryid = req.query.entry;
-  //console.log(`upVoteEntry: userid: ${userid} entryid: ${entryid}`);
-
   helpers.checkEntryVote(userid, entryid, function(canVote) {
     if (canVote) {
       insert.upVoteEntry(entryid).then((data) => {res.json(data)})
@@ -101,11 +95,9 @@ app.post('/upVoteEntry', (req, res) => {
   })  
 })
 
-app.post('/downVoteEntry', (req, res) => {
+app.post('/downVoteEntry', helpers.checkUser, (req, res) => {
   let userid = req.query.user;
   let entryid = req.query.entry;
-  //console.log(`downVoteEntry: userid: ${userid} entryid: ${entryid}`);
-
   helpers.checkEntryVote(userid, entryid, function(canVote) {
     if (canVote) {
       insert.downVoteEntry(entryid).then((data) => {res.json(data)})

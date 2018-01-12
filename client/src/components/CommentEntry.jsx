@@ -93,9 +93,18 @@ class CommentEntry extends React.Component {
             <Feed.Summary>
               {this.props.comment.name}: 
             </Feed.Summary>
-            <Feed.Meta>
-            {this.state.prestige} prestige   {this.props.comment.text}
-            </Feed.Meta>
+
+              <Feed.Meta>
+                <Feed.Like>
+                  <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
+                </Feed.Like>
+                {this.state.thumbsUp}
+                <Feed.Like>
+                  <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
+                </Feed.Like>
+                {this.state.thumbsDown}
+              </Feed.Meta>
+
           </Feed.Content>
         </Feed.Event>
       </Feed>
