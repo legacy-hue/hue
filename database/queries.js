@@ -21,7 +21,7 @@ const comments = (entryid) => {
   return knex('comments')
   .where({entryid: entryid})
   .join('users', 'comments.userid', '=', 'users.id')
-  .select('comments.id', 'comments.text', 'users.name');
+  .select('comments.id', 'comments.text', 'comments.created_at', 'users.name');
 }
 
 const entriesByUser = name => {
@@ -37,7 +37,7 @@ const commentsByUser = (name) => {
   return knex('comments')
   .where({userid: userid})
   .join('users', 'comments.userid', '=', 'users.id')
-  .select('comments.id', 'comments.text', 'users.name');
+  .select('comments.id', 'comments.text', 'comments.created_at', 'users.name');
 }
 
 

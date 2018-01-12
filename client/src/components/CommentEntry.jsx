@@ -1,5 +1,6 @@
 import React from 'react';
-import { Feed } from 'semantic-ui-react'
+import { Feed, Comment } from 'semantic-ui-react';
+import ta from 'time-ago';
 
 class CommentEntry extends React.Component {
   constructor(props) {
@@ -21,36 +22,31 @@ class CommentEntry extends React.Component {
   render () {
     if(this.props.user === this.props.comment.name){
       return (
-        <Feed>
-          <Feed.Event>
-            <Feed.Content>
-              <Feed.Summary>
-                {this.props.comment.name}: 
-              </Feed.Summary>
-              <Feed.Meta>
-                {this.props.comment.text}
-              </Feed.Meta>
-              <button onClick={this.handleClick}>
-                delete
-              </button>
-            </Feed.Content>
-          </Feed.Event>
-        </Feed>
+        <Comment>
+          <Comment.Content>
+            <Comment.Author as='a'>{this.props.comment.name}</Comment.Author>
+            <Comment.Metadata>
+              <div>{ta.ago(this.props.comment.created_at)}</div>
+            </Comment.Metadata>
+            <Comment.Text>{this.props.comment.text}</Comment.Text>
+            <Comment.Actions>
+              <Comment.Action onClick={this.handleClick}>delete</Comment.Action>
+            </Comment.Actions>
+          </Comment.Content>
+        </Comment>
       );
     }
     return (
-      <Feed>
-        <Feed.Event>
-          <Feed.Content>
-            <Feed.Summary>
-              {this.props.comment.name}: 
-            </Feed.Summary>
-            <Feed.Meta>
-              {this.props.comment.text}
-            </Feed.Meta>
-          </Feed.Content>
-        </Feed.Event>
-      </Feed>
+      <Comment>
+        <Comment.Content>
+          <Comment.Author as='a'>{this.props.comment.name}</Comment.Author>
+          <Comment.Metadata>
+            <div>{ta.ago(this.props.comment.created_at)}</div>
+          </Comment.Metadata>
+          <Comment.Text>{this.props.comment.text}</Comment.Text>
+          <Comment.Actions></Comment.Actions>
+        </Comment.Content>
+      </Comment>
     );
   }
 }

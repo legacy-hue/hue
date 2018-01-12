@@ -1,7 +1,8 @@
 import React from 'react';
-import { Feed } from 'semantic-ui-react'
+import { Feed, Comment, Header } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom';
 import CommentEntry from './CommentEntry.jsx';
+import ta from 'time-ago';
 
 class CommentList extends React.Component {
   constructor(props, params) {
@@ -86,7 +87,10 @@ class CommentList extends React.Component {
   				<button onClick={this.handleClick}>submit</button>
   				</div>
   	    	<br/>
-      	  {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
+      	  <Comment.Group>
+            <Header as='h3' dividing>Comments</Header>
+            {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
+          </Comment.Group>
       	</div>
       );
     }
@@ -109,7 +113,10 @@ class CommentList extends React.Component {
           <button onClick={this.handleClick}>submit</button>
           </div>
           <br/>
-          {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
+          <Comment.Group>
+            <Header as='h3' dividing>Comments</Header>
+            {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
+          </Comment.Group>
         </div>
       );
   }
