@@ -1,10 +1,14 @@
 import React from 'react';
-import { Feed } from 'semantic-ui-react'
+import axios from 'axios';
+import { Feed, Icon } from 'semantic-ui-react'
 
 class CommentEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      upVotes: 0,
+      downVotes: 0,
+      total: 0
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -15,6 +19,27 @@ class CommentEntry extends React.Component {
       console.log('deleted comment');
       this.props.afterDelete();
     });
+  }
+
+  upVote() {
+    axios.post(`/upVoteComment?id=${this.props.comment.id}`)
+    .then((curUpVotes) => {
+      console.log(curUpVotes);
+      this.setState({
+        points: curUpVotes
+      })
+    })
+  }
+
+  downVote() {
+    //axios.post(`/downVote?id=${this.props.data.id}&&vote=${vote}`)
+    axios.post(`/downVoteComment?id=${this.props.comment.id}`)
+    .then((curDownVotes) => {
+      console.log(curDownVotes);
+      this.setState({
+        downVotes: curDownVotes
+      })
+    })
   }
 
 
@@ -33,6 +58,17 @@ class CommentEntry extends React.Component {
               <button onClick={this.handleClick}>
                 delete
               </button>
+
+              <Feed.Meta>
+                <Feed.Like>
+                  <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
+                </Feed.Like>
+                <Feed.Like>
+                  <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
+                </Feed.Like>
+                {this.state.total} Prestige
+              </Feed.Meta>
+
             </Feed.Content>
           </Feed.Event>
         </Feed>
