@@ -29,7 +29,6 @@ knex.schema.hasTable('users').then(function(exists) {
         table.increments();
         table.integer('up_votes')
         table.integer('down_votes')
-        table.integer('prestige')
         table.string('title');
         table.string('url');
         table.string('text');
@@ -48,7 +47,6 @@ knex.schema.hasTable('users').then(function(exists) {
         table.increments();
         table.integer('up_votes')
         table.integer('down_votes')
-        table.integer('prestige')
         table.string('text');
         table.integer('userid').references('users.id');
         table.integer('entryid').references('entries.id');

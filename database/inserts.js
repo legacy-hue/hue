@@ -15,7 +15,7 @@ const entry = (entry) => {
   let url = entry.url;
   let text = entry.text;
   let userid = knex('users').where({name: name}).select('id');
-  return knex('entries').insert({title: title, url: url, userid: userid, text: text, up_votes: 0, down_votes: 0, prestige: 0});
+  return knex('entries').insert({title: title, url: url, userid: userid, text: text, up_votes: 0, down_votes: 0});
 }
 
 const textEntry = entry => {
@@ -37,13 +37,13 @@ const comment = (comment) => {
   let text = comment.text;
   let entry = comment.entryid;
   let userid = knex('users').where({name: name}).select('id');
-  knex('comments').insert({text: text, userid: userid, entryid: entry, up_votes: 0, down_votes: 0, prestige: 0})
+  knex('comments').insert({text: text, userid: userid, entryid: entry, up_votes: 0, down_votes: 0})
   .then(function() {console.log(`inserted comment by ${name}`)})
   .catch(function(error) {console.log('DID NOT ADD ENTRY: ' + error)});
 }
 
 /************************************************************/
-// Prestige (karma) knex methods
+// Prestige (karma) inserts
 /************************************************************/
 
 
@@ -52,7 +52,6 @@ const upVote = (vote, id) => {
   .where('id', '=', id)
   .update({
     'up_votes': knex.raw('up_votes + 1'),
-    'prestige': knex.raw('prestige + 1')
   })
 }
 
@@ -61,7 +60,6 @@ const downVote = (vote, id) => {
   .where({id: id})
   .update({
     'down_votes': knex.raw('down_votes - 1'),
-    'prestige': knex.raw('prestige - 1')
   })
 }
 
@@ -70,7 +68,6 @@ const upVoteComment = (vote, id) => {
   .where('id', '=', id)
   .update({
     'up_votes': knex.raw('up_votes + 1'),
-    'prestige': knex.raw('prestige + 1')
   })
 }
 
@@ -79,8 +76,13 @@ const downVoteComment = (vote, id) => {
   .where({id: id})
   .update({
     'down_votes': knex.raw('down_votes - 1'),
-    'prestige': knex.raw('prestige - 1')
   })
+}
+// record vote for user
+const recordVote(postid) {
+  return knex('useres')
+  .where({name: name})
+  .insert({posts: postid})
 }
 
 /************************************************************/
@@ -90,6 +92,7 @@ module.exports.upVote = upVote;
 module.exports.downVote = downVote;
 module.exports.upVoteComment = upVoteComment;
 module.exports.downVoteComment = downVoteComment;
+module.exports.recordVote = recordVote;
 module.exports.user = user;
 module.exports.entry = entry;
 module.exports.textEntry = textEntry;

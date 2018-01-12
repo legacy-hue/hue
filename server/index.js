@@ -57,30 +57,25 @@ app.get('/getCommentVotes', (req, res) => {
     res.json(data)});
 })
 
-app.post('/upVote', (req, res) => {
+app.post('/upVote', helpers.checkVote, (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
   insert.upVote(vote, id).then((data) => {res.json(data)});
 })
 
-// include middleware to check if user has already voted
-  // add a hasVoted field to each user table
-  // insert each entryid/commentid into hasVoted field
-  // check if user has already voted
-    // query user.hasVoted for entery/commentid
-app.post('/downVote', (req, res) => {
+app.post('/downVote', helpers.checkVote, (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
   insert.downVote(vote, id).then((data) => {res.json(data)})
 })
 
-app.post('/upVoteComment', (req, res) => {
+app.post('/upVoteComment', helpers.checkVote, (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
   insert.upVoteComment(vote, id).then((data) => {res.json(data)});
 })
 
-app.post('/downVoteComment', (req, res) => {
+app.post('/downVoteComment', helpers.checkVote, (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
   insert.downVoteComment(vote, id).then((data) => {res.json(data)})

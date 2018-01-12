@@ -55,6 +55,12 @@ const getCommentVotes = (commentid) => {
   .where({'comments.id': commentid})
   .select('comments.up_votes', 'comments.down_votes');
 }
+// query db to see if user has voted
+const getUserVotes = (name) => {
+  return knex('users')
+  .where({name: name})
+  .select('users.votes')
+}
 
 /************************************************************/
 /************************************************************/
@@ -67,5 +73,6 @@ module.exports = {
   entriesByUser,
   commentsByUser,
   getEntryVotes,
-  getCommentVotes
+  getCommentVotes,
+  getUserVotes
 };

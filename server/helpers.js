@@ -4,6 +4,21 @@
   const query = require('../database/queries');
 
 /************************************************************/
+// Prestige (karma) middleware
+/************************************************************/
+
+function checkVote() {
+  console.log('checkVote ran')
+  // call query.getUserVotes and stop them if they already voted
+  if (true) {
+    // call insert.recordVote
+    next();
+  } else {
+    res.send(false);
+  }
+}
+
+/************************************************************/
 // Authentication Functions
 /************************************************************/
   
@@ -99,6 +114,7 @@
 /************************************************************/
 
 module.exports = {
+  checkVote,
   identifyUser,
   comparePassword,
   hashPassword,
