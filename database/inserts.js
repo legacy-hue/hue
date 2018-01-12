@@ -47,7 +47,7 @@ const comment = (comment) => {
 /************************************************************/
 
 
-const upVote = (vote, id) => {
+const upVoteEntry = (id) => {
   return knex('entries')
   .where({id: id})
   .update({
@@ -56,7 +56,6 @@ const upVote = (vote, id) => {
 }
 
 const downVoteEntry = (id) => {
-  console.log('downVote insert started*******')
   return knex('entries')
   .where({id: id})
   .update({
@@ -64,7 +63,7 @@ const downVoteEntry = (id) => {
   })
 }
 
-const upVoteComment = (vote, id) => {
+const upVoteComment = (id) => {
   return knex('comments')
   .where('id', '=', id)
   .update({
@@ -85,31 +84,23 @@ const recordEntryVote = (userid, entryid) => {
   .insert({userid: userid, entryid: entryid, voted: true})
 }
 
-const recordCommentVote = (userid, commentid) => {
+const recordCommentVote = (userid, commentid, entryid) => {
   return knex('comments_votes')
-  .insert({userid: userid, commentid: commentid, voted: true})
+  .insert({userid: userid, commentid: commentid, voted: true, entryid: entryid})
 }
 
 /************************************************************/
 /************************************************************/
+
 module.exports = {
   user,
   entry,
   textEntry,
   comment,
-  upVote,
+  upVoteEntry,
   downVoteEntry,
   upVoteComment,
   downVoteComment,
   recordEntryVote,
   recordCommentVote
 }
-// module.exports.upVote = upVote;
-// module.exports.downVote = downVote;
-// module.exports.upVoteComment = upVoteComment;
-// module.exports.downVoteComment = downVoteComment;
-// module.exports.recordVote = recordVote;
-// module.exports.user = user;
-// module.exports.entry = entry;
-// module.exports.textEntry = textEntry;
-// module.exports.comment = comment;

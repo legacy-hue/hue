@@ -45,7 +45,6 @@ const commentsByUser = (name) => {
 /************************************************************/
 
 const getEntryVotes = (entryid) => {
-  console.log('getEntryVotes query ran')
   return knex('entries')
   .where({'entries.id': entryid})
   .select('entries.up_votes', 'entries.down_votes');
@@ -56,7 +55,7 @@ const getCommentVotes = (commentid) => {
   .where({'comments.id': commentid})
   .select('comments.up_votes', 'comments.down_votes');
 }
-// query db to see if user has voted
+
 const checkEntryVote = (userid, entryid) => {
   return knex('entries_votes')
   .where({userid: userid, entryid: entryid})
@@ -64,7 +63,6 @@ const checkEntryVote = (userid, entryid) => {
 }
 
 const checkCommentVote = (userid, commentid) => {
-  console.log('checkCommentVote: ', userid, commentid);
   return knex('comments_votes')
   .where({userid: userid, commentid: commentid})
   .select('comments_votes.voted')

@@ -86,7 +86,7 @@ class CommentList extends React.Component {
   				<button onClick={this.handleClick}>submit</button>
   				</div>
   	    	<br/>
-      	  {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)}/>)}
+      	  {this.state.comments.map((comment, index) => <CommentEntry key = {index} comment={comment} user = {this.props.user} deleteComment = {this.props.deleteComment} afterDelete={this.afterDelete.bind(this)} entry={this.state.entry}/>)}
       	</div>
       );
     }

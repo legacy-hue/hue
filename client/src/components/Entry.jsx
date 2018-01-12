@@ -23,14 +23,15 @@ class Entry extends React.Component {
   }
 
   upVote() {
-    axios.post(`/upVote?id=${this.props.data.id}`)
+    //console.log(`user: ${this.props.user} entry: ${this.props.data.id}`)
+    axios.post(`/upVoteEntry?user=${this.props.user}&&entry=${this.props.data.id}`)
     .then(() => {
       this.getEntryVotes();
     })
   }
 
   downVote() {
-    console.log(`user: ${this.props.user} entry: ${this.props.data.id}`)
+    //console.log(`user: ${this.props.user} entry: ${this.props.data.id}`)
     axios.post(`/downVoteEntry?user=${this.props.user}&&entry=${this.props.data.id}`)
     .then(() => {
       this.getEntryVotes();
@@ -38,10 +39,10 @@ class Entry extends React.Component {
   }
 
   getEntryVotes() {
-    console.log('getEntryVotes started')
+    //console.log('getEntryVotes started')
     axios.get(`/getEntryVotes?id=${this.props.data.id}`)
     .then((obj) => {
-      console.log('getEntryVotes finished ', obj.data)
+      //console.log('getEntryVotes finished ', obj.data)
       const prest = obj.data[0].up_votes + obj.data[0].down_votes
       this.setState({
         thumbsUp: obj.data[0].up_votes,

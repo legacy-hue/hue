@@ -22,15 +22,16 @@ class CommentEntry extends React.Component {
   }
 
   upVote() {
-    axios.post(`/upVoteComment?id=${this.props.comment.id}`)
+    //console.log(`user: ${this.props.user} comment: ${this.props.comment.id}`)
+    axios.post(`/upVoteComment?user=${this.props.user}&&comment=${this.props.comment.id}&&entry=${this.props.entry.id}`)
     .then(() => {
       this.getCommentVotes();
     })
   }
 
   downVote() {
-    console.log(`user: ${this.props.user} comment: ${this.props.comment.id}`)
-    axios.post(`/downVoteComment?user=${this.props.user}&&comment=${this.props.comment.id}`)
+    //console.log(`user: ${this.props.user} comment: ${this.props.comment.id}`)
+    axios.post(`/downVoteComment?user=${this.props.user}&&comment=${this.props.comment.id}&&entry=${this.props.entry.id}`)
     .then(() => {
       this.getCommentVotes();
     })

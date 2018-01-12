@@ -47,7 +47,6 @@ app.get('/entry', (req, res) => {
 
 app.get('/getEntryVotes', (req, res) => {
   let id = req.query.id;
-  console.log('/getEntryVotes ran')
   query.getEntryVotes(id).then((data) => {
     res.json(data)});
 })
@@ -58,32 +57,44 @@ app.get('/getCommentVotes', (req, res) => {
     res.json(data)});
 })
 
-app.post('/upVote', (req, res) => {
-  let vote = req.query.vote;
-  let id = req.query.id;
-  insert.upVote(vote, id).then((data) => {res.json(data)});
-})
-
-// app.post('/downVote', (req, res) => {
-//   let vote = req.query.vote;
-//   let id = req.query.id;
-//   insert.downVote(vote, id).then((data) => {res.json(data)})
-// })
-
 app.post('/upVoteComment', (req, res) => {
-  let vote = req.query.vote;
-  let id = req.query.id;
-  insert.upVoteComment(vote, id).then((data) => {res.json(data)});
+  let userid = req.query.user;
+  let commentid = req.query.comment;
+  let entryid = req.query.entry;
+  //console.log(`upVoteComment: userid: ${userid} commentid: ${commentid}`);
+
+  helpers.checkCommentVote(userid, commentid, entryid, function(canVote) {
+    if (canVote) {
+      insert.upVoteComment(commentid).then((data) => {res.json(data)})
+    } else {
+      res.sendStatus(201)
+    }
+  })  
 })
 
 app.post('/downVoteComment', (req, res) => {
   let userid = req.query.user;
   let commentid = req.query.comment;
-  console.log(`downVoteComment: userid: ${userid} commentid: ${commentid}`);
+  let entryid = req.query.entry;
+  //console.log(`downVoteComment: userid: ${userid} commentid: ${commentid}`);
 
-  helpers.checkCommentVote(userid, commentid, function(canVote) {
+  helpers.checkCommentVote(userid, commentid, entryid, function(canVote) {
     if (canVote) {
       insert.downVoteComment(commentid).then((data) => {res.json(data)})
+    } else {
+      res.sendStatus(201)
+    }
+  })  
+})
+
+app.post('/upVoteEntry', (req, res) => {
+  let userid = req.query.user;
+  let entryid = req.query.entry;
+  //console.log(`upVoteEntry: userid: ${userid} entryid: ${entryid}`);
+
+  helpers.checkEntryVote(userid, entryid, function(canVote) {
+    if (canVote) {
+      insert.upVoteEntry(entryid).then((data) => {res.json(data)})
     } else {
       res.sendStatus(201)
     }
@@ -93,10 +104,9 @@ app.post('/downVoteComment', (req, res) => {
 app.post('/downVoteEntry', (req, res) => {
   let userid = req.query.user;
   let entryid = req.query.entry;
-  console.log(`downVoteEntry: userid: ${userid} entryid: ${entryid}`);
+  //console.log(`downVoteEntry: userid: ${userid} entryid: ${entryid}`);
 
   helpers.checkEntryVote(userid, entryid, function(canVote) {
-    console.log('checkEntryVote finished***')
     if (canVote) {
       insert.downVoteEntry(entryid).then((data) => {res.json(data)})
     } else {
@@ -111,7 +121,6 @@ app.post('/downVoteEntry', (req, res) => {
 app.post('/entries', helpers.checkUser, (req, res) => {
   let entry = req.body;
   entry.user = req.session.user;
-  console.log('entery: ', entry);
   if(entry.title === '' || ((entry.text === '') && (entry.url === 'none'))) {
     res.send('failure');
   }else{
@@ -136,13 +145,18 @@ app.post('/comments', helpers.checkUser, (req, res) => {
 });
 
 app.delete('/entry', helpers.checkUser, (req, res) => {
-  deletes.comments(req.query.id).then(() => {
-    deletes.entry(req.query.id).then(data => {res.send('deleted entry')});
+  console.log('id: ', req.query.id)
+  deletes.commentVotes(req.query.id).then(() => {
+    deletes.entryVotes(req.query.id).then(() => {
+      deletes.comments(req.query.id).then(() => {     
+        deletes.entry(req.query.id).then(data => {res.send('deleted entry')});
+      })
+    })
   })
 });
 
 app.delete('/comment', helpers.checkUser, (req, res) => {
-  deletes.comment(req.query.id).then(data => {res.send('delted comment')});
+  deletes.comment(req.query.id).then(data => {res.send('deleted comment')});
 });
 
 /************************************************************/

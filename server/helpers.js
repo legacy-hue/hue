@@ -7,13 +7,13 @@
 // Prestige (karma) middleware
 /************************************************************/
 
-function checkCommentVote(userid, commentid, callback) {
-  console.log(`checkCommentVote: userid ${userid} commentid ${commentid}`)
+function checkCommentVote(userid, commentid, entryid, callback) {
+  //console.log(`checkCommentVote: userid ${userid} commentid ${commentid}`)
   query.checkCommentVote(userid, commentid).then((data)=> {
-    console.log('checkCommentVote recieved: ', data[0])
+    //console.log('checkCommentVote recieved: ', data[0])
     const voted = data[0];
     if (voted === undefined) {
-      insert.recordCommentVote(userid, commentid).then(() => {callback(true)})
+      insert.recordCommentVote(userid, commentid, entryid).then(() => {callback(true)})
     } else {
       callback(false);
     }
@@ -21,9 +21,9 @@ function checkCommentVote(userid, commentid, callback) {
 }
 
 function checkEntryVote(userid, entryid, callback) {
-  console.log(`checkEntryVote: userid ${userid} entryid ${entryid}`)
+  //console.log(`checkEntryVote: userid ${userid} entryid ${entryid}`)
   query.checkEntryVote(userid, entryid).then((data)=> {
-    console.log('checkEntryVote recieved: ', data[0])
+    //console.log('checkEntryVote recieved: ', data[0])
     const voted = data[0];
     if (voted === undefined) {
       insert.recordEntryVote(userid, entryid).then(() => {callback(true)})
