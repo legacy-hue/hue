@@ -25,9 +25,9 @@ class CommentEntry extends React.Component {
     axios.post(`/upVoteComment?id=${this.props.comment.id}`)
     .then((curUpVotes) => {
       console.log(curUpVotes);
-      this.setState({
-        points: curUpVotes
-      })
+      // this.setState({
+      //   upVotes: curUpVotes
+      // })
     })
   }
 
@@ -36,9 +36,9 @@ class CommentEntry extends React.Component {
     axios.post(`/downVoteComment?id=${this.props.comment.id}`)
     .then((curDownVotes) => {
       console.log(curDownVotes);
-      this.setState({
-        downVotes: curDownVotes
-      })
+      // this.setState({
+      //   downVotes: curDownVotes
+      // })
     })
   }
 
@@ -63,10 +63,10 @@ class CommentEntry extends React.Component {
                 <Feed.Like>
                   <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
                 </Feed.Like>
+                {this.state.upVotes} up votes
                 <Feed.Like>
                   <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
                 </Feed.Like>
-                {this.state.total} Prestige
               </Feed.Meta>
 
             </Feed.Content>

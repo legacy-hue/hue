@@ -48,7 +48,13 @@ app.get('/entry', (req, res) => {
 app.post('/upVote', (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
-  insert.upVote(vote, id).then((data) => {console.log(data)});
+  insert.upVote(vote, id).then((data) => {res.json(data)});
+})
+
+app.get('/upVote', (req, res) => {
+  let vote = req.query.vote;
+  let id = req.query.id;
+  insert.getUpVote(vote, id).then((data) => {res.json(data)});
 })
 
 app.post('/downVote', (req, res) => {
@@ -60,7 +66,7 @@ app.post('/downVote', (req, res) => {
 app.post('/upVoteComment', (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
-  insert.upVoteComment(vote, id).then((data) => {console.log(data)});
+  insert.upVoteComment(vote, id).then((data) => {res.json(data)});
 })
 
 app.post('/downVoteComment', (req, res) => {

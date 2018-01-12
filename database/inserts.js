@@ -42,6 +42,10 @@ const comment = (comment) => {
   .catch(function(error) {console.log('DID NOT ADD ENTRY: ' + error)});
 }
 
+/************************************************************/
+// Prestige (karma) knex methods
+/************************************************************/
+
 const upVote = (vote, id) => {
   return knex('entries')
   .where('id', '=', id)
@@ -49,8 +53,12 @@ const upVote = (vote, id) => {
     'up_votes': knex.raw('up_votes + 1'),
     'prestige': knex.raw('prestige + 1')
   })
-  // .increment('up_votes', 1)
-  // .increment('prestige', 1)
+}
+
+const getUpVote = (vote, id) => {
+  return knex('entries')
+  .where('id', '=', id)
+  .select('entries.prestige');
 }
 
 const downVote = (vote, id) => {
@@ -60,8 +68,6 @@ const downVote = (vote, id) => {
     'down_votes': knex.raw('down_votes - 1'),
     'prestige': knex.raw('prestige - 1')
   })
-  // .decrement('down_votes', 1)
-  // .decrement('prestige', 1)
 }
 
 const upVoteComment = (vote, id) => {
@@ -82,7 +88,11 @@ const downVoteComment = (vote, id) => {
   })
 }
 
+/************************************************************/
+/************************************************************/
+
 module.exports.upVote = upVote;
+module.exports.getUpVote = getUpVote;
 module.exports.downVote = downVote;
 module.exports.upVoteComment = upVoteComment;
 module.exports.downVoteComment = downVoteComment;

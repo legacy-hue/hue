@@ -25,9 +25,12 @@ class Entry extends React.Component {
   upVote() {
     axios.post(`/upVote?id=${this.props.data.id}`)
     .then((curUpVotes) => {
-      console.log(curUpVotes);
-      this.setState({
-        points: curUpVotes
+      axios.get(`/upVote?id=${this.props.data.id}`)
+      .then((upVotes) => {
+        console.log(upVotes.data[0].prestige)
+        this.setState({
+          upVotes: upVotes.data[0].prestige
+        })        
       })
     })
   }
@@ -36,9 +39,12 @@ class Entry extends React.Component {
     //axios.post(`/downVote?id=${this.props.data.id}&&vote=${vote}`)
     axios.post(`/downVote?id=${this.props.data.id}`)
     .then((curDownVotes) => {
-      console.log(curDownVotes);
-      this.setState({
-        downVotes: curDownVotes
+      axios.get(`/downVote?id=${this.props.data.id}`)
+      .then((downVotes) => {
+        console.log(downVotes)
+      // this.setState({
+      //   downVotes: curDownVotes
+      // })
       })
     })
   }
@@ -64,7 +70,7 @@ class Entry extends React.Component {
                 <Feed.Like>
                   <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
                 </Feed.Like>
-                {this.state.total} Prestige
+                {this.state.upVotes} up votes
                 <Link to={`/thread/${this.props.data.id}`}>comments</Link>
                 <a onClick={this.handleClick}>remove</a>
               </Feed.Meta>
