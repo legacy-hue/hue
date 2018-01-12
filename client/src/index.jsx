@@ -122,18 +122,17 @@ class App extends React.Component {
     });
   }
 
-  // Invoked by Login.jsx onComponentDidMount
-  // Verifies attempted username & password
+  // Invoked in Login by onSubmitLogin function
   authenticate(url) {
     return axios.post(url, { username: this.state.username, password: this.state.password });
   }
-
+  // Invoked in Login, Submit, UserProfile, and Home by onComponentDidMount lifecycle hook
   authorize() {
     axios.get('/submit').then((res) => {
       this.isAuthorized(res.data);
     });
   }
-
+  // Invoked by authorize
   isAuthorized(res) {
     this.setState({
       auth: res.user

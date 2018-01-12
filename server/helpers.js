@@ -1,5 +1,4 @@
   const bcrypt = require('bcrypt-nodejs');
-
   const insert = require('../database/inserts');
   const query = require('../database/queries');
 
