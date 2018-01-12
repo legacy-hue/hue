@@ -47,10 +47,6 @@ class CommentEntry extends React.Component {
     })
   }
 
-  // componentDidMount() {
-  //   this.getCommentVotes();
-  // }
-
   componentWillReceiveProps() {
     this.getCommentVotes();    
   }
