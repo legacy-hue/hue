@@ -49,13 +49,14 @@ const comment = (comment) => {
 
 const upVote = (vote, id) => {
   return knex('entries')
-  .where('id', '=', id)
+  .where({id: id})
   .update({
     'up_votes': knex.raw('up_votes + 1'),
   })
 }
 
-const downVote = (vote, id) => {
+const downVoteEntry = (id) => {
+  console.log('downVote insert started*******')
   return knex('entries')
   .where({id: id})
   .update({
@@ -97,7 +98,7 @@ module.exports = {
   textEntry,
   comment,
   upVote,
-  downVote,
+  downVoteEntry,
   upVoteComment,
   downVoteComment,
   recordEntryVote,

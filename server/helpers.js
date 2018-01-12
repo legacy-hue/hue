@@ -130,6 +130,7 @@ function checkEntryVote(userid, entryid, callback) {
 
 module.exports = {
   checkCommentVote,
+  checkEntryVote,
   identifyUser,
   comparePassword,
   hashPassword,
