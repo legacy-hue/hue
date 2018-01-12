@@ -14,7 +14,7 @@ const entry = (entry) => {
   let url = entry.url;
   let text = entry.text;
   let userid = knex('users').where({name: name}).select('id');
-  return knex('entries').insert({title: title, url: url, userid: userid, text: text});
+  return knex('entries').insert({title: title, url: url, userid: userid, text: text, prestige: 0});
 }
 
 const textEntry = entry => {
@@ -41,7 +41,16 @@ const comment = (comment) => {
   .catch(function(error) {console.log('DID NOT ADD ENTRY: ' + error)});
 }
 
+const prestige = (vote, id) => {
+  console.log('prestige: ', id, vote)
+  vote = Number(vote);
+  var id = Number(id);
+  return knex('entries')
+  .where('id', '=', id)
+  .increment('prestige', vote)
+}
 
+module.exports.prestige = prestige;
 module.exports.user = user;
 module.exports.entry = entry;
 module.exports.textEntry = textEntry;

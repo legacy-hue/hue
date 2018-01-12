@@ -41,8 +41,12 @@ app.get('/entry', (req, res) => {
   query.entry(entryid).then(data => {res.json(data)});
 });
 
-app.get('/title', (re1, res) => {
-  // query.
+app.post('/karma', (req, res) => {
+  console.log(req.query);
+  let vote = req.query.vote;
+  let id = req.query.id;
+  insert.prestige(vote, id).then((data) => {res.json(data)});
+  //res.json(req.query.vote);
 })
 
 app.post('/entries', helpers.checkUser, (req, res) => {
