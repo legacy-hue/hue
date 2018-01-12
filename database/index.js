@@ -27,6 +27,8 @@ knex.schema.hasTable('users').then(function(exists) {
     if (!exists) {
       knex.schema.createTable('entries', function (table) {
         table.increments();
+        table.integer('up_votes')
+        table.integer('down_votes')
         table.integer('prestige')
         table.string('title');
         table.string('url');
@@ -44,6 +46,8 @@ knex.schema.hasTable('users').then(function(exists) {
     if (!exists) {
       knex.schema.createTable('comments', function (table) {
         table.increments();
+        table.integer('up_votes')
+        table.integer('down_votes')
         table.integer('prestige')
         table.string('text');
         table.integer('userid').references('users.id');

@@ -9,12 +9,13 @@ const user = (name, pass) => {
 //Expect entry obj with user, title, url
 
 const entry = (entry) => {
+  console.log('insert entry ran: ', entry.user, entry.title, entry.url, entry.text)
   let name = entry.user;
   let title = entry.title;
   let url = entry.url;
   let text = entry.text;
   let userid = knex('users').where({name: name}).select('id');
-  return knex('entries').insert({title: title, url: url, userid: userid, text: text, prestige: 0});
+  return knex('entries').insert({title: title, url: url, userid: userid, text: text, up_votes: 0, down_votes: 0, prestige: 0});
 }
 
 const textEntry = entry => {
@@ -44,13 +45,13 @@ const comment = (comment) => {
 const upVote = (vote, id) => {
   return knex('entries')
   .where('id', '=', id)
-  .increment('prestige', 1)
+  .increment('up_votes', 1)
 }
 
 const downVote = (vote, id) => {
   return knex('entries')
   .where({id: id})
-  .decrement('prestige', 1)
+  .decrement('down_votes', 1)
 }
 
 module.exports.upVote = upVote;

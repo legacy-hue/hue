@@ -63,7 +63,7 @@ app.post('/downVote', (req, res) => {
 app.post('/entries', helpers.checkUser, (req, res) => {
   let entry = req.body;
   entry.user = req.session.user;
-  console.log(entry);
+  console.log('entery: ', entry);
   if(entry.title === '' || ((entry.text === '') && (entry.url === 'none'))) {
     res.send('failure');
   }else{
