@@ -1,6 +1,7 @@
 import React from 'react';
+import { Feed, Comment, Icon } from 'semantic-ui-react';
+import ta from 'time-ago';
 import axios from 'axios';
-import { Feed, Icon } from 'semantic-ui-react'
 
 class CommentEntry extends React.Component {
   constructor(props) {
@@ -54,53 +55,43 @@ class CommentEntry extends React.Component {
   render () {
     if(this.props.user === this.props.comment.name){
       return (
-        <Feed>
-          <Feed.Event>
-            <Feed.Content>
-              <Feed.Summary>
-                {this.props.comment.name}: 
-              </Feed.Summary>
-              <Feed.Meta>
-                {this.props.comment.text}
-              </Feed.Meta>
-              <button onClick={this.handleClick}>
-                delete
-              </button>
-              <Feed.Meta>
-                <Feed.Like>
-                  <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
-                </Feed.Like>
-                {this.state.thumbsUp}
-                <Feed.Like>
-                  <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
-                </Feed.Like>
-                {this.state.thumbsDown}
-              </Feed.Meta>
-            </Feed.Content>
-          </Feed.Event>
-        </Feed>
+        <Comment>
+          <Comment.Content>
+            <Comment.Author as='a'>{this.props.comment.name}</Comment.Author>
+            <Comment.Metadata>
+              <div>{ta.ago(this.props.comment.created_at)}</div>
+              
+              <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
+              {this.state.thumbsUp}
+              <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
+              {this.state.thumbsDown}
+              
+            </Comment.Metadata>
+            <Comment.Text>{this.props.comment.text}</Comment.Text>
+            <Comment.Actions>
+              <Comment.Action onClick={this.handleClick}>delete</Comment.Action>
+            </Comment.Actions>
+          </Comment.Content>
+        </Comment>
       );
     }
     return (
-      <Feed>
-        <Feed.Event>
-          <Feed.Content>
-            <Feed.Summary>
-              {this.props.comment.name}: 
-            </Feed.Summary>
-              <Feed.Meta>
-                <Feed.Like>
-                  <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
-                </Feed.Like>
-                {this.state.thumbsUp}
-                <Feed.Like>
-                  <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
-                </Feed.Like>
-                {this.state.thumbsDown}
-              </Feed.Meta>
-          </Feed.Content>
-        </Feed.Event>
-      </Feed>
+      <Comment>
+        <Comment.Content>
+          <Comment.Author as='a'>{this.props.comment.name}</Comment.Author>
+          <Comment.Metadata>
+            <div>{ta.ago(this.props.comment.created_at)}</div>
+            
+            <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
+            {this.state.thumbsUp}
+            <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
+            {this.state.thumbsDown}            
+            
+          </Comment.Metadata>
+          <Comment.Text>{this.props.comment.text}</Comment.Text>
+          <Comment.Actions></Comment.Actions>
+        </Comment.Content>
+      </Comment>
     );
   }
 }
