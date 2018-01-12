@@ -7,8 +7,8 @@ class Entry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      upVotes: 0,
-      downVotes: 0,
+      thumbsUp: 0,
+      thumbsDown: 0,
       prestige: 0
     };
     this.handleClick = this.handleClick.bind(this);
@@ -25,28 +25,31 @@ class Entry extends React.Component {
   upVote() {
     axios.post(`/upVote?id=${this.props.data.id}`)
     .then(() => {
-      axios.get(`/upVote?id=${this.props.data.id}`)
-      .then((upVotes) => {
-        console.log(upVotes)
-        this.setState({
-          upVotes: upVotes.data[0].up_votes,
-          prestige: this.state.prestige += 1
-        })        
-      })
+      this.getEntryVotes();
     })
   }
 
   downVote() {
     axios.post(`/downVote?id=${this.props.data.id}`)
     .then(() => {
-      axios.get(`/downVote?id=${this.props.data.id}`)
-      .then((downVotes) => {
-        this.setState({
-          downVotes: downVotes.data[0].down_votes,
-          prestige: this.state.prestige -= 1
-        })
+      this.getEntryVotes();
+    })
+  }
+
+  getEntryVotes() {
+    axios.get(`/getEntryVotes?id=${this.props.data.id}`)
+    .then((obj) => {
+      const prest = obj.data[0].up_votes + obj.data[0].down_votes
+      this.setState({
+        thumbsUp: obj.data[0].up_votes,
+        thumbsDown: obj.data[0].down_votes,
+        prestige: prest
       })
     })
+  }
+
+  componentDidMount() {
+    this.getEntryVotes();
   }
 
   render () {
@@ -67,12 +70,11 @@ class Entry extends React.Component {
                 <Feed.Like>
                   <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
                 </Feed.Like>
+                {this.state.thumbsUp}
                 <Feed.Like>
                   <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
                 </Feed.Like>
-                {this.state.upVotes} up votes
-                {this.state.downVotes} down votes
-                {this.state.prestige} prestige
+                {this.state.thumbsDown}
                 <Link to={`/thread/${this.props.data.id}`}>comments</Link>
                 <a onClick={this.handleClick}>remove</a>
               </Feed.Meta>
@@ -96,14 +98,8 @@ class Entry extends React.Component {
               by <Link to={`/user/${this.props.data.name}`}>{this.props.data.name}</Link>
             </Feed.Extra>
             <Feed.Meta>
-              <Feed.Like>
-                <Icon name='thumbs up' />
-              </Feed.Like>
-              <Feed.Like>
-                <Icon name='thumbs down' />
-              </Feed.Like>
-              {this.state.points} Points
-              <Link to={`/thread/${this.props.data.id}`}>comments</Link>
+             {this.state.prestige} prestige 
+              <Link to={`/thread/${this.props.data.id}`}>  comments</Link>
             </Feed.Meta>
           </Feed.Content>
         </Feed.Event>

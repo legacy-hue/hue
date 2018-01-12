@@ -6,9 +6,9 @@ class CommentEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      upVotes: 0,
-      downVotes: 0,
-      total: 0
+      thumbsUp: 0,
+      thumbsDown: 0,
+      prestige: 0
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -23,25 +23,34 @@ class CommentEntry extends React.Component {
 
   upVote() {
     axios.post(`/upVoteComment?id=${this.props.comment.id}`)
-    .then((curUpVotes) => {
-      console.log(curUpVotes);
-      // this.setState({
-      //   upVotes: curUpVotes
-      // })
+    .then(() => {
+      this.getCommentVotes();
     })
   }
 
   downVote() {
-    //axios.post(`/downVote?id=${this.props.data.id}&&vote=${vote}`)
     axios.post(`/downVoteComment?id=${this.props.comment.id}`)
-    .then((curDownVotes) => {
-      console.log(curDownVotes);
-      // this.setState({
-      //   downVotes: curDownVotes
-      // })
+    .then(() => {
+      this.getCommentVotes();
     })
   }
 
+  getCommentVotes() {
+    axios.get(`/getCommentVotes?id=${this.props.comment.id}`)
+    .then((obj) => {
+      const prest = obj.data[0].up_votes + obj.data[0].down_votes
+      this.setState({
+        thumbsUp: obj.data[0].up_votes,
+        thumbsDown: obj.data[0].down_votes,
+        prestige: prest
+      })
+    })
+  }
+
+
+  componentDidMount() {
+    this.getCommentVotes();
+  }
 
   render () {
     if(this.props.user === this.props.comment.name){
@@ -63,10 +72,11 @@ class CommentEntry extends React.Component {
                 <Feed.Like>
                   <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
                 </Feed.Like>
-                {this.state.upVotes} up votes
+                {this.state.thumbsUp}
                 <Feed.Like>
                   <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
                 </Feed.Like>
+                {this.state.thumbsDown}
               </Feed.Meta>
 
             </Feed.Content>
@@ -82,7 +92,7 @@ class CommentEntry extends React.Component {
               {this.props.comment.name}: 
             </Feed.Summary>
             <Feed.Meta>
-              {this.props.comment.text}
+            {this.state.prestige} prestige   {this.props.comment.text}
             </Feed.Meta>
           </Feed.Content>
         </Feed.Event>

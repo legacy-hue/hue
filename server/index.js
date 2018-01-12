@@ -45,28 +45,33 @@ app.get('/entry', (req, res) => {
 // Prestige (karma) routes
 /************************************************************/
 
+app.get('/getEntryVotes', (req, res) => {
+  let id = req.query.id;
+  query.getEntryVotes(id).then((data) => {
+    res.json(data)});
+})
+
+app.get('/getCommentVotes', (req, res) => {
+  let id = req.query.id;
+  query.getCommentVotes(id).then((data) => {
+    res.json(data)});
+})
+
 app.post('/upVote', (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
   insert.upVote(vote, id).then((data) => {res.json(data)});
 })
 
-app.get('/upVote', (req, res) => {
-  let vote = req.query.vote;
-  let id = req.query.id;
-  insert.getUpVote(vote, id).then((data) => {res.json(data)});
-})
-
+// include middleware to check if user has already voted
+  // add a hasVoted field to each user table
+  // insert each entryid/commentid into hasVoted field
+  // check if user has already voted
+    // query user.hasVoted for entery/commentid
 app.post('/downVote', (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
   insert.downVote(vote, id).then((data) => {res.json(data)})
-})
-
-app.get('/downVote', (req, res) => {
-  let vote = req.query.vote;
-  let id = req.query.id;
-  insert.getDownVote(vote, id).then((data) => {res.json(data)});
 })
 
 app.post('/upVoteComment', (req, res) => {

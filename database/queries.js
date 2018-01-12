@@ -40,11 +40,32 @@ const commentsByUser = (name) => {
   .select('comments.id', 'comments.text', 'users.name', 'comments.entryid');
 }
 
+/************************************************************/
+// Prestige (karma) queries
+/************************************************************/
+
+const getEntryVotes = (entryid) => {
+  return knex('entries')
+  .where({'entries.id': entryid})
+  .select('entries.up_votes', 'entries.down_votes');
+}
+
+const getCommentVotes = (commentid) => {
+  return knex('comments')
+  .where({'comments.id': commentid})
+  .select('comments.up_votes', 'comments.down_votes');
+}
+
+/************************************************************/
+/************************************************************/
+
 module.exports = {
   user,
   entries,
   entry,
   comments,
   entriesByUser,
-  commentsByUser
+  commentsByUser,
+  getEntryVotes,
+  getCommentVotes
 };
