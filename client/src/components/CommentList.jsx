@@ -1,5 +1,5 @@
 import React from 'react';
-import { Feed, Comment, Header } from 'semantic-ui-react'
+import { Feed, Comment, Header, Form, Button } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom';
 import CommentEntry from './CommentEntry.jsx';
 import ta from 'time-ago';
@@ -81,11 +81,11 @@ class CommentList extends React.Component {
   	    	</div>
   	    	<br/>
   	    	<div>
-  	    	<h4>Submit Comment</h4>
-  				<input onChange={this.textChange}/>
-  				<br/>
-  				<button onClick={this.handleClick}>submit</button>
-  				</div>
+          <Form>
+            <Form.TextArea onChange={this.textChange}/>
+            <Button content='Submit Comment' labelPosition='left' icon='edit' primary onClick={this.handleClick}/>
+          </Form>
+          </div>
   	    	<br/>
       	  <Comment.Group>
             <Header as='h3' dividing>Comments</Header>
@@ -107,10 +107,10 @@ class CommentList extends React.Component {
           </div>
           <br/>
           <div>
-          <h4>Submit Comment</h4>
-          <input onChange={this.textChange}/>
-          <br/>
-          <button onClick={this.handleClick}>submit</button>
+          <Form>
+            <Form.TextArea onChange={this.textChange}/>
+            <Button content='Submit Comment' labelPosition='left' icon='edit' primary onClick={this.handleClick}/>
+          </Form>
           </div>
           <br/>
           <Comment.Group>
