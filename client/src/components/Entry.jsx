@@ -25,6 +25,7 @@ class Entry extends React.Component {
   upVote() {
     axios.post(`/upVote?id=${this.props.data.id}`)
     .then((curUpVotes) => {
+      console.log(curUpVotes);
       this.setState({
         points: curUpVotes
       })
@@ -35,6 +36,7 @@ class Entry extends React.Component {
     //axios.post(`/downVote?id=${this.props.data.id}&&vote=${vote}`)
     axios.post(`/downVote?id=${this.props.data.id}`)
     .then((curDownVotes) => {
+      console.log(curDownVotes);
       this.setState({
         downVotes: curDownVotes
       })

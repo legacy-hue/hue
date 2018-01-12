@@ -48,7 +48,7 @@ app.get('/entry', (req, res) => {
 app.post('/upVote', (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
-  insert.upVote(vote, id).then((data) => {res.json(data)});
+  insert.upVote(vote, id).then((data) => {console.log(data)});
 })
 
 app.post('/downVote', (req, res) => {

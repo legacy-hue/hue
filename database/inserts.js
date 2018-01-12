@@ -53,11 +53,6 @@ const upVote = (vote, id) => {
   // .increment('prestige', 1)
 }
 
-  // .update({
-  //   'updated_at': new Date(),
-  //   'count': knex.raw('count + 1')
-  // });
-
 const downVote = (vote, id) => {
   return knex('entries')
   .where({id: id})
