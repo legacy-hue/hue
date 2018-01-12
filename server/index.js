@@ -41,13 +41,24 @@ app.get('/entry', (req, res) => {
   query.entry(entryid).then(data => {res.json(data)});
 });
 
-app.post('/karma', (req, res) => {
-  console.log(req.query);
+/************************************************************/
+// Prestige (karma) routes
+/************************************************************/
+
+app.post('/upVote', (req, res) => {
   let vote = req.query.vote;
   let id = req.query.id;
-  insert.prestige(vote, id).then((data) => {res.json(data)});
-  //res.json(req.query.vote);
+  insert.upVote(vote, id).then((data) => {res.json(data)});
 })
+
+app.post('/downVote', (req, res) => {
+  let vote = req.query.vote;
+  let id = req.query.id;
+  insert.downVote(vote, id).then((data) => {res.json(data)})
+})
+
+/************************************************************/
+/************************************************************/
 
 app.post('/entries', helpers.checkUser, (req, res) => {
   let entry = req.body;

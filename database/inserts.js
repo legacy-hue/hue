@@ -41,16 +41,20 @@ const comment = (comment) => {
   .catch(function(error) {console.log('DID NOT ADD ENTRY: ' + error)});
 }
 
-const prestige = (vote, id) => {
-  console.log('prestige: ', id, vote)
-  vote = Number(vote);
-  var id = Number(id);
+const upVote = (vote, id) => {
   return knex('entries')
   .where('id', '=', id)
-  .increment('prestige', vote)
+  .increment('prestige', 1)
 }
 
-module.exports.prestige = prestige;
+const downVote = (vote, id) => {
+  return knex('entries')
+  .where({id: id})
+  .decrement('prestige', 1)
+}
+
+module.exports.upVote = upVote;
+module.exports.downVote = downVote;
 module.exports.user = user;
 module.exports.entry = entry;
 module.exports.textEntry = textEntry;

@@ -7,7 +7,9 @@ class Entry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      points: 0
+      upVotes: 0,
+      downVotes: 0,
+      total: 0
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -20,21 +22,24 @@ class Entry extends React.Component {
     });
   }
 
-  vote(vote) {
-    console.log(this.props.data, ' and ', vote);
-    axios.post(`/karma?id=${this.props.data.id}&&vote=${vote}`)
-    .then((currPoints) => {
+  upVote() {
+    axios.post(`/upVote?id=${this.props.data.id}`)
+    .then((curUpVotes) => {
       this.setState({
-        points: currPoints.data
+        points: curUpVotes
       })
     })
   }
 
-  // downVote() {
-    // this.setState({
-    //   points: this.state.points - 1
-    // })    
-  // }
+  downVote() {
+    //axios.post(`/downVote?id=${this.props.data.id}&&vote=${vote}`)
+    axios.post(`/downVote?id=${this.props.data.id}`)
+    .then((curDownVotes) => {
+      this.setState({
+        downVotes: curDownVotes
+      })
+    })
+  }
 
   render () {
     if(this.props.user === this.props.data.name){
@@ -52,12 +57,12 @@ class Entry extends React.Component {
               </Feed.Extra>
               <Feed.Meta>
                 <Feed.Like>
-                  <Icon name='thumbs up' onClick={() => {this.vote.bind(this)(1)}}/>
+                  <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
                 </Feed.Like>
                 <Feed.Like>
-                  <Icon name='thumbs down' onClick={() => {this.vote.bind(this)(0)}}/>
+                  <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
                 </Feed.Like>
-                {this.state.points} Prestige
+                {this.state.total} Prestige
                 <Link to={`/thread/${this.props.data.id}`}>comments</Link>
                 <a onClick={this.handleClick}>remove</a>
               </Feed.Meta>
