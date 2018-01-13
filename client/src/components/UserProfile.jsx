@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Feed, Icon, Divider } from 'semantic-ui-react'
+import { Feed, Icon, Divider, Comment, Tab } from 'semantic-ui-react'
 
 import Entry from './Entry.jsx';
 import CommentEntry from './CommentEntry.jsx';
@@ -54,37 +54,55 @@ class UserProfile extends React.Component {
   }
 
   render (props) {
+    const panes = [
+      {menuItem: 'Entries', render: () => {
+        return (
+          <div>
+            <div>
+              {this.state.entries.map((entry, index) => 
+                <Entry 
+                  key={index} 
+                  data={entry} 
+                  user={this.props.user} 
+                  deleteEntry={this.props.deleteEntry}
+                />)}
+            </div>
+          </div>
+        )
+      }},
+      {menuItem: 'Comments', render: () => {
+        return(
+          <div>
+            <div>
+            <Comment.Group>
+              {this.state.comments.map((comment, index) => {
+                return ( <div key={index}>
+                <CommentData 
+                  comment = {comment}
+                  getEntry={this.props.getEntry}
+                />
+                <CommentEntry
+                  comment = {comment}
+                  user = {this.props.user}
+                  deleteComment = {this.props.deleteComment}
+                  entry={comment.entryid}
+                /> 
+                <Divider></Divider>
+                </div>
+                )}
+              )}
+            </Comment.Group>
+            </div>
+          </div>
+        )
+      }}
+    ]
+
+
     return (
-      <div>
-        {this.props.match.params.name}'s posts:
-        <div>
-          {this.state.entries.map((entry, index) => 
-            <Entry 
-              key={index} 
-              data={entry} 
-              user={this.props.user} 
-              deleteEntry={this.props.deleteEntry}
-            />)}
-        </div>
-        {this.props.match.params.name}'s comments:
-
-        <div>
-          {this.state.comments.map((comment, index) => {
-            return ( <div key={index}>
-            <CommentData 
-              comment = {comment}
-              getEntry={this.props.getEntry}
-            />
-
-            <CommentEntry
-              comment = {comment}
-              user = {this.props.user}
-              deleteComment = {this.props.deleteComment}
-              entry={comment.entryid}
-            /> 
-            </div>)}
-          )}
-        </div>
+      <div className = 'ui segment'>
+      <h4>User Profile for {this.props.match.params.name}</h4>
+      <Tab panes={panes} />
       </div>
     )
   }
