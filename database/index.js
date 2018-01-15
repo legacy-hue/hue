@@ -31,7 +31,7 @@ knex.schema.hasTable('users').then(function(exists) {
         table.integer('down_votes');
         table.string('title');
         table.string('url');
-        table.string('text');
+        table.text('text');
         table.integer('userid').references('users.id');
         table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'))
         table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'))
@@ -47,7 +47,7 @@ knex.schema.hasTable('users').then(function(exists) {
         table.increments();
         table.integer('up_votes');
         table.integer('down_votes');
-        table.string('text');
+        table.text('text');
         table.integer('userid').references('users.id');
         table.integer('entryid').references('entries.id');
         table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'))
