@@ -4,7 +4,15 @@ import { Divider, Form, Label, Button, Header, Menu } from 'semantic-ui-react'
 
 const EntryList = (props) => (
   <div className="ui segment">
-    {props.data.map((data, index) => <Entry key = {index} data={data} user={props.user} deleteEntry={props.deleteEntry} getEntries={props.getEntries}/>)}
+    {props.data.map((data, index) => 
+    	<Entry 
+    		key = {index} 
+    		data={data} 
+    		user={props.user} 
+    		deleteEntry={props.deleteEntry} 
+    		getEntries={props.getEntries}
+    	/>
+    )}
   </div>
 );
 

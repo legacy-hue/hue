@@ -66,6 +66,7 @@ class CommentList extends React.Component {
     });
   }
 
+  // Renders different versions of the componet depending if a user is logged in
   render () {
     if(this.state.redirect){
       return <Redirect to='/'/>;

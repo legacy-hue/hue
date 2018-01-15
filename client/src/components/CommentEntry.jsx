@@ -23,7 +23,6 @@ class CommentEntry extends React.Component {
   }
 
   upVote() {
-    //console.log(this.props.entry)
     axios.post(`/upVoteComment?user=${this.props.user}&&comment=${this.props.comment.id}&&entry=${this.props.entry}`)
     .then(() => {
       this.getCommentVotes();
@@ -53,6 +52,7 @@ class CommentEntry extends React.Component {
     this.getCommentVotes();    
   }
 
+  // Renders different versions of the componet depending if a user is logged in
   render () {
     if(this.props.user === this.props.comment.name){
       return (
