@@ -8,6 +8,7 @@ class Nav extends React.Component {
     super(props);
   }
 
+  // Renders different versions of the componet depending if a user is logged in
   render (props) {
     if (this.props.user !== undefined) { // This renders if a user is logged in
       return (

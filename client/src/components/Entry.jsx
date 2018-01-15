@@ -15,6 +15,7 @@ class Entry extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  // Deletes an entry
   handleClick() {
     this.props.deleteEntry(this.props.data.id)
     .then(() => {
@@ -37,6 +38,7 @@ class Entry extends React.Component {
     })
   }
 
+  // Updates state
   getEntryVotes() {
     axios.get(`/getEntryVotes?id=${this.props.data.id}`)
     .then((obj) => {
@@ -53,6 +55,7 @@ class Entry extends React.Component {
     this.getEntryVotes();
   }
 
+  // Renders different versions of the componet depending if a user is logged in
   render () {
     if(this.props.user === this.props.data.name){
       return (

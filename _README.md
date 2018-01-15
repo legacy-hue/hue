@@ -65,7 +65,7 @@ $ npm start
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+Be sure to check out the project roadmap.
 
 
 ## Contributing

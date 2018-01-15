@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, HashRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { Switch, Route } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
 import $ from 'jquery';
 import axios from 'axios';
 import styles from 'styled-components';
 import { Divider, Form, Label, Button, Header, Menu } from 'semantic-ui-react'
+import { BrowserRouter, HashRouter, Link, Switch, Route, Redirect } from 'react-router-dom';
 
 import './style.scss'
 import Home from './components/Home.jsx';
@@ -199,7 +196,6 @@ class App extends React.Component {
       </Wrapper> 
   	)
   }
-
 }
 
 ReactDOM.render((
