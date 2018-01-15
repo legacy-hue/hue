@@ -59,6 +59,7 @@ class UserProfile extends React.Component {
         return (
           <div>
             <div>
+              <br />
               {this.state.entries.map((entry, index) => 
                 <Entry 
                   key={index} 
