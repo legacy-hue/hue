@@ -102,50 +102,62 @@ app.get('/getCommentVotes', (req, res) => {
 })
 
 app.post('/upVoteComment', helpers.checkUser, (req, res) => {
+  console.log('UPVOTE:', req.query);
   let userid = req.query.user;
   let commentid = req.query.comment;
   let entryid = req.query.entry;
   helpers.checkCommentVote(userid, commentid, entryid, function(canVote) {
     if (canVote) {
+      console.log('YOU CAN VOTE!');
       insert.upVoteComment(commentid).then((data) => {res.json(data)})
     } else {
+      console.log('YOU CANNOT VOTE!');
       res.sendStatus(201)
     }
   })  
 })
 
 app.post('/downVoteComment', helpers.checkUser, (req, res) => {
+  console.log('DOWNVOTE:', req.query);
   let userid = req.query.user;
   let commentid = req.query.comment;
   let entryid = req.query.entry;
   helpers.checkCommentVote(userid, commentid, entryid, function(canVote) {
     if (canVote) {
+      console.log('YOU CAN VOTE!');
       insert.downVoteComment(commentid).then((data) => {res.json(data)})
     } else {
+      console.log('YOU CANNOT VOTE!');
       res.sendStatus(201)
     }
   })  
 })
 
 app.post('/upVoteEntry', helpers.checkUser, (req, res) => {
+  console.log('UPVOTE ENTRY:', req.query);
   let userid = req.query.user;
   let entryid = req.query.entry;
   helpers.checkEntryVote(userid, entryid, function(canVote) {
     if (canVote) {
+      console.log('YOU CAN VOTE!');
       insert.upVoteEntry(entryid).then((data) => {res.json(data)})
     } else {
+      console.log('YOU CANNOT VOTE!');
       res.sendStatus(201)
     }
   })  
 })
 
 app.post('/downVoteEntry', helpers.checkUser, (req, res) => {
+  console.log('DOWNVOTE ENTRy:', req.query);
   let userid = req.query.user;
   let entryid = req.query.entry;
   helpers.checkEntryVote(userid, entryid, function(canVote) {
     if (canVote) {
+      console.log('YOU CAN VOTE!');
       insert.downVoteEntry(entryid).then((data) => {res.json(data)})
     } else {
+      console.log('YOU CANNOT VOTE!');
       res.sendStatus(201)
     }
   })  
