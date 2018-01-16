@@ -60,13 +60,13 @@ const getCommentVotes = (commentid) => {
 const checkEntryVote = (userid, entryid) => {
   return knex('entries_votes')
   .where({userid: userid, entryid: entryid})
-  .select('entries_votes.voted')
+  .select('entries_votes.voted', 'entries_votes.id')
 }
 
 const checkCommentVote = (userid, commentid) => {
   return knex('comments_votes')
   .where({userid: userid, commentid: commentid})
-  .select('comments_votes.voted')
+  .select('comments_votes.voted', 'comments_votes.id')
 }
 
 /************************************************************/

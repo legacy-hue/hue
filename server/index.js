@@ -137,7 +137,7 @@ app.post('/upVoteEntry', helpers.checkUser, (req, res) => {
   console.log('UPVOTE ENTRY:', req.query);
   let userid = req.query.user;
   let entryid = req.query.entry;
-  helpers.checkEntryVote(userid, entryid, function(canVote) {
+  helpers.checkEntryVote(userid, entryid, 'upvote', function(canVote) {
     if (canVote) {
       console.log('YOU CAN VOTE!');
       insert.upVoteEntry(entryid).then((data) => {res.json(data)})
@@ -152,7 +152,7 @@ app.post('/downVoteEntry', helpers.checkUser, (req, res) => {
   console.log('DOWNVOTE ENTRy:', req.query);
   let userid = req.query.user;
   let entryid = req.query.entry;
-  helpers.checkEntryVote(userid, entryid, function(canVote) {
+  helpers.checkEntryVote(userid, entryid, 'downvote', function(canVote) {
     if (canVote) {
       console.log('YOU CAN VOTE!');
       insert.downVoteEntry(entryid).then((data) => {res.json(data)})

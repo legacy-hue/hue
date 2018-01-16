@@ -78,9 +78,9 @@ const downVoteComment = (id) => {
   })
 }
 
-const recordEntryVote = (userid, entryid) => {
+const recordEntryVote = (userid, entryid, voteType) => {
   return knex('entries_votes')
-  .insert({userid: userid, entryid: entryid, voted: true})
+  .insert({userid: userid, entryid: entryid, voted: voteType})
 }
 
 const recordCommentVote = (userid, commentid, entryid) => {
