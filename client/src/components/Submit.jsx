@@ -20,8 +20,8 @@ class Submit extends React.Component {
     this.props.postEntry(this.state.title, this.state.url, this.state.text)
     .then((res) => {
       if(res.data === 'success'){
-        this.props.getEntries();
-        history.push('/');
+        this.props.getEntries()
+          .then(() => history.push('/'));
       }
     });
   }
