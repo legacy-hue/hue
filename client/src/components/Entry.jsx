@@ -13,6 +13,7 @@ class Entry extends React.Component {
       prestige: 0
     };
     this.handleClick = this.handleClick.bind(this);
+    console.log(props.data);
   }
 
   // Deletes an entry
@@ -42,6 +43,7 @@ class Entry extends React.Component {
   getEntryVotes() {
     axios.get(`/getEntryVotes?id=${this.props.data.id}`)
     .then((obj) => {
+      console.log('Votes for entry:', obj);
       const prest = obj.data[0].up_votes + obj.data[0].down_votes
       this.setState({
         thumbsUp: obj.data[0].up_votes,
@@ -51,7 +53,7 @@ class Entry extends React.Component {
     })
   }
 
-  componentWillReceiveProps(nextprops){
+  componentDidMount () {
     this.getEntryVotes();
   }
 
