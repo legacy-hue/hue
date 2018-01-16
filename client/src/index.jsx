@@ -62,7 +62,6 @@ class App extends React.Component {
     return axios.get(`/userComments?id=${user}`);
   }
   
-  //TODO: Let someone post a title that isn't a url
   postEntry(title, url, text){
     if(url === ''){
       return axios.post('/entries', {
