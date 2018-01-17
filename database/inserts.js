@@ -9,21 +9,25 @@ const user = (name, pass) => {
 //Expect entry obj with user, title, url
 
 const entry = (entry) => {
+  let subhue = entry.subhue;
   let name = entry.user;
   let title = entry.title;
   let url = entry.url;
   let text = entry.text;
   let userid = knex('users').where({name: name}).select('id');
-  return knex('entries').insert({title: title, url: url, userid: userid, text: text, up_votes: 0, down_votes: 0});
+  let subhueid = knex('subhues').where({name: subhue}).select('id');
+  return knex('entries').insert({subhueid: subhueid, title: title, url: url, userid: userid, text: text, up_votes: 0, down_votes: 0});
 }
 
 const textEntry = entry => {
+  let subhue = entry.subhue;
   let name = entry.user;
   let title = entry.title;
   let url = entry.url;
   let text = entry.text;
   let userid = knex('users').where({name: name}).select('id');
-  return knex('entries').insert({title: title, userid: userid, text: text, up_votes: 0, down_votes: 0}, 'id')
+  let subhueid = knex('subhues').where({name: subhue}).select('id');
+  return knex('entries').insert({subhueid: subhueid, title: title, userid: userid, text: text, up_votes: 0, down_votes: 0}, 'id')
   .then(data => {
     return knex('entries').where({id: data[0]}).update({url: `#/thread/${data[0]}`});
   });

@@ -17,7 +17,7 @@ class Submit extends React.Component {
 
   handleClick() {
     const {history} = this.props;
-    this.props.postEntry(this.state.title, this.state.url, this.state.text)
+    this.props.postEntry(this.state.title, this.state.url, this.state.text, this.props.currentSub)
     .then((res) => {
       if(res.data === 'success'){
         this.props.getEntries()

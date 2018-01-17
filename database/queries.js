@@ -11,6 +11,11 @@ const entries = () => {
   .orderBy('entries.created_at', 'desc');
 }
 
+const subhues = () => {
+  return knex('subhues')
+  .select('subhues.name');
+}
+
 const entry = (entryid) => {
   return knex('entries')
   .where({'entries.id': entryid})
@@ -31,6 +36,14 @@ const entriesByUser = name => {
   .where({userid: userid})
   .join('users', 'entries.userid', '=', 'users.id')
   .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'entries.created_at', 'users.name');  
+}
+
+const entriesBySubhue = name => {
+  let subhueid = knex('subhues').where({name: name}).select('id');
+  return knex('entries')
+  .where({subhueid: subhueid})
+  .join('subhues', 'entries.subhueid', '=', 'subhues.id')
+  .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'entries.created_at', 'subhues.name');
 }
 
 const commentsByUser = (name) => {
@@ -92,9 +105,11 @@ const checkCommentVote = (userid, commentid) => {
 module.exports = {
   user,
   entries,
+  subhues,
   entry,
   comments,
   entriesByUser,
+  entriesBySubhue,
   commentsByUser,
   getEntryVotes,
   getCommentVotes,
