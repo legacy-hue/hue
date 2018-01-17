@@ -44,7 +44,13 @@ const commentsByUser = (name) => {
 const searchByTitle = (title) => {
   return knex('entries')
   .where({'title': title})
+  .join('users', 'entries.userid', '=', 'users.id')
   .select('*');
+}
+
+const searchByUser = (user) => {
+  return knex('users')
+  .where({name: user})
 }
 
 /************************************************************/
@@ -94,5 +100,6 @@ module.exports = {
   getCommentVotes,
   checkEntryVote,
   checkCommentVote,
-  searchByTitle
+  searchByTitle,
+  searchByUser
 };
