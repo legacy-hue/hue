@@ -10,29 +10,18 @@ const knex = require('knex')({
   }
 });
 
-knex.schema.hasTable('subhues').then(function(exists) {
+knex.schema.hasTable('users').then(function(exists) {
   if (!exists) {
-    knex.schema.createTable('subhues', function (table) {
+    knex.schema.createTable('users', function (table) {
       table.increments();
       table.string('name').unique();
+      table.string('password');
+      table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'))
+      table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'))
     }).then(function (table) {
-      console.log('Created Table subhues');
+      console.log('Created Table users');
     });
   }
-}).then(function(){
-  knex.schema.hasTable('users').then(function(exists) {
-    if (!exists) {
-      knex.schema.createTable('users', function (table) {
-        table.increments();
-        table.string('name').unique();
-        table.string('password');
-        table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'))
-        table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'))
-      }).then(function (table) {
-        console.log('Created Table users');
-      });
-    }
-  });
 }).then(function(){
   knex.schema.hasTable('entries').then(function(exists) {
     if (!exists) {
@@ -44,7 +33,6 @@ knex.schema.hasTable('subhues').then(function(exists) {
         table.string('url');
         table.text('text');
         table.integer('userid').references('users.id');
-        table.integer('subhueid').references('subhues.id');
         table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'))
         table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'))
       }).then(function (table) {
