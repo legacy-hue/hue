@@ -14,7 +14,8 @@ import Submit from './components/Submit.jsx';
 import EntryList from './components/EntryList.jsx';
 import CommentList from './components/CommentList.jsx';
 import Nav from './components/NavBar.jsx';
-import UserProfile from './components/UserProfile.jsx'
+import UserProfile from './components/UserProfile.jsx';
+import Subhue from './components/Subhue.jsx';
 
 const Wrapper = styles.div`
   margin: .7% 8%;
@@ -27,6 +28,7 @@ class App extends React.Component {
       username: '',
       password: '',
       entries: [],
+      subhues: [],
       auth: false,
       search: []
     }
@@ -34,6 +36,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getEntries();
+    this.getSubhues();
     this.authorize();
   }
 
@@ -41,6 +44,14 @@ class App extends React.Component {
     return axios.get('/entries')
     .then(data => {
       this.setState({entries: data.data})
+    });
+  }
+
+  getSubhues(){
+    return axios.get('/subhues')
+    .then(data => {
+      this.setState({subhues: data.data});
+      console.log('subhues data: ', data.data);
     });
   }
 
@@ -174,6 +185,9 @@ class App extends React.Component {
               getEntries={this.getEntries.bind(this)}
             />
           )}/>
+          {/*<Route exact path="/subhue/:name" render={props => (
+                      <Subhue {...props}/>
+                    )}/>*/}
           <Route exact path="/search" render={(props) => (
             <SearchResults {...props}
               data = {this.state.search}

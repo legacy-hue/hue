@@ -11,6 +11,11 @@ const entries = () => {
   .orderBy('entries.created_at', 'desc');
 }
 
+const subhues = () => {
+  return knex('subhues')
+  .select('subhues.name');
+}
+
 const entry = (entryid) => {
   return knex('entries')
   .where({'entries.id': entryid})
@@ -92,6 +97,7 @@ const checkCommentVote = (userid, commentid) => {
 module.exports = {
   user,
   entries,
+  subhues,
   entry,
   comments,
   entriesByUser,
