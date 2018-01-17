@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Divider, Form, Label, Button, Header, Menu } from 'semantic-ui-react'
+import { Divider, Form, Label, Button, Header, Menu, Input } from 'semantic-ui-react'
 import EntryList from './EntryList.jsx';
 
 class Nav extends React.Component {
@@ -27,16 +27,21 @@ class Nav extends React.Component {
           </Menu.Item>
 
             <Menu.Menu position="right">
-            <Menu.Item name='logout' position='right' className="nav">
-              <Link to="/login" className="text" onClick={() => this.props.authenticate('\logout')}>
-                Logout
-              </Link>
+
+            <Menu.Item position='right' name='search' className="navSearch">
+              <Input to={`/search`} className="text" placeholder='Search...' />
             </Menu.Item>
+            
             <Menu.Item position='right' name='username' className="nav">
               <Link to={`/user/${this.props.user}`} className="text">
                 <i className="user icon"></i>
                 {this.props.user} 
               </Link>  
+            </Menu.Item>
+            <Menu.Item name='logout' position='right' className="nav">
+              <Link to="/login" className="text" onClick={() => this.props.authenticate('\logout')}>
+                Logout
+              </Link>
             </Menu.Item>
           </Menu.Menu>
 
