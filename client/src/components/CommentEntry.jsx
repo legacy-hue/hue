@@ -40,7 +40,7 @@ class CommentEntry extends React.Component {
 
     axios.get(`/getCommentVotes?id=${this.props.comment.id}`)
     .then((obj) => {
-      const prest = obj.data[0].up_votes - obj.data[0].down_votes
+      const prest = obj.data[0].up_votes + obj.data[0].down_votes
       this.setState({
         thumbsUp: obj.data[0].up_votes,
         thumbsDown: obj.data[0].down_votes,

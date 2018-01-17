@@ -74,7 +74,7 @@ const downVoteComment = (id) => {
   return knex('comments')
   .where({id: id})
   .update({
-    'down_votes': knex.raw('down_votes + 1'),
+    'down_votes': knex.raw('down_votes - 1'),
   })
 }
 
