@@ -32,9 +32,11 @@ class CommentList extends React.Component {
   	.then(data => this.setState({comments: data.data}));
   }
 
-  componentWillReceiveProps(nextprops){
+  componentWillReceiveProps(nextprops) {
+    console.log('NEW PROPS:', nextprops);
     this.props.getEntry(nextprops.match.params.id)
     .then(data => {
+      console.log('DATA!!!:', data);
         if(data.data.length === 0){
           this.setState({redirect:  true});
         }
@@ -48,10 +50,16 @@ class CommentList extends React.Component {
   }
 
   handleClick() {
+    console.log('Current comment:', this.state.comment);
   	this.props.postComment(this.state.comment, this.props.match.params.id)
   	.then(() => {
   		this.props.getComments(this.props.match.params.id)
-  		.then(data => this.setState({comments: data.data}))
+      .then(data => {
+        console.log('DDDDDD:', data);
+        let newState = data.data.sort((a, b) => b.id - a.id)[0];
+        this.state.comments.push(newState);
+        this.setState({comments: this.state.comments}, () => console.log('NEW COMMENT STATE:', this.state.comments))
+      })
   	});
   }
 

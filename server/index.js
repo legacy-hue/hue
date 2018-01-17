@@ -59,6 +59,7 @@ app.post('/entries', helpers.checkUser, (req, res) => {
 });
 
 app.post('/comments', helpers.checkUser, (req, res) => {
+  console.log('Comment in server:', req.body);
   let comment = req.body;
   comment.user = req.session.user;
   insert.comment(comment);
@@ -98,7 +99,10 @@ app.get('/getEntryVotes', (req, res) => {
 app.get('/getCommentVotes', (req, res) => {
   let id = req.query.id;
   query.getCommentVotes(id).then((data) => {
-    res.json(data)});
+    console.log('THE ID:', req.query.id);
+    console.log('DATA IN SERVER:', data);
+    res.json(data)
+  });
 })
 
 app.post('/upVoteComment', helpers.checkUser, (req, res) => {
