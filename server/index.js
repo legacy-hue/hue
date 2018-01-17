@@ -88,10 +88,25 @@ app.delete('/comment', helpers.checkUser, (req, res) => {
 app.post('/search', (req, res) => {
   query.searchByTitle(req.body.query)
   .then((data) => {
-    res.json(data);
+    var posts = data;
+    query.searchByUser(req.body.query)
+    .then((user) => {
+      let all = {posts: posts, user: user}
+      res.json(all)
+    })
+    .catch((errors) => {
+      res.json({posts: posts})
+    })
   })
   .catch((err) => {
-    res.sendStatus(400);
+    query.searchByUser(req.body.query)
+    .then((user) => {
+      let all = {user: user}
+      res.json(all)
+    })
+    .catch((error) => {
+      res.sendStatus(400);
+    })
   })
 })
 
