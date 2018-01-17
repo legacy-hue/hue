@@ -48,6 +48,7 @@ knex.schema.hasTable('users').then(function(exists) {
         table.increments();
         table.string('name').unique();
       }).then(function (table) {
+        return knex('subhues').insert({name: 'home'});
         console.log('Created Table subhues');
       });
     }
