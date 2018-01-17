@@ -54,10 +54,14 @@ class CommentList extends React.Component {
       .then(data => {
         // let newState = data.data.sort((a, b) => b.id - a.id)[0];
 <<<<<<< HEAD
+<<<<<<< HEAD
         this.state.comments.push(data.data[0]);
 =======
         this.state.comments.push(data[0]);
 >>>>>>> Remove unnecessary sort call
+=======
+        this.state.comments.push(data.data[0]);
+>>>>>>> Fix minor errors in vote handling
         this.setState({comments: this.state.comments})
       })
   	});
