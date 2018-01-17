@@ -41,6 +41,12 @@ const commentsByUser = (name) => {
   .select('comments.id', 'comments.text', 'comments.created_at', 'comments.entryid', 'users.name');
 }
 
+const searchByTitle = (title) => {
+  return knex('entries')
+  .where({'title': title})
+  .select('*');
+}
+
 /************************************************************/
 // Prestige (karma) queries
 /************************************************************/
@@ -87,5 +93,6 @@ module.exports = {
   getEntryVotes,
   getCommentVotes,
   checkEntryVote,
-  checkCommentVote
+  checkCommentVote,
+  searchByTitle
 };
