@@ -38,6 +38,14 @@ const entriesByUser = name => {
   .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'entries.created_at', 'users.name');  
 }
 
+const entriesBySubhue = name => {
+  let subhueid = knex('subhues').where({name: name}).select('id');
+  return knex('entries')
+  .where({subhueid: subhueid})
+  .join('subhues', 'entries.subhueid', '=', 'subhues.id')
+  .select('entries.id', 'entries.url', 'entries.title', 'entries.text', 'entries.created_at', 'subhues.name');
+}
+
 const commentsByUser = (name) => {
   let userid = knex('users').where({name: name}).select('id');
   return knex('comments')
@@ -101,6 +109,7 @@ module.exports = {
   entry,
   comments,
   entriesByUser,
+  entriesBySubhue,
   commentsByUser,
   getEntryVotes,
   getCommentVotes,

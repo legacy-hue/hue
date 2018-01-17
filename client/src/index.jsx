@@ -28,7 +28,8 @@ class App extends React.Component {
       username: '',
       password: '',
       entries: [],
-      subhues: [],
+      subhues: ['home'],
+      currentSub: 'home',
       auth: false,
       search: []
     }
@@ -67,6 +68,10 @@ class App extends React.Component {
     });
   }
 
+  getSubhueEntries(subhue) {
+    return axios.get(`/subhueEntries?id=${subhue}`);
+  }
+
   getUserEntries(user) {
     return axios.get(`/userEntries?id=${user}`);
   }
@@ -75,12 +80,13 @@ class App extends React.Component {
     return axios.get(`/userComments?id=${user}`);
   }
   
-  postEntry(title, url, text){
+  postEntry(title, url, text, subhue){
     if(url === ''){
       return axios.post('/entries', {
         title: title,
         url: 'none',
-        text: text
+        text: text,
+        subhue: subhue
       });
     }
     if(this.isURL(url)){
@@ -90,7 +96,8 @@ class App extends React.Component {
       return axios.post('/entries', {
         title: title,
         url: url,
-        text: text
+        text: text,
+        subhue: subhue
       });
     }
   }
@@ -185,9 +192,18 @@ class App extends React.Component {
               getEntries={this.getEntries.bind(this)}
             />
           )}/>
-          {/*<Route exact path="/subhue/:name" render={props => (
-                      <Subhue {...props}/>
-                    )}/>*/}
+          <Route exact path="/subhue/:name" render={props => (
+            <Subhue {...props}
+              getSubhueEntries={this.getSubhueEntries}
+              // user={this.state.auth}
+              // deleteEntry={this.deleteEntry.bind(this)}
+              // deleteComment={this.deleteComment.bind(this)}
+              // getUserComments={this.getUserComments.bind(this)}
+              // getUserEntries={this.getUserEntries.bind(this)}
+              authorize={this.authorize.bind(this)}
+              // getEntry={this.getEntry.bind(this)}
+            />
+          )}/>
           <Route exact path="/search" render={(props) => (
             <SearchResults {...props}
               data = {this.state.search}
@@ -207,7 +223,8 @@ class App extends React.Component {
           )}/> 
           <Route exact path="/submit" render={(props) => (
             this.state.auth !== undefined
-            ? <Submit {...props} 
+            ? <Submit {...props}
+              currentSub={this.state.currentSub}
               getEntries={this.getEntries.bind(this)}
               postEntry={this.postEntry.bind(this)}
               authorize={this.authorize.bind(this)}
