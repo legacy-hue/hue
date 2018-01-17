@@ -14,7 +14,7 @@ function checkCommentVote(userid, commentid, voteType, entryid, callback) {
     if (voteData === undefined) {
       insert.recordCommentVote(userid, commentid, voteType, entryid).then(() => callback({before: 'none', after: voteType}));
     } else {
-      update.updateCommentVote(userid, commentid, voteType).then(() => callback({before: voteData.voted, after: voteType}));
+      callback(false);
     }
     // else if (voteData.voted === 'none') {
     //   update.updateCommentVote(userid, commentid, voteType).then(() => callback({before: 'none', after: voteType}));      
