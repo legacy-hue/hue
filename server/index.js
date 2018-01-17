@@ -85,6 +85,16 @@ app.delete('/comment', helpers.checkUser, (req, res) => {
   })
 });
 
+app.post('/search', (req, res) => {
+  query.searchByTitle(req.body.query)
+  .then((data) => {
+    res.json(data);
+  })
+  .catch((err) => {
+    res.sendStatus(400);
+  })
+})
+
 /************************************************************/
 // Prestige (karma) routes
 /************************************************************/

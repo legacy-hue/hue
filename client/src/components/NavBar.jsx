@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Divider, Form, Label, Button, Header, Menu, Input } from 'semantic-ui-react'
 import EntryList from './EntryList.jsx';
@@ -6,6 +7,20 @@ import EntryList from './EntryList.jsx';
 class Nav extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      value: ''
+    }
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+
+  handleKeyPress (event) {
+    if(event.key === 'Enter'){
+      this.props.searchQuery(this.state.value);
+      this.props.history.push('/search');
+      this.setState({
+        value: ''
+      })
+    }
   }
 
   // Renders different versions of the componet depending if a user is logged in
@@ -29,7 +44,13 @@ class Nav extends React.Component {
             <Menu.Menu position="right">
 
             <Menu.Item position='right' name='search' className="navSearch">
-              <Input to={`/search`} className="text" placeholder='Search...' />
+              <Input to={`/search`} 
+                className="text" placeholder='Search...' 
+                value={this.state.value}
+                onChange={(e, {value}) => {
+                  this.setState({value})}
+                } 
+                onKeyPress={this.handleKeyPress}/>
             </Menu.Item>
             
             <Menu.Item position='right' name='username' className="nav">
@@ -64,6 +85,17 @@ class Nav extends React.Component {
           </Menu.Item>
 
             <Menu.Menu position="right">
+
+            <Menu.Item position='right' name='search' className="navSearch">
+              <Input to={`/search`} 
+                className="text" placeholder='Search...' 
+                value={this.state.value}
+                onChange={(e, {value}) => {
+                  this.setState({value})}
+                } 
+                onKeyPress={this.handleKeyPress}/>
+            </Menu.Item>
+
             <Menu.Item name='login' className="nav">
               <Link to="/login" className="text">
                 Login
@@ -81,4 +113,4 @@ class Nav extends React.Component {
   }
 }
 
-export default Nav;
+export default withRouter(Nav);

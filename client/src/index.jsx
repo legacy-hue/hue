@@ -4,10 +4,11 @@ import $ from 'jquery';
 import axios from 'axios';
 import styles from 'styled-components';
 import { Divider, Form, Label, Button, Header, Menu } from 'semantic-ui-react'
-import { BrowserRouter, HashRouter, Link, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Link, Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
 import './style.scss'
 import Home from './components/Home.jsx';
+import SearchResults from './components/SearchResults.jsx';
 import Login from './components/Login.jsx';
 import Submit from './components/Submit.jsx';
 import EntryList from './components/EntryList.jsx';
@@ -26,7 +27,8 @@ class App extends React.Component {
       username: '',
       password: '',
       entries: [],
-      auth: false
+      auth: false,
+      search: []
     }
   }
 
@@ -122,6 +124,19 @@ class App extends React.Component {
     });
   }
 
+  searchQuery (query) {
+    axios.post('/search', {query})
+    .then((results) => {
+      console.log(results.data);
+      this.setState({
+        search: results.data
+      })
+    })
+    .catch(() => {
+      console.log('No match');
+    })
+  }
+
   // Invoked in Login by onSubmitLogin function
   authenticate(url) {
     return axios.post(url, { username: this.state.username, password: this.state.password });
@@ -146,12 +161,22 @@ class App extends React.Component {
           user={this.state.auth}
           authenticate={this.authenticate.bind(this)}
           authorize={this.authorize.bind(this)}
+          searchQuery={this.searchQuery.bind(this)}
         />
         <Switch className="myList">
           <Route exact path="/" render={(props) => (
             <Home {...props}
               user={this.state.auth}
               data = {this.state.entries}
+              authenticate={this.authenticate.bind(this)}
+              authorize={this.authorize.bind(this)}
+              deleteEntry={this.deleteEntry.bind(this)}
+              getEntries={this.getEntries.bind(this)}
+            />
+          )}/>
+          <Route exact path="/search" render={(props) => (
+            <SearchResults {...props}
+              data = {this.state.search}
               authenticate={this.authenticate.bind(this)}
               authorize={this.authorize.bind(this)}
               deleteEntry={this.deleteEntry.bind(this)}
