@@ -33,10 +33,22 @@ knex.schema.hasTable('users').then(function(exists) {
         table.string('url');
         table.text('text');
         table.integer('userid').references('users.id');
+        table.integer('subhueid').references('subhues.id');
         table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'))
         table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'))
       }).then(function (table) {
         console.log('Created Table entries');
+      });
+    }
+  });
+}).then(function(){
+  knex.schema.hasTable('subhues').then(function(exists) {
+    if (!exists) {
+      knex.schema.createTable('subhues', function (table) {
+        table.increments();
+        table.string('name').unique();
+      }).then(function (table) {
+        console.log('Created Table subhues');
       });
     }
   });
