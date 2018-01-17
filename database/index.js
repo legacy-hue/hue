@@ -1,11 +1,12 @@
 // const config = require('../config');
 
+
 const knex = require('knex')({
   client: 'pg',
   connection: {
     host : process.env.DATABASE_HOST || '127.0.0.1',
     user : process.env.DATABASE_USER || config.dbUser,
-    password : process.env.DATABASE_PASSWORD || config.dbPass,
+    password: process.env.DATABASE_PASSWORD !== undefined ? process.env.DATABASE_PASSWORD : config.dbPass,
     database : process.env.DATABASE_NAME ||  'hue'
   }
 });

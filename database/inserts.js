@@ -23,7 +23,7 @@ const textEntry = entry => {
   let url = entry.url;
   let text = entry.text;
   let userid = knex('users').where({name: name}).select('id');
-  return knex('entries').insert({title: title, userid: userid, text: text}, 'id')
+  return knex('entries').insert({title: title, userid: userid, text: text, up_votes: 0, down_votes: 0}, 'id')
   .then(data => {
     return knex('entries').where({id: data[0]}).update({url: `#/thread/${data[0]}`});
   });
@@ -64,7 +64,7 @@ const downVoteEntry = (id) => {
 
 const upVoteComment = (id) => {
   return knex('comments')
-  .where('id', '=', id)
+  .where({id: id})
   .update({
     'up_votes': knex.raw('up_votes + 1'),
   })
@@ -78,9 +78,9 @@ const downVoteComment = (id) => {
   })
 }
 
-const recordEntryVote = (userid, entryid) => {
+const recordEntryVote = (userid, entryid, voteType) => {
   return knex('entries_votes')
-  .insert({userid: userid, entryid: entryid, voted: true})
+  .insert({userid: userid, entryid: entryid, voted: voteType})
 }
 
 const recordCommentVote = (userid, commentid, entryid) => {

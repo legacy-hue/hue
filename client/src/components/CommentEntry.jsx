@@ -37,6 +37,7 @@ class CommentEntry extends React.Component {
   }
 
   getCommentVotes() {
+
     axios.get(`/getCommentVotes?id=${this.props.comment.id}`)
     .then((obj) => {
       const prest = obj.data[0].up_votes + obj.data[0].down_votes
@@ -48,7 +49,11 @@ class CommentEntry extends React.Component {
     })
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(newProps) {
+    this.getCommentVotes();
+  }
+
+  componentDidMount() {
     this.getCommentVotes();    
   }
 

@@ -61,7 +61,7 @@ class App extends React.Component {
   getUserComments(user) {
     return axios.get(`/userComments?id=${user}`);
   }
-
+  
   postEntry(title, url, text){
     if(url === ''){
       return axios.post('/entries', {
@@ -83,10 +83,13 @@ class App extends React.Component {
   }
 
   postComment(text, entryid){
+    console.log('Comment to post id:', text, entryid);
     return axios.post('/comments', {
       text: text,
       entryid: entryid
-    });
+    })
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
   }
 
   deleteEntry(entryid){

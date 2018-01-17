@@ -19,7 +19,6 @@ class Entry extends React.Component {
   handleClick() {
     this.props.deleteEntry(this.props.data.id)
     .then(() => {
-      console.log('deleted entry');
       this.props.getEntries();
     });
   }
@@ -51,7 +50,7 @@ class Entry extends React.Component {
     })
   }
 
-  componentWillReceiveProps(nextprops){
+  componentDidMount () {
     this.getEntryVotes();
   }
 

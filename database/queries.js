@@ -54,19 +54,24 @@ const getEntryVotes = (entryid) => {
 const getCommentVotes = (commentid) => {
   return knex('comments')
   .where({'comments.id': commentid})
-  .select('comments.up_votes', 'comments.down_votes');
+  .select('comments.up_votes', 'comments.down_votes', 'comments.text', 'comments.id')
+  .then(data => {
+    // console.log('ID IN DB:', commentid);
+    // console.log('DATA IN DB:', data);
+    return data;
+  });
 }
 
 const checkEntryVote = (userid, entryid) => {
   return knex('entries_votes')
   .where({userid: userid, entryid: entryid})
-  .select('entries_votes.voted')
+  .select('entries_votes.voted', 'entries_votes.id')
 }
 
 const checkCommentVote = (userid, commentid) => {
   return knex('comments_votes')
   .where({userid: userid, commentid: commentid})
-  .select('comments_votes.voted')
+  .select('comments_votes.voted', 'comments_votes.id')
 }
 
 /************************************************************/
