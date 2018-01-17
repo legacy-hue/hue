@@ -19,7 +19,6 @@ function checkCommentVote(userid, commentid, entryid, callback) {
 
 function checkEntryVote(userid, entryid, voteType, callback) {
   query.checkEntryVote(userid, entryid).then((data)=> {
-    console.log('ENTRY VOTE DB:', data);
     const voted = data[0];
     if (voted === undefined) {
       insert.recordEntryVote(userid, entryid, voteType).then(() => {callback(true)})

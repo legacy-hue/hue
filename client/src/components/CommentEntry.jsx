@@ -40,7 +40,6 @@ class CommentEntry extends React.Component {
 
     axios.get(`/getCommentVotes?id=${this.props.comment.id}`)
     .then((obj) => {
-      console.log('Comment data:', obj.data, 'ID:', this.props.comment.id);
       const prest = obj.data[0].up_votes - obj.data[0].down_votes
       this.setState({
         thumbsUp: obj.data[0].up_votes,
@@ -51,9 +50,6 @@ class CommentEntry extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log('RECEIVING NEW PROPS!!!!!!!!!!');
-    console.log('Old Props:', this.props);
-    console.log('New props:', newProps);
     this.getCommentVotes();
   }
 

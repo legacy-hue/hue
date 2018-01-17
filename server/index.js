@@ -59,7 +59,6 @@ app.post('/entries', helpers.checkUser, (req, res) => {
 });
 
 app.post('/comments', helpers.checkUser, (req, res) => {
-  console.log('Comment in server:', req.body);
   let comment = req.body;
   comment.user = req.session.user;
   insert.comment(comment);
@@ -99,69 +98,55 @@ app.get('/getEntryVotes', (req, res) => {
 app.get('/getCommentVotes', (req, res) => {
   let id = req.query.id;
   query.getCommentVotes(id).then((data) => {
-    console.log('THE ID:', req.query.id);
-    console.log('DATA IN SERVER:', data);
     res.json(data)
   });
 })
 
 app.post('/upVoteComment', helpers.checkUser, (req, res) => {
-  console.log('UPVOTE:', req.query);
   let userid = req.query.user;
   let commentid = req.query.comment;
   let entryid = req.query.entry;
   helpers.checkCommentVote(userid, commentid, entryid, function(canVote) {
     if (canVote) {
-      console.log('YOU CAN VOTE!');
       insert.upVoteComment(commentid).then((data) => {res.json(data)})
     } else {
-      console.log('YOU CANNOT VOTE!');
       res.sendStatus(201)
     }
   })  
 })
 
 app.post('/downVoteComment', helpers.checkUser, (req, res) => {
-  console.log('DOWNVOTE:', req.query);
   let userid = req.query.user;
   let commentid = req.query.comment;
   let entryid = req.query.entry;
   helpers.checkCommentVote(userid, commentid, entryid, function(canVote) {
     if (canVote) {
-      console.log('YOU CAN VOTE!');
       insert.downVoteComment(commentid).then((data) => {res.json(data)})
     } else {
-      console.log('YOU CANNOT VOTE!');
       res.sendStatus(201)
     }
   })  
 })
 
 app.post('/upVoteEntry', helpers.checkUser, (req, res) => {
-  console.log('UPVOTE ENTRY:', req.query);
   let userid = req.query.user;
   let entryid = req.query.entry;
   helpers.checkEntryVote(userid, entryid, 'upvote', function(canVote) {
     if (canVote) {
-      console.log('YOU CAN VOTE!');
       insert.upVoteEntry(entryid).then((data) => {res.json(data)})
     } else {
-      console.log('YOU CANNOT VOTE!');
       res.sendStatus(201)
     }
   })  
 })
 
 app.post('/downVoteEntry', helpers.checkUser, (req, res) => {
-  console.log('DOWNVOTE ENTRy:', req.query);
   let userid = req.query.user;
   let entryid = req.query.entry;
   helpers.checkEntryVote(userid, entryid, 'downvote', function(canVote) {
     if (canVote) {
-      console.log('YOU CAN VOTE!');
       insert.downVoteEntry(entryid).then((data) => {res.json(data)})
     } else {
-      console.log('YOU CANNOT VOTE!');
       res.sendStatus(201)
     }
   })  
