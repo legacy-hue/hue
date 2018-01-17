@@ -92,15 +92,6 @@ const recordCommentVote = (userid, commentid, voted, entryid) => {
   .insert({userid: userid, commentid: commentid, voted: voted, entryid: entryid})
 }
 
-<<<<<<< HEAD
-=======
-const updateCommentVote = (userid, commentid, voted) => {
-  return knex('comments_votes')
-    .where({userid, commentid})
-    .update({voted})
-}
-
->>>>>>> Fix minor errors in vote handling
 /************************************************************/
 /************************************************************/
 
