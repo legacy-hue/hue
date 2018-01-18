@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 
 const helpers = require('./helpers');
+const sendEmail = require('./email');
 const db = require('../database/index');
 const insert = require('../database/inserts');
 const query = require('../database/queries');
@@ -241,7 +242,7 @@ app.post('/downVoteEntry', helpers.checkUser, (req, res) => {
 // Authentication routes
 /************************************************************/
 
-app.post('/signup', (req, res) => {
+app.post('/signup', helpers.checkEmail, (req, res) => {
 	helpers.hashPassword(req)
   .then(() => {
     helpers.createSession(req, function() {
@@ -274,6 +275,29 @@ app.post('/logout', (req, res) => {
 app.get('/submit', helpers.checkUser, (req, res) => {
   res.send(req.session);
 })
+
+//password recovery
+app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
+  query.getUserByEmail(req.body.email)
+  .then(data => {
+    if(!data.length) res.send('No user associated with that email');
+    else {
+      const name = data[0].name;
+      const email = req.body.email;
+      const hash = 'blarg';
+      const host = req.protocol + '://' + req.get('host');
+      sendEmail(name, email, hash, host)
+        .then(data => {
+          console.log('Email sent:', data);
+          res.sendStatus(201);
+        })
+        .catch(err => {
+          console.log('ERR:', err);
+          res.sendStatus(400);
+        });
+    }
+  })
+});
 
 /************************************************************/
 /************************************************************/

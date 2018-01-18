@@ -17,6 +17,7 @@ import CommentList from './components/CommentList.jsx';
 import Nav from './components/NavBar.jsx';
 import UserProfile from './components/UserProfile.jsx';
 import Subhue from './components/Subhue.jsx';
+import Recovery from './components/Recovery.jsx';
 
 const Wrapper = styles.div`
   margin: .7% 8%;
@@ -28,6 +29,7 @@ class App extends React.Component {
     this.state = {
       username: '',
       password: '',
+      email: '',
       entries: [],
       subhues: ['home'],
       currentSub: 'home',
@@ -160,6 +162,12 @@ class App extends React.Component {
     });
   }
 
+  emailChange(input) {
+    this.setState({
+      email: input.target.value
+    });
+  }
+
   searchQuery (query) {
     axios.post('/search', {query})
     .then((results) => {
@@ -175,7 +183,11 @@ class App extends React.Component {
 
   // Invoked in Login by onSubmitLogin function
   authenticate(url) {
-    return axios.post(url, { username: this.state.username, password: this.state.password });
+    return axios.post(url, {
+      username: this.state.username,
+      password: this.state.password,
+      email: this.state.email
+    });
   }
   // Invoked in Login, Submit, UserProfile, and Home by onComponentDidMount lifecycle hook
   authorize() {
@@ -244,6 +256,7 @@ class App extends React.Component {
               authenticate={this.authenticate.bind(this)}
               usernameChange={this.usernameChange.bind(this)}
               passwordChange={this.passwordChange.bind(this)}
+              emailChange={this.emailChange.bind(this)}
             />
           )}/> 
           <Route exact path="/submit" render={(props) => (
@@ -276,7 +289,12 @@ class App extends React.Component {
               authorize={this.authorize.bind(this)}
               getEntry={this.getEntry.bind(this)}
             />
-          )}/> 
+          )}/>
+          <Route exact path="/recovery" render={(props) => (
+            <Recovery {...props}
+              
+            />
+          )} /> 
         </Switch>
       </Wrapper> 
   	)

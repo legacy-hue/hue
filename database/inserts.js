@@ -1,7 +1,8 @@
 const knex = require('./index');
 
-const user = (name, pass) => {
-  return knex('users').insert({name: name, password: pass})
+const user = (name, pass, email) => {
+  return email ? knex('users').insert({name: name, password: pass, email: email}) :
+    knex('users').insert({ name: name, password: pass });
   // .then(function() {console.log(`inserted user ${name}`)})
   // .catch(function(error) {console.log('DID NOT ADD USER: ' + error.detail)});
 }
