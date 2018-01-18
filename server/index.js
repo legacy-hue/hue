@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 
 const helpers = require('./helpers');
+const sendEmail = require('./email');
 const db = require('../database/index');
 const insert = require('../database/inserts');
 const query = require('../database/queries');
@@ -277,12 +278,24 @@ app.get('/submit', helpers.checkUser, (req, res) => {
 
 //password recovery
 app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
-  console.log('Recovery email:', req.body.email);
   query.getUserByEmail(req.body.email)
   .then(data => {
-    console.log('Data from db:', data);
     if(!data.length) res.send('No user associated with that email');
-    else res.json({name: data[0].name});
+    else {
+      const name = data[0].name;
+      const email = req.body.email;
+      const hash = 'blarg';
+      const host = req.protocol + '://' + req.get('host');
+      sendEmail(name, email, hash, host)
+        .then(data => {
+          console.log('Email sent:', data);
+          res.sendStatus(201);
+        })
+        .catch(err => {
+          console.log('ERR:', err);
+          res.sendStatus(400);
+        });
+    }
   })
 });
 
