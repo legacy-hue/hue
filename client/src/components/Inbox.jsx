@@ -28,6 +28,11 @@ class Inbox extends React.Component {
     //       .then(() => history.push('/'));
     //   }
     // });
+    this.setState({
+      recipient: '',
+      title: '',
+      text: ''
+    })
   }
 
   titleChange(input) {
@@ -63,14 +68,14 @@ class Inbox extends React.Component {
                 <Form>
                   <Form.Field>
                     <label>Recipient</label>
-                    <input placeholder='Recipient' onChange={this.recipientChange} />
+                    <input placeholder='Recipient' value={this.state.recipient} onChange={this.recipientChange} />
                   </Form.Field>
                   <Form.Field>
                     <label>Subject</label>
-                    <input placeholder='Subject' onChange={this.titleChange}/>
+                    <input placeholder='Subject' value={this.state.title} onChange={this.titleChange}/>
                   </Form.Field>
                   
-                  <Form.TextArea label='Text' placeholder='Type your message here...' onChange={this.textChange}/>
+                  <Form.TextArea label='Text' value={this.state.text} placeholder='Type your message here...' onChange={this.textChange}/>
                   <Form.Field>
                     <Button onClick={this.handleClick}>Send!</Button>
                   </Form.Field>

@@ -71,15 +71,21 @@ class UserProfile extends React.Component {
     //       .then(() => history.push('/'));
     //   }
     // });
+    this.setState({
+      title: '',
+      text: ''
+    })
   }
 
   titleChange(input) {
+    console.log(this.state.title);
     this.setState({
       title: input.target.value
     });
   }
 
   textChange(input) {
+    console.log(this.state.text);
     this.setState({
       text: input.target.value
     });
@@ -186,10 +192,10 @@ class UserProfile extends React.Component {
                         <Form>
                           <Form.Field>
                             <label>Subject</label>
-                            <input placeholder='Subject' onChange={this.titleChange}/>
+                            <input placeholder='Subject' value={this.state.title} onChange={this.titleChange}/>
                           </Form.Field>
                           
-                          <Form.TextArea label='Text' placeholder='Type your message here...' onChange={this.textChange}/>
+                          <Form.TextArea label='Text' value={this.state.text} placeholder='Type your message here...' onChange={this.textChange}/>
                           <Form.Field>
                             <Button onClick={this.handleClick}>Send!</Button>
                           </Form.Field>
