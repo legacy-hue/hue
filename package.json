@@ -47,5 +47,8 @@
     "time-ago": "^0.2.1",
     "validator": "^9.2.0",
     "webpack": "^2.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.11"
   }
 }

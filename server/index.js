@@ -21,15 +21,6 @@ app.get('/entries', (req, res) => {
   query.entries().then(data => {res.json(data)});
 });
 
-app.get('/subhues', (req, res) => {
-  query.subhues().then(data => {res.json(data)});
-});
-
-app.get('/subhueEntries', (req, res) => {
-  let name = req.query.id;
-  query.entriesBySubhue(name).then(data => {res.json(data)});
-});
-
 app.get('/userEntries', (req, res) => {
   let userid = req.query.id;
   query.entriesByUser(userid).then(data => {res.json(data)});
