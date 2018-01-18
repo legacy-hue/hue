@@ -1,11 +1,11 @@
-//const config = require('../config');Add update functions for comments and entries, sort retrieved comments by date
+const config = require('../config');
 
 const knex = require('knex')({
   client: 'pg',
   connection: {
     host : process.env.DATABASE_HOST || '127.0.0.1',
     user : process.env.DATABASE_USER || config.dbUser,
-    password: process.env.DATABASE_PASSWORD !== undefined ? process.env.DATABASE_PASSWORD : '',
+    password: process.env.DATABASE_PASSWORD || config.dbPass,
     database : process.env.DATABASE_NAME ||  'hue'
   }
 });
@@ -94,6 +94,19 @@ knex.schema.hasTable('users').then(function(exists) {
         table.integer('entryid').references('entries.id');
       }).then(function(table) {
         console.log('Created Table entries_votes');
+      })
+    }
+  })  
+}).then(function() {
+  knex.schema.hasTable('inbox').then(function(exists) {
+    if (!exists) {
+      knex.schema.createTable('inbox', function(table) {
+        table.increments();
+        table.string('text');
+        table.integer('send_id').references('users.id');
+        table.integer('rec_id').references('users.id');
+      }).then(function(table) {
+        console.log('Created Table inbox');
       })
     }
   })  

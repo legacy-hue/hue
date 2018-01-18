@@ -12,7 +12,6 @@ class SearchResults extends React.Component {
   }
 
   componentDidMount() {
-    this.props.authorize()
   }
 
   render (props) {

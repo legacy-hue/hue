@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { Divider, Form, Label, Button, Header, Menu, Input } from 'semantic-ui-react'
+import { Divider, Form, Label, Button, Header, Menu, Input, Icon } from 'semantic-ui-react'
 import EntryList from './EntryList.jsx';
 
 class Nav extends React.Component {
@@ -42,15 +42,22 @@ class Nav extends React.Component {
           </Menu.Item>
 
             <Menu.Menu position="right">
+            
 
             <Menu.Item position='right' name='search' className="navSearch">
-              <Input to={`/search`} 
+              <Input to='/search/' 
                 className="text" placeholder='Search...' 
                 value={this.state.value}
                 onChange={(e, {value}) => {
                   this.setState({value})}
                 } 
                 onKeyPress={this.handleKeyPress}/>
+            </Menu.Item>
+
+            <Menu.Item position='right' name='mail' className="nav">
+              <Link to='/inbox' className="text">
+                <Icon name='mail' /> 
+              </Link>  
             </Menu.Item>
             
             <Menu.Item position='right' name='username' className="nav">
@@ -59,8 +66,10 @@ class Nav extends React.Component {
                 {this.props.user} 
               </Link>  
             </Menu.Item>
+
+
             <Menu.Item name='logout' position='right' className="nav">
-              <Link to="/login" className="text" onClick={() => this.props.authenticate('\logout')}>
+              <Link to="/login" className="text" onClick={() => this.props.authenticate('/logout')}>
                 Logout
               </Link>
             </Menu.Item>

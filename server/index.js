@@ -144,6 +144,12 @@ app.post('/search', (req, res) => {
   })
 })
 
+app.post('/inbox', (req, res) => {
+  if (Object.keys(req.body).length) {
+    console.log(req.body);
+  }
+})
+
 /************************************************************/
 // Prestige (karma) routes
 /************************************************************/
