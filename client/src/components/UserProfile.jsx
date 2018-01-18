@@ -144,6 +144,7 @@ class UserProfile extends React.Component {
                           getEntry={this.props.getEntry}
                         />
                         <CommentEntry
+                          onLikedTab={true}
                           comment={comment}
                           user={this.props.user}
                           deleteComment={this.props.deleteComment}
@@ -155,6 +156,7 @@ class UserProfile extends React.Component {
                     } else {
                       return (
                         <Entry
+                          onLikedTab={true}
                           key={index}
                           data={comment}
                           user={this.props.user}

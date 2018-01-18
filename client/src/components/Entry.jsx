@@ -67,6 +67,7 @@ class Entry extends React.Component {
                 <a href={this.props.data.url}>{this.props.data.title}</a>
               </Feed.Summary>
               <Feed.Extra text>
+                {this.props.onLikedTab ? <span>Entry </span> : ''}
                 by <Link to={`/user/${this.props.data.name}`}>{this.props.data.name}</Link>
               </Feed.Extra>
               <Feed.Meta>
@@ -98,6 +99,7 @@ class Entry extends React.Component {
               <a href={this.props.data.url}>{this.props.data.title}</a>
             </Feed.Summary>
             <Feed.Extra text>
+              {this.props.onLikedTab ? <span>Entry </span> : ''}
               by <Link to={`/user/${this.props.data.name}`}>{this.props.data.name}</Link>
             </Feed.Extra>
               <Feed.Meta>
