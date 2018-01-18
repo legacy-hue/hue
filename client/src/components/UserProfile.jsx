@@ -176,22 +176,26 @@ class UserProfile extends React.Component {
       {menuItem: 'Send a message!', render: () => {
         return (
           <div>
-            {console.log(this.props.user)}
               {this.props.user !== undefined
-              ? 
-                <div className='topGap'>
-                  <h4>Compose</h4>
-                  <Form>
-                    <Form.Field>
-                      <label>Subject</label>
-                      <input placeholder='Subject' onChange={this.titleChange}/>
-                    </Form.Field>
-                    
-                    <Form.TextArea label='Text' placeholder='Type your message here...' onChange={this.textChange}/>
-                    <Form.Field>
-                      <Button onClick={this.handleClick}>Send!</Button>
-                    </Form.Field>
-                  </Form>
+              ? <div>
+                  {this.props.user === this.props.match.params.name 
+                    ? <h1 className='topGap'>This is you!</h1>
+                    :
+                      <div className='topGap'>
+                        <h4>Compose</h4>
+                        <Form>
+                          <Form.Field>
+                            <label>Subject</label>
+                            <input placeholder='Subject' onChange={this.titleChange}/>
+                          </Form.Field>
+                          
+                          <Form.TextArea label='Text' placeholder='Type your message here...' onChange={this.textChange}/>
+                          <Form.Field>
+                            <Button onClick={this.handleClick}>Send!</Button>
+                          </Form.Field>
+                        </Form>
+                      </div>
+                  }
                 </div>
               : <h1 className='topGap'>Please log in to send messages!</h1>
             } 
