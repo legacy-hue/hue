@@ -6,12 +6,15 @@ import Entry from './Entry.jsx';
 import CommentEntry from './CommentEntry.jsx';
 import CommentData from './CommentData.jsx';
 
+import axios from 'axios';
+
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       entries: [],
       comments: [],
+      liked: [],
       redirect: false
     };
     this.handleClick = this.handleClick.bind(this);
@@ -31,6 +34,9 @@ class UserProfile extends React.Component {
     
     this.props.getUserComments(this.props.match.params.name)
     .then(data => this.setState({comments: data.data}));
+
+    this.getLikedPosts(this.props.match.params.name)
+    .then(data => this.setState({liked: data.data}));
   }
 
   componentWillReceiveProps(nextprops){
@@ -51,6 +57,10 @@ class UserProfile extends React.Component {
   handleClick() {
     // this.props.deleteEntry(this.props.data.id)
     // .then(() => console.log('handleClick ran'));
+  }
+
+  getLikedPosts(username) {
+    return axios.get(`/likedPosts?id=${username}`);
   }
 
   render (props) {
@@ -96,7 +106,48 @@ class UserProfile extends React.Component {
             </div>
           </div>
         )
-      }}
+      }},
+      {
+        menuItem: 'Liked Posts', render: () => {
+          return (
+            <div>
+              <div>
+                <Comment.Group>
+                  {console.log('LIKED:', this.state.liked)}
+                  {this.state.liked.map((comment, index) => {
+                    if(comment.type === 'comment') {
+                      return (<div key={index}>
+                        <CommentData
+                          comment={comment}
+                          getEntry={this.props.getEntry}
+                        />
+                        <CommentEntry
+                          comment={comment}
+                          user={this.props.user}
+                          deleteComment={this.props.deleteComment}
+                          entry={comment.entryid}
+                        />
+                        <Divider></Divider>
+                      </div>
+                      )
+                    } else {
+                      return (
+                        <Entry
+                          key={index}
+                          data={comment}
+                          user={this.props.user}
+                          deleteEntry={this.props.deleteEntry}
+                        />
+                      )
+                    }
+                  }
+                  )}
+                </Comment.Group>
+              </div>
+            </div>
+          )
+        }
+      }
     ]
 
 

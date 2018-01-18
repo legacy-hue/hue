@@ -82,14 +82,14 @@ const downVoteComment = (id) => {
   })
 }
 
-const recordEntryVote = (userid, entryid, voteType) => {
+const recordEntryVote = (userid, entryid, voted) => {
   return knex('entries_votes')
-  .insert({userid: userid, entryid: entryid, voted: voteType})
+  .insert({userid: userid, entryid: entryid, voted: voted})
 }
 
-const recordCommentVote = (userid, commentid, entryid) => {
+const recordCommentVote = (userid, commentid, voted, entryid) => {
   return knex('comments_votes')
-  .insert({userid: userid, commentid: commentid, voted: true, entryid: entryid})
+  .insert({userid: userid, commentid: commentid, voted: voted, entryid: entryid})
 }
 
 /************************************************************/
@@ -105,5 +105,5 @@ module.exports = {
   upVoteComment,
   downVoteComment,
   recordEntryVote,
-  recordCommentVote
+  recordCommentVote,
 }

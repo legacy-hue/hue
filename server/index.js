@@ -44,6 +44,31 @@ app.get('/userComments', (req, res) => {
   query.commentsByUser(userid).then(data => {res.json(data)});
 })
 
+app.get('/likedPosts', (req, res) => {
+  let userid = req.query.id;
+  // query.getLikedComments(userid)
+  query.getLikedEntries(userid)
+  .then(data => {
+    data = data.map(entry => {
+      entry.type = 'entry';
+      return entry;
+    });
+    console.log('DATA midway:', data, '\n\n');
+    return query.getLikedComments(userid)
+    .then(likedComments => {
+      return data.concat(likedComments.map(comment => {
+        comment.type = 'comment';
+        return comment;
+      }));
+    });
+  })
+  .then(data => {
+    console.log('DATA IN SERVER:', data);
+    res.json(data)
+  })
+  .catch(err => console.log(err));
+})
+
 app.get('/entry', (req, res) => {
   let entryid = req.query.id;
   query.entry(entryid).then(data => {res.json(data)});
@@ -140,7 +165,8 @@ app.post('/upVoteComment', helpers.checkUser, (req, res) => {
   let userid = req.query.user;
   let commentid = req.query.comment;
   let entryid = req.query.entry;
-  helpers.checkCommentVote(userid, commentid, entryid, function(canVote) {
+  helpers.checkCommentVote(userid, commentid, 'upvote', entryid, function(canVote) {
+    console.log('UPVOTE DATA IN SERVER:', canVote);
     if (canVote) {
       insert.upVoteComment(commentid).then((data) => {res.json(data)})
     } else {
@@ -153,7 +179,8 @@ app.post('/downVoteComment', helpers.checkUser, (req, res) => {
   let userid = req.query.user;
   let commentid = req.query.comment;
   let entryid = req.query.entry;
-  helpers.checkCommentVote(userid, commentid, entryid, function(canVote) {
+  helpers.checkCommentVote(userid, commentid, 'downvote', entryid, function(canVote) {
+    console.log('DOWNVOTE DATA IN SERVER:', canVote);
     if (canVote) {
       insert.downVoteComment(commentid).then((data) => {res.json(data)})
     } else {

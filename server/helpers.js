@@ -1,26 +1,35 @@
   const bcrypt = require('bcrypt-nodejs');
   const insert = require('../database/inserts');
   const query = require('../database/queries');
+  const update = require('../database/updates');
 
 /************************************************************/
 // Prestige (karma) middleware
 /************************************************************/
 
-function checkCommentVote(userid, commentid, entryid, callback) {
+function checkCommentVote(userid, commentid, voteType, entryid, callback) {
   query.checkCommentVote(userid, commentid).then((data)=> {
-    const voted = data[0];
-    if (voted === undefined) {
-      insert.recordCommentVote(userid, commentid, entryid).then(() => {callback(true)})
+    console.log('Comment data:', data);
+    const voteData = data[0];
+    if (voteData === undefined) {
+      insert.recordCommentVote(userid, commentid, voteType, entryid).then(() => callback({before: 'none', after: voteType}));
     } else {
-      callback(false);
+      update.updateCommentVote(userid, commentid, voteType).then(() => callback({before: voteData.voted, after: voteType}));
     }
+    // else if (voteData.voted === 'none') {
+    //   update.updateCommentVote(userid, commentid, voteType).then(() => callback({before: 'none', after: voteType}));      
+    // } else if (voteData.voted === voteType) {
+    //   update.updateCommentVote(userid, commentid, 'none').then(() => callback({before: voteType, after: 'none'}));
+    // } else {
+    //   update.updateCommentVote(userid, commentid, voteType).then(() => callback({before: voteData.voted, after: voteType}));
+    // }
   })
 }
 
 function checkEntryVote(userid, entryid, voteType, callback) {
   query.checkEntryVote(userid, entryid).then((data)=> {
-    const voted = data[0];
-    if (voted === undefined) {
+    const voteData = data[0];
+    if (voteData === undefined) {
       insert.recordEntryVote(userid, entryid, voteType).then(() => {callback(true)})
     } else {
       callback(false);

@@ -27,7 +27,8 @@ const comments = (entryid) => {
   return knex('comments')
   .where({entryid: entryid})
   .join('users', 'comments.userid', '=', 'users.id')
-  .select('comments.id', 'comments.text', 'comments.created_at', 'users.name');
+  .select('comments.id', 'comments.text', 'comments.created_at', 'users.name')
+  .orderBy('comments.created_at', 'desc');
 }
 
 const entriesByUser = name => {
@@ -64,6 +65,30 @@ const searchByTitle = (title) => {
 const searchByUser = (user) => {
   return knex('users')
   .where({name: user})
+}
+
+const getLikedEntries = (name) => {
+  return knex('entries_votes')
+  .where({'entries_votes.userid': name, 'entries_votes.voted': 'upvote'})
+  .join('entries', 'entries_votes.entryid', '=', 'entries.id')
+  .join('users', 'users.id', '=', 'entries.userid')
+  .select('entries.*', 'users.name')
+  .then(data => {
+    console.log('Liked entries:', data, '-----------------------\n');
+    return data;
+  })
+}
+
+const getLikedComments = (name) => {
+  return knex('comments_votes')
+  .where({ 'comments_votes.userid': name, 'comments_votes.voted': 'upvote' })
+  .join('comments', 'comments_votes.commentid', '=', 'comments.id')
+  .join('users', 'users.id', '=', 'comments.userid')
+  .select('comments.*', 'users.name')
+  .then(data => {
+    console.log('Liked comments:', data, '-----------------------\n');
+    return data;
+  })
 }
 
 /************************************************************/
@@ -116,5 +141,7 @@ module.exports = {
   checkEntryVote,
   checkCommentVote,
   searchByTitle,
-  searchByUser
+  searchByUser,
+  getLikedEntries,
+  getLikedComments
 };

@@ -52,8 +52,8 @@ class CommentList extends React.Component {
   	.then(() => {
   		this.props.getComments(this.props.match.params.id)
       .then(data => {
-        let newState = data.data.sort((a, b) => b.id - a.id)[0];
-        this.state.comments.push(newState);
+        // let newState = data.data.sort((a, b) => b.id - a.id)[0];
+        this.state.comments.push(data.data[0]);
         this.setState({comments: this.state.comments})
       })
   	});
