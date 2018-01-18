@@ -86,7 +86,7 @@ function checkEntryVote(userid, entryid, voteType, callback) {
   function hashPassword(req) {
     return new Promise((resolve, reject) => {
       bcrypt.hash(req.body.password, null, null, function(err, hash) {
-        insert.user(req.body.username, hash)
+        insert.user(req.body.username, hash, req.body.email)
         .then(() => resolve())
         .catch(() => reject());
       });

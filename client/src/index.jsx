@@ -29,6 +29,7 @@ class App extends React.Component {
     this.state = {
       username: '',
       password: '',
+      email: '',
       entries: [],
       subhues: ['home'],
       currentSub: 'home',
@@ -161,6 +162,12 @@ class App extends React.Component {
     });
   }
 
+  emailChange(input) {
+    this.setState({
+      email: input.target.value
+    });
+  }
+
   searchQuery (query) {
     axios.post('/search', {query})
     .then((results) => {
@@ -176,7 +183,11 @@ class App extends React.Component {
 
   // Invoked in Login by onSubmitLogin function
   authenticate(url) {
-    return axios.post(url, { username: this.state.username, password: this.state.password });
+    return axios.post(url, { 
+      username: this.state.username, 
+      password: this.state.password, 
+      email: this.state.email 
+    });
   }
   // Invoked in Login, Submit, UserProfile, and Home by onComponentDidMount lifecycle hook
   authorize() {

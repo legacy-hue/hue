@@ -55,6 +55,9 @@ class Login extends React.Component {
             <input onChange={this.props.passwordChange} placeholder='Password' type='password' />
           </Form.Field>
           <Form.Field inline>
+            <input onChange={this.props.emailChange} placeholder='Email (optional)' />
+          </Form.Field>
+          <Form.Field inline>
             <Button type="submit">Create Account</Button>
           </Form.Field>
         </Form>

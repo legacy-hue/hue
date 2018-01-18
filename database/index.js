@@ -16,6 +16,7 @@ knex.schema.hasTable('users').then(function(exists) {
       table.increments();
       table.string('name').unique();
       table.string('password');
+      table.string('email').unique();
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'))
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'))
     }).then(function (table) {
