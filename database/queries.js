@@ -73,10 +73,6 @@ const getLikedEntries = (name) => {
   .join('entries', 'entries_votes.entryid', '=', 'entries.id')
   .join('users', 'users.id', '=', 'entries.userid')
   .select('entries.*', 'users.name')
-  .then(data => {
-    console.log('Liked entries:', data, '-----------------------\n');
-    return data;
-  })
 }
 
 const getLikedComments = (name) => {
@@ -85,10 +81,6 @@ const getLikedComments = (name) => {
   .join('comments', 'comments_votes.commentid', '=', 'comments.id')
   .join('users', 'users.id', '=', 'comments.userid')
   .select('comments.*', 'users.name')
-  .then(data => {
-    console.log('Liked comments:', data, '-----------------------\n');
-    return data;
-  })
 }
 
 /************************************************************/
@@ -105,11 +97,6 @@ const getCommentVotes = (commentid) => {
   return knex('comments')
   .where({'comments.id': commentid})
   .select('comments.up_votes', 'comments.down_votes', 'comments.text', 'comments.id')
-  .then(data => {
-    // console.log('ID IN DB:', commentid);
-    // console.log('DATA IN DB:', data);
-    return data;
-  });
 }
 
 const checkEntryVote = (userid, entryid) => {

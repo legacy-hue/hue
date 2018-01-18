@@ -63,6 +63,7 @@ class CommentEntry extends React.Component {
       return (
         <Comment>
           <Comment.Content>
+            {this.props.onLikedTab ? <span>Comment by </span> : ''}
             <Comment.Author as='a'>{this.props.comment.name}</Comment.Author>
             <Comment.Metadata>
               <div>{ta.ago(this.props.comment.created_at)}</div>
@@ -84,6 +85,7 @@ class CommentEntry extends React.Component {
     return (
       <Comment>
         <Comment.Content>
+          {this.props.onLikedTab ? <span>Comment by </span> : ''}
           <Comment.Author as='a'>{this.props.comment.name}</Comment.Author>
           <Comment.Metadata>
             <div>{ta.ago(this.props.comment.created_at)}</div>

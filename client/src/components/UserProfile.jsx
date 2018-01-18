@@ -108,6 +108,7 @@ class UserProfile extends React.Component {
           <div>
             <div>
             <Comment.Group>
+              <br />
               {this.state.comments.map((comment, index) => {
                 return ( <div key={index}>
                 <CommentData 
@@ -135,7 +136,7 @@ class UserProfile extends React.Component {
             <div>
               <div>
                 <Comment.Group>
-                  {console.log('LIKED:', this.state.liked)}
+                  <br />
                   {this.state.liked.map((comment, index) => {
                     if(comment.type === 'comment') {
                       return (<div key={index}>
@@ -144,6 +145,7 @@ class UserProfile extends React.Component {
                           getEntry={this.props.getEntry}
                         />
                         <CommentEntry
+                          onLikedTab={true}
                           comment={comment}
                           user={this.props.user}
                           deleteComment={this.props.deleteComment}
@@ -155,6 +157,7 @@ class UserProfile extends React.Component {
                     } else {
                       return (
                         <Entry
+                          onLikedTab={true}
                           key={index}
                           data={comment}
                           user={this.props.user}

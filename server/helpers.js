@@ -14,7 +14,7 @@ function checkCommentVote(userid, commentid, voteType, entryid, callback) {
     if (voteData === undefined) {
       insert.recordCommentVote(userid, commentid, voteType, entryid).then(() => callback({before: 'none', after: voteType}));
     } else {
-      update.updateCommentVote(userid, commentid, voteType).then(() => callback({before: voteData.voted, after: voteType}));
+      callback(false);
     }
     // else if (voteData.voted === 'none') {
     //   update.updateCommentVote(userid, commentid, voteType).then(() => callback({before: 'none', after: voteType}));      
@@ -129,10 +129,62 @@ function checkEntryVote(userid, entryid, voteType, callback) {
     }
   }
 
-/************************************************************/
-/************************************************************/
+  
+  /************************************************************/
+  /************************************************************/
+  
 
-module.exports = {
+//Hue color generation functions:
+
+  function hashCode(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    return hash;
+  }
+
+  function mapRangeToHex(num) {
+    const hex = (Math.ceil(num * 255)).toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  }
+
+  function intToRGBHex(hash, alpha) {
+
+    const hexColor = (hash & 0x00FFFFFF)
+      .toString(16)
+      .toUpperCase();
+    let hex = '00000'.substring(0, 6 - hexColor.length) + hexColor;
+
+    if(alpha) {
+      hex = hex + mapRangeToHex(alpha);
+    }
+
+    return hex;
+  }
+
+  function hexToRGB(hex, alpha) {
+    hex = hex[0] === '#' ? hex : '#' + hex;
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+
+    return alpha !== undefined ? `rgba(${r}, ${g}, ${b}, ${alpha})` : `rgb(${r}, ${g}, ${b})`;
+  }
+
+  // Invoked post request to subhues
+  // Required input: hueName: string, alpha: Number (from 0 to 1)
+  // returns Obj {hex: String, rba: String}
+  function stringToRGB(hueName, alpha) {
+    const hash = hashCode(hueName);
+    const hex = '#' + intToRGBHex(hash, alpha);
+    const rgb = hexToRGB(hex, alpha);
+
+    return {hex, rgb};
+  }
+
+  module.exports = {
   checkCommentVote,
   checkEntryVote,
   identifyUser,
