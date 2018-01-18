@@ -183,10 +183,10 @@ class App extends React.Component {
 
   // Invoked in Login by onSubmitLogin function
   authenticate(url) {
-    return axios.post(url, { 
-      username: this.state.username, 
-      password: this.state.password, 
-      email: this.state.email 
+    return axios.post(url, {
+      username: this.state.username,
+      password: this.state.password,
+      email: this.state.email
     });
   }
   // Invoked in Login, Submit, UserProfile, and Home by onComponentDidMount lifecycle hook
@@ -256,6 +256,7 @@ class App extends React.Component {
               authenticate={this.authenticate.bind(this)}
               usernameChange={this.usernameChange.bind(this)}
               passwordChange={this.passwordChange.bind(this)}
+              emailChange={this.emailChange.bind(this)}
             />
           )}/> 
           <Route exact path="/submit" render={(props) => (

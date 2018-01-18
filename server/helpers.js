@@ -2,6 +2,7 @@
   const insert = require('../database/inserts');
   const query = require('../database/queries');
   const update = require('../database/updates');
+  const validator = require('validator');
 
 /************************************************************/
 // Prestige (karma) middleware
@@ -117,6 +118,20 @@ function checkEntryVote(userid, entryid, voteType, callback) {
     }
   }
 
+  // Invoked by post request to "/signup"
+  // Required input: request, response, and next
+  // On success: calls next
+  // On failure: sends false response
+  function checkEmail(req, res, next) {
+    if(!req.body.email) {
+      next();
+    } else if(validator.isEmail(req.body.email)) {
+      next();
+    } else {
+      res.send('Not a propper email address.');
+    }
+  }
+
   // Invoked post request to entries and comments
   // Required input: client request object
   // On success: returns true
@@ -191,5 +206,6 @@ function checkEntryVote(userid, entryid, voteType, callback) {
   comparePassword,
   hashPassword,
   createSession,
-  checkUser
+  checkUser,
+  checkEmail
 };

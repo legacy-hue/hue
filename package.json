@@ -44,6 +44,7 @@
     "style-loader": "^0.19.1",
     "styled-components": "^2.4.0",
     "time-ago": "^0.2.1",
+    "validator": "^9.2.0",
     "webpack": "^2.2.1"
   }
 }

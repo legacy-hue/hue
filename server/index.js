@@ -241,7 +241,7 @@ app.post('/downVoteEntry', helpers.checkUser, (req, res) => {
 // Authentication routes
 /************************************************************/
 
-app.post('/signup', (req, res) => {
+app.post('/signup', helpers.checkEmail, (req, res) => {
 	helpers.hashPassword(req)
   .then(() => {
     helpers.createSession(req, function() {
