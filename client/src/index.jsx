@@ -183,7 +183,7 @@ class App extends React.Component {
     this.setState({
       auth: res.user
     });
-    this.getInbox(res.user);
+    // this.getInbox(res.user);
   }
 
   render() {

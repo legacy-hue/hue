@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Feed, Icon, Divider, Comment, Tab } from 'semantic-ui-react'
+import { Feed, Icon, Divider, Comment, Tab, Form, Label, Button } from 'semantic-ui-react'
 
 import Entry from './Entry.jsx';
 import CommentEntry from './CommentEntry.jsx';
@@ -15,9 +15,13 @@ class UserProfile extends React.Component {
       entries: [],
       comments: [],
       liked: [],
-      redirect: false
+      redirect: false,
+      title: '',
+      text: ''
     };
     this.handleClick = this.handleClick.bind(this);
+    this.titleChange = this.titleChange.bind(this);
+    this.textChange = this.textChange.bind(this);
   }
 
   componentDidMount() {
@@ -54,13 +58,31 @@ class UserProfile extends React.Component {
     .then(data => this.setState({comments: data.data}));
   }
 
-  handleClick() {
-    // this.props.deleteEntry(this.props.data.id)
-    // .then(() => console.log('handleClick ran'));
-  }
-
   getLikedPosts(username) {
     return axios.get(`/likedPosts?id=${username}`);
+  }
+
+  handleClick() {
+    // const {history} = this.props;
+    // this.props.postEntry(this.state.title, this.state.url, this.state.text, this.props.currentSub)
+    // .then((res) => {
+    //   if(res.data === 'success'){
+    //     this.props.getEntries()
+    //       .then(() => history.push('/'));
+    //   }
+    // });
+  }
+
+  titleChange(input) {
+    this.setState({
+      title: input.target.value
+    });
+  }
+
+  textChange(input) {
+    this.setState({
+      text: input.target.value
+    });
   }
 
   render (props) {
@@ -147,7 +169,32 @@ class UserProfile extends React.Component {
             </div>
           )
         }
-      }
+      },
+      {menuItem: 'Send a message!', render: () => {
+        return (
+          <div>
+            {console.log(this.props.user)}
+              {this.props.user !== undefined
+              ? 
+                <div className='topGap'>
+                  <h4>Compose</h4>
+                  <Form>
+                    <Form.Field>
+                      <label>Subject</label>
+                      <input placeholder='Subject' onChange={this.titleChange}/>
+                    </Form.Field>
+                    
+                    <Form.TextArea label='Text' placeholder='Type your message here...' onChange={this.textChange}/>
+                    <Form.Field>
+                      <Button onClick={this.handleClick}>Send!</Button>
+                    </Form.Field>
+                  </Form>
+                </div>
+              : <h1 className='topGap'>Please log in to send messages!</h1>
+            } 
+          </div>
+          )
+      }}
     ]
 
 

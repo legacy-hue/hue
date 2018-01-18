@@ -69,7 +69,7 @@ class Nav extends React.Component {
 
 
             <Menu.Item name='logout' position='right' className="nav">
-              <Link to="/login" className="text" onClick={() => this.props.authenticate('\logout')}>
+              <Link to="/login" className="text" onClick={() => this.props.authenticate('/logout')}>
                 Logout
               </Link>
             </Menu.Item>
