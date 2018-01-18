@@ -206,11 +206,13 @@ class App extends React.Component {
             />
           )}/>
           <Route exact path="/inbox" render={(props) => (
-            <Inbox {...props}
+            this.state.auth !== undefined
+            ? <Inbox {...props}
               sendMessage={this.sendMessage.bind(this)}
               user={this.state.auth}
               inbox={this.state.inbox}
             />
+            : <Redirect to='/login' />
           )}/>
           <Route exact path='/search' render={(props) => (
             <SearchResults {...props}
