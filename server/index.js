@@ -275,6 +275,12 @@ app.get('/submit', helpers.checkUser, (req, res) => {
   res.send(req.session);
 })
 
+//password recovery
+app.post('/passwordRecovery', (req, res) => {
+  console.log('REQ:', req.body);
+  res.send('Email sent');
+});
+
 /************************************************************/
 /************************************************************/
 

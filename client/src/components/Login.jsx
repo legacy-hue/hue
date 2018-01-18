@@ -1,5 +1,6 @@
 import React from 'react';
-import { Divider, Form, Label, Button, Header } from 'semantic-ui-react'
+import { Divider, Form, Label, Button, Header } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
@@ -40,7 +41,8 @@ class Login extends React.Component {
         </Form>
 
         <br></br>
-        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> Forgot password? </a>
+        {/* <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> Forgot password? </a> */}
+        <Link to="/recovery"> Forgot password? </Link>
         <br></br>
         <br></br>
 

@@ -17,6 +17,7 @@ import CommentList from './components/CommentList.jsx';
 import Nav from './components/NavBar.jsx';
 import UserProfile from './components/UserProfile.jsx';
 import Subhue from './components/Subhue.jsx';
+import Recovery from './components/Recovery.jsx';
 
 const Wrapper = styles.div`
   margin: .7% 8%;
@@ -276,7 +277,12 @@ class App extends React.Component {
               authorize={this.authorize.bind(this)}
               getEntry={this.getEntry.bind(this)}
             />
-          )}/> 
+          )}/>
+          <Route exact path="/recovery" render={(props) => (
+            <Recovery {...props}
+              
+            />
+          )} /> 
         </Switch>
       </Wrapper> 
   	)
