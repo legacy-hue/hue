@@ -102,7 +102,8 @@ knex.schema.hasTable('users').then(function(exists) {
     if (!exists) {
       knex.schema.createTable('inbox', function(table) {
         table.increments();
-        table.string('text');
+        table.text('text');
+        table.string('subject');
         table.integer('send_id').references('users.id');
         table.integer('rec_id').references('users.id');
       }).then(function(table) {

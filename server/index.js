@@ -144,10 +144,28 @@ app.post('/search', (req, res) => {
   })
 })
 
-app.post('/inbox', (req, res) => {
-  if (Object.keys(req.body).length) {
-    console.log(req.body);
-  }
+app.post('/getMessages', (req, res) => {
+  console.log(req.body);
+  query.getMessagesByRecipient(req.body.sender)
+  .then((data) => {
+    console.log(data);
+    res.json(data);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+})
+
+app.post('/sendMessage', (req, res) => {
+  console.log(req.body);
+  insert.messageEntry(req.body)
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch((err) => {
+    console.log(err);
+    res.sendStatus(400);
+  })
 })
 
 /************************************************************/
