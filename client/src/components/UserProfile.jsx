@@ -137,7 +137,6 @@ class UserProfile extends React.Component {
               <div>
                 <Comment.Group>
                   <br />
-                  {console.log('LIKED:', this.state.liked)}
                   {this.state.liked.map((comment, index) => {
                     if(comment.type === 'comment') {
                       return (<div key={index}>
