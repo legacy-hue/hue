@@ -24,7 +24,12 @@ class Recovery extends React.Component {
     console.log('Submitting email:', this.state.email);
     // const { history } = this.props;
     axios.post('/passwordRecovery', {email: this.state.email})
-      .then(res => this.setState({email: '', emailSent: true}))
+      .then(res => {
+        if (res.data === 'Not a propper email address.') {
+          alert(res.data);
+        }
+        this.setState({email: '', emailSent: true})
+      })
       .catch(err => console.log(err));
   }
 
