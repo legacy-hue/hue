@@ -9,6 +9,7 @@ import { BrowserRouter, HashRouter, Link, Switch, Route, Redirect, withRouter } 
 import './style.scss'
 import Home from './components/Home.jsx';
 import SearchResults from './components/SearchResults.jsx';
+import Inbox from './components/Inbox.jsx';
 import Login from './components/Login.jsx';
 import Submit from './components/Submit.jsx';
 import EntryList from './components/EntryList.jsx';
@@ -31,14 +32,26 @@ class App extends React.Component {
       subhues: ['home'],
       currentSub: 'home',
       auth: false,
-      search: []
+      search: [],
+      link: {},
+      inbox: []
     }
+    this.getInbox = this.getInbox.bind(this);
   }
 
   componentDidMount() {
     this.getEntries();
     this.getSubhues();
     this.authorize();
+  }
+
+  getInbox (user) {
+    return axios.post('/inbox', {user: user})
+    .then((data) => {
+      this.setState({
+        inbox: data.data
+      })
+    })
   }
 
   getEntries(){
@@ -145,9 +158,9 @@ class App extends React.Component {
   searchQuery (query) {
     axios.post('/search', {query})
     .then((results) => {
-      console.log(results.data);
       this.setState({
-        search: results.data
+        search: results.data,
+        link: {query}
       })
     })
     .catch(() => {
@@ -170,6 +183,7 @@ class App extends React.Component {
     this.setState({
       auth: res.user
     });
+    this.getInbox(res.user);
   }
 
   render() {
@@ -204,7 +218,13 @@ class App extends React.Component {
               // getEntry={this.getEntry.bind(this)}
             />
           )}/>
-          <Route exact path="/search" render={(props) => (
+          <Route exact path="/inbox" render={(props) => (
+            <Inbox {...props}
+              user={this.state.auth}
+              inbox={this.state.inbox}
+            />
+          )}/>
+          <Route exact path='/search' render={(props) => (
             <SearchResults {...props}
               data = {this.state.search}
               authenticate={this.authenticate.bind(this)}

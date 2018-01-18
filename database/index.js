@@ -97,6 +97,19 @@ knex.schema.hasTable('users').then(function(exists) {
       })
     }
   })  
+}).then(function() {
+  knex.schema.hasTable('inbox').then(function(exists) {
+    if (!exists) {
+      knex.schema.createTable('inbox', function(table) {
+        table.increments();
+        table.string('text');
+        table.integer('send_id').references('users.id');
+        table.integer('rec_id').references('users.id');
+      }).then(function(table) {
+        console.log('Created Table inbox');
+      })
+    }
+  })  
 });
 
 module.exports = knex;
