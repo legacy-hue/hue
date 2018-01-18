@@ -145,7 +145,9 @@ app.post('/search', (req, res) => {
 })
 
 app.post('/inbox', (req, res) => {
-  console.log(req.body);
+  if (Object.keys(req.body).length) {
+    console.log(req.body);
+  }
 })
 
 /************************************************************/
