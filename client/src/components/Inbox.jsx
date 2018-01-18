@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Divider, Form, Label, Button, Header, Menu, Feed, Icon, Tab } from 'semantic-ui-react'
-
-
+import { Divider, Form, Label, Button, Header, Menu, Feed, Icon, Tab } from 'semantic-ui-react';
+import axios from 'axios';
 
 class Inbox extends React.Component {
   constructor(props) {
@@ -11,7 +10,8 @@ class Inbox extends React.Component {
       page: 'inbox',
       title: '',
       text: '',
-      recipient: ''
+      recipient: '',
+      inbox: []
     }
     this.titleChange = this.titleChange.bind(this);
     this.textChange = this.textChange.bind(this);
@@ -19,15 +19,23 @@ class Inbox extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  componentDidMount (props) {
+    axios.post('/getMessages', {sender: this.props.user})
+    .then((results) => {
+      console.log(results.data);
+      this.setState({
+        inbox: results.data
+      })
+    })
+  }
+
   handleClick() {
-    // const {history} = this.props;
-    // this.props.postEntry(this.state.title, this.state.url, this.state.text, this.props.currentSub)
-    // .then((res) => {
-    //   if(res.data === 'success'){
-    //     this.props.getEntries()
-    //       .then(() => history.push('/'));
-    //   }
-    // });
+    this.props.sendMessage({
+      recipient: this.state.recipient,
+      sender: this.props.user,
+      text: this.state.text,
+      title: this.state.title
+    })
     this.setState({
       recipient: '',
       title: '',
@@ -57,8 +65,28 @@ class Inbox extends React.Component {
     const panes = [
           {menuItem: 'Inbox', render: () => {
             return (
-              <div>
-                
+              <div className='inboxBox'>
+                {this.state.inbox.reverse().map((message) => {
+                  return (
+                    <div key={message.id}>
+                      <Feed.Event>
+                        <Feed.Content>
+                          <Feed.Summary>
+                              <div className='entireHeader'>
+                                <span className='subjectHeader'>{message.subject}</span> <span className='fromHeader'>from {message.name}</span>
+                              </div>
+                          </Feed.Summary>
+                          <Feed.Extra text>
+                            <div className='messageBody'>
+                              {message.text}
+                            </div>
+                          </Feed.Extra>
+                        </Feed.Content>
+                      </Feed.Event>
+                      <Divider></Divider>
+                    </div>
+                    )
+                })}
               </div>
             )
           }},
@@ -91,14 +119,7 @@ class Inbox extends React.Component {
                 </div>
               )
             }
-          },
-          {menuItem: 'Trash', render: () => {
-            return (
-                <div>
-                  
-                </div>
-              )
-          }}
+          }
         ]
 
 

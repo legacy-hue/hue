@@ -33,6 +33,21 @@ const textEntry = entry => {
   });
 }
 
+const messageEntry = entry => {
+  console.log('From db: ', entry);
+  let send_id = knex('users').where({name: entry.sender}).select('id');
+  let rec_id = knex('users').where({name: entry.recipient}).select('id');
+  let text = entry.text;
+  let subject = entry.title;
+  return knex('inbox').insert({send_id: send_id, rec_id: rec_id, text: text, subject: subject})
+  .then(() => {
+    console.log(`inserted message from ${entry.sender}`)
+  })
+  .catch(() => {
+    console.log('failed to insert!')
+  })
+}
+
 //Expect comment object [user, text, entryid]
 
 const comment = (comment) => {
@@ -106,4 +121,5 @@ module.exports = {
   downVoteComment,
   recordEntryVote,
   recordCommentVote,
+  messageEntry
 }

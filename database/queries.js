@@ -62,6 +62,14 @@ const searchByTitle = (title) => {
   .select('*');
 }
 
+const getMessagesByRecipient = (user) => {
+  let rec_id = knex('users').where({name: user}).select('id');
+  return knex('inbox')
+  .where({rec_id: rec_id})
+  .join('users', 'send_id', '=', 'users.id')
+  .select('inbox.id', 'inbox.send_id', 'inbox.rec_id', 'users.name', 'inbox.text', 'inbox.subject');
+}
+
 const searchByUser = (user) => {
   return knex('users')
   .where({name: user})
@@ -130,5 +138,6 @@ module.exports = {
   searchByTitle,
   searchByUser,
   getLikedEntries,
-  getLikedComments
+  getLikedComments,
+  getMessagesByRecipient
 };

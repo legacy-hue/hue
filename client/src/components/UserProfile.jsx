@@ -71,6 +71,12 @@ class UserProfile extends React.Component {
     //       .then(() => history.push('/'));
     //   }
     // });
+    this.props.sendMessage({
+      recipient: this.props.match.params.name,
+      sender: this.props.user,
+      text: this.state.text,
+      title: this.state.title
+    })
     this.setState({
       title: '',
       text: ''
@@ -78,14 +84,12 @@ class UserProfile extends React.Component {
   }
 
   titleChange(input) {
-    console.log(this.state.title);
     this.setState({
       title: input.target.value
     });
   }
 
   textChange(input) {
-    console.log(this.state.text);
     this.setState({
       text: input.target.value
     });

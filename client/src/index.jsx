@@ -54,6 +54,11 @@ class App extends React.Component {
     })
   }
 
+  sendMessage (messageObject) {
+    console.log(messageObject)
+    return axios.post('/sendMessage', messageObject);
+  }
+
   getEntries(){
     return axios.get('/entries')
     .then(data => {
@@ -183,7 +188,6 @@ class App extends React.Component {
     this.setState({
       auth: res.user
     });
-    // this.getInbox(res.user);
   }
 
   render() {
@@ -220,6 +224,7 @@ class App extends React.Component {
           )}/>
           <Route exact path="/inbox" render={(props) => (
             <Inbox {...props}
+              sendMessage={this.sendMessage.bind(this)}
               user={this.state.auth}
               inbox={this.state.inbox}
             />
@@ -262,6 +267,7 @@ class App extends React.Component {
           )}/> 
           <Route exact path="/user/:name" render={(props) => (
             <UserProfile {...props}
+              sendMessage={this.sendMessage.bind(this)}
               user={this.state.auth}
               deleteEntry={this.deleteEntry.bind(this)}
               deleteComment={this.deleteComment.bind(this)}
