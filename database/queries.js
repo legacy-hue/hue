@@ -91,6 +91,12 @@ const getLikedComments = (name) => {
   .select('comments.*', 'users.name')
 }
 
+const getUserByEmail = (email) => {
+  return knex('users')
+    .where({ 'email': email })
+    .select('name')
+}
+
 /************************************************************/
 // Prestige (karma) queries
 /************************************************************/
@@ -139,5 +145,6 @@ module.exports = {
   searchByUser,
   getLikedEntries,
   getLikedComments,
-  getMessagesByRecipient
+  getMessagesByRecipient,
+  getUserByEmail
 };

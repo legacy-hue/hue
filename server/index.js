@@ -277,8 +277,13 @@ app.get('/submit', helpers.checkUser, (req, res) => {
 
 //password recovery
 app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
-
-  res.send('Email sent');
+  console.log('Recovery email:', req.body.email);
+  query.getUserByEmail(req.body.email)
+  .then(data => {
+    console.log('Data from db:', data);
+    if(!data.length) res.send('No user associated with that email');
+    else res.json({name: data[0].name});
+  })
 });
 
 /************************************************************/
