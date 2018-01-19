@@ -298,7 +298,7 @@ app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
       const host = req.protocol + '://' + req.get('host');
       
       hash(name, null, null)
-        .then(hashString => sign({name, hash: hashString}, JWT_KEY))
+        .then(hashString => sign({ name, hash: hashString, exp: Math.floor(Date.now() / 1000) + (60 * 10)}, JWT_KEY))
         .then(token => sendEmail(name, email, token, host))
         .then(data => res.json(data))
         .catch(err => res.sendStatus(400))
@@ -315,25 +315,20 @@ app.post('/confirmName', (req, res) => {
      if(isMatch) res.send(true);
      else res.send(false);
    })
-   .catch(err => {
-     console.log('Server err:', err);
-     res.send(false);
-   })
+   .catch(err => res.send(false));
 });
 
 app.post('/changePassword', (req, res) => {
-  const {newPass, jwtToken} = req.body;
+  const {password, jwtToken} = req.body;
   verify(jwtToken, JWT_KEY)
     .then(data => {
-      return hash(newPass, null, null)
-        .then(hashString => updates.updatePassword(data.name, hashString))
+      return hash(password, null, null)
+        .then(hashString => {
+          return updates.updatePassword(data.name, hashString)
+        })
     })
     .then(data => res.send('Success!'))
-    .catch(err => {
-      console.log('Error updating pass:', err);
-      res.send(false);
-    })
-
+    .catch(err => res.send(false))
 });
 
 /************************************************************/

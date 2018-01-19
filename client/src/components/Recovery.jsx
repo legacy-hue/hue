@@ -30,25 +30,23 @@ class Recovery extends React.Component {
 
   onSubmitEmail(e) {
     e.preventDefault();
-    console.log('Submitting email:', this.state.email);
-    // const { history } = this.props;
     axios.post('/passwordRecovery', {email: this.state.email})
-      .then(res => {
-        console.log(res);
-        if (typeof res.data === 'string') {
-          alert(res.data);
-        } else {
-          console.log('Your name:', res.data.name);
-        }
-        this.setState({email: '', emailSent: true})
-      })
-      .catch(err => console.log(err));
+    .then(res => {
+      if (typeof res.data === 'string') {
+        alert(res.data);
+        this.setState({email: ''});
+      } else {
+        this.setState({email: '', emailSent: true});
+      }
+    })
+    .catch(err => console.log(err));
   }
-
+  
   onSubmitPassword(e) {
+    const { history } = this.props;
     e.preventDefault();
     axios.post('/changePassword', {jwtToken: this.state.token, password: this.state.password})
-      .then(res => console.log(res))
+      .then(res => history.push('/login'))
       .catch(err => console.log(err));
   }
 
