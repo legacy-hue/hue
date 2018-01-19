@@ -59,6 +59,14 @@ class App extends React.Component {
     return axios.post('/sendMessage', messageObject);
   }
 
+  deleteAccount(user) {
+    axios.delete('/users', {params: {user: user}})
+    .then(data => {
+      // redirect to login
+      // alert "account deleted"
+    })
+  }
+
   getEntries(){
     return axios.get('/entries')
     .then(data => {
@@ -258,6 +266,7 @@ class App extends React.Component {
           )}/> 
           <Route exact path="/user/:name" render={(props) => (
             <UserProfile {...props}
+              deleteAccount={this.deleteAccount.bind(this)}
               sendMessage={this.sendMessage.bind(this)}
               user={this.state.auth}
               deleteEntry={this.deleteEntry.bind(this)}

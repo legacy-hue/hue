@@ -19,7 +19,7 @@ class UserProfile extends React.Component {
       title: '',
       text: ''
     };
-    this.handleClick = this.handleClick.bind(this);
+    this.handleSend = this.handleSend.bind(this);
     this.titleChange = this.titleChange.bind(this);
     this.textChange = this.textChange.bind(this);
   }
@@ -62,7 +62,7 @@ class UserProfile extends React.Component {
     return axios.get(`/likedPosts?id=${username}`);
   }
 
-  handleClick() {
+  handleSend() {
     // const {history} = this.props;
     // this.props.postEntry(this.state.title, this.state.url, this.state.text, this.props.currentSub)
     // .then((res) => {
@@ -199,7 +199,7 @@ class UserProfile extends React.Component {
                           
                           <Form.TextArea label='Text' value={this.state.text} placeholder='Type your message here...' onChange={this.textChange}/>
                           <Form.Field>
-                            <Button onClick={this.handleClick}>Send!</Button>
+                            <Button onClick={this.handleSend}>Send!</Button>
                           </Form.Field>
                         </Form>
                       </div>
@@ -216,6 +216,7 @@ class UserProfile extends React.Component {
             {this.props.user === this.props.match.params.name
             ? <div>
               Are you sure you want to permanently delete your account?
+              <Button onClick={this.props.deleteAccount(this.props.user)}>DELETE</Button>
             </div>
             : <div>
               Login to delete your account.
@@ -225,7 +226,6 @@ class UserProfile extends React.Component {
         )
       }}
     ]
-
 
     return (
       <div className = 'ui segment'>

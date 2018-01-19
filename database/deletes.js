@@ -36,11 +36,18 @@ const commentVotesByComment = (commentid) => {
   .del();  
 }
 
+const user = (user) => {
+  return knex('users')
+  .where({name: user})
+  // change all related user content userids to default user (id: 1, name: deleted)
+}
+
 module.exports = {
   entry,
   entryVotes,
   comment,
   commentVotes,
   commentVotesByComment,
+  user,
   comments
 };

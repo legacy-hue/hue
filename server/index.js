@@ -124,6 +124,11 @@ app.delete('/comment', helpers.checkUser, (req, res) => {
   })
 });
 
+app.delete('/users', helpers.checkUser, (req, res) => {
+  const user = req.query.user;
+  //deletes.user(user)
+});
+
 app.post('/search', (req, res) => {
   query.searchByTitle(req.body.query)
   .then((data) => {
