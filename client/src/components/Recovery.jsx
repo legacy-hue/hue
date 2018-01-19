@@ -37,25 +37,33 @@ class Recovery extends React.Component {
   }
 
   componentDidMount() {
-
+    if(this.props.match.params.hash) {
+      //post something to server
+    }
   }
 
   render() {
-    return (
-      <div className="ui center aligned segment">
-        <Form id="recovery" onSubmit={this.onSubmitEmail}>
-          <Header as="h2">Recover your Hue account</Header>
-          <Header as="h5">Enter an email address</Header>
-          <Form.Field inline>
-            <input onChange={this.emailChange} value={this.state.email} placeholder='email' />
-          </Form.Field>
-          <Form.Field inline>
-            <Button type="submit">Submit</Button>
-          </Form.Field>
-        </Form>
-        {this.state.emailSent ? <Header as="h5">Recovery email has been sent! Check you email.</Header> : ''}
-      </div>
-    );
+    if (this.props.match.params.hash) {
+      return (
+        <div>It worked!</div>
+      )
+    } else {
+      return (
+        <div className="ui center aligned segment" style={{height: '40vh', paddingTop: '10vh'}}>
+          <Form id="recovery" onSubmit={this.onSubmitEmail}>
+            <Header as="h2">Recover your Hue account</Header>
+            <Header as="h5">Enter an email address</Header>
+            <Form.Field inline>
+              <input onChange={this.emailChange} value={this.state.email} placeholder='email' />
+            </Form.Field>
+            <Form.Field inline>
+              <Button type="submit">Submit</Button>
+            </Form.Field>
+          </Form>
+          {this.state.emailSent ? <Header as="h5">Recovery email has been sent! Check you email.</Header> : ''}
+        </div>
+      );
+    }
   }
 }
 
