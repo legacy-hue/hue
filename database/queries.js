@@ -44,9 +44,8 @@ const commentsByUser = (name) => {
 
 const searchByTitle = (title) => {
   return knex('entries')
-  .where({'title': title})
-  .join('users', 'entries.userid', '=', 'users.id')
-  .select('*');
+  .whereRaw('title like ?', [`%${title}%`])
+  .join('users', 'entries.userid', '=', 'users.id');
 }
 
 const getMessagesByRecipient = (user) => {
@@ -59,7 +58,7 @@ const getMessagesByRecipient = (user) => {
 
 const searchByUser = (user) => {
   return knex('users')
-  .where({name: user})
+  .whereRaw('name like ?', [`%${user}%`]);
 }
 
 const getLikedEntries = (name) => {
