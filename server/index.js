@@ -20,7 +20,7 @@ const deletes = require('../database/deletes');
 const updates = require('../database/updates');
 // const config = require('../config.js');
 
-const JWT_KEY = config.JWT_KEY || process.env.JWT_KEY;
+const JWT_KEY = process.env.JWT_KEY || config.JWT_KEY;
 
 const app = express();
 
