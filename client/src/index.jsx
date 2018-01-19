@@ -16,7 +16,6 @@ import EntryList from './components/EntryList.jsx';
 import CommentList from './components/CommentList.jsx';
 import Nav from './components/NavBar.jsx';
 import UserProfile from './components/UserProfile.jsx';
-import Subhue from './components/Subhue.jsx';
 import Recovery from './components/Recovery.jsx';
 
 const Wrapper = styles.div`
@@ -31,8 +30,6 @@ class App extends React.Component {
       password: '',
       email: '',
       entries: [],
-      subhues: ['home'],
-      currentSub: 'home',
       auth: false,
       search: [],
       link: {},
@@ -43,7 +40,6 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getEntries();
-    this.getSubhues();
     this.authorize();
   }
 
@@ -68,14 +64,6 @@ class App extends React.Component {
     });
   }
 
-  getSubhues(){
-    return axios.get('/subhues')
-    .then(data => {
-      this.setState({subhues: data.data});
-      console.log('subhues data: ', data.data);
-    });
-  }
-
   getEntry(entryid){
     return axios.get(`/entry?id=${entryid}`);
   }
@@ -88,10 +76,6 @@ class App extends React.Component {
     });
   }
 
-  getSubhueEntries(subhue) {
-    return axios.get(`/subhueEntries?id=${subhue}`);
-  }
-
   getUserEntries(user) {
     return axios.get(`/userEntries?id=${user}`);
   }
@@ -100,13 +84,12 @@ class App extends React.Component {
     return axios.get(`/userComments?id=${user}`);
   }
   
-  postEntry(title, url, text, subhue){
+  postEntry(title, url, text){
     if(url === ''){
       return axios.post('/entries', {
         title: title,
         url: 'none',
-        text: text,
-        subhue: subhue
+        text: text
       });
     }
     if(this.isURL(url)){
@@ -116,8 +99,7 @@ class App extends React.Component {
       return axios.post('/entries', {
         title: title,
         url: url,
-        text: text,
-        subhue: subhue
+        text: text
       });
     }
   }
@@ -222,24 +204,14 @@ class App extends React.Component {
               getEntries={this.getEntries.bind(this)}
             />
           )}/>
-          <Route exact path="/subhue/:name" render={props => (
-            <Subhue {...props}
-              getSubhueEntries={this.getSubhueEntries}
-              // user={this.state.auth}
-              // deleteEntry={this.deleteEntry.bind(this)}
-              // deleteComment={this.deleteComment.bind(this)}
-              // getUserComments={this.getUserComments.bind(this)}
-              // getUserEntries={this.getUserEntries.bind(this)}
-              authorize={this.authorize.bind(this)}
-              // getEntry={this.getEntry.bind(this)}
-            />
-          )}/>
           <Route exact path="/inbox" render={(props) => (
-            <Inbox {...props}
+            this.state.auth !== undefined
+            ? <Inbox {...props}
               sendMessage={this.sendMessage.bind(this)}
               user={this.state.auth}
               inbox={this.state.inbox}
             />
+            : <Redirect to='/login' />
           )}/>
           <Route exact path='/search' render={(props) => (
             <SearchResults {...props}
@@ -262,7 +234,6 @@ class App extends React.Component {
           <Route exact path="/submit" render={(props) => (
             this.state.auth !== undefined
             ? <Submit {...props}
-              currentSub={this.state.currentSub}
               getEntries={this.getEntries.bind(this)}
               postEntry={this.postEntry.bind(this)}
               authorize={this.authorize.bind(this)}
