@@ -62,13 +62,12 @@ class Entry extends React.Component {
         <Feed>
           <Feed.Event>
             <Feed.Content>
-              <Feed.Date>{ta.ago(this.props.data.created_at)}</Feed.Date>
               <Feed.Summary>
-                <a href={this.props.data.url}>{this.props.data.title}</a>
+                <a className='mainTitle' href={this.props.data.url}>{this.props.data.title}</a>
               </Feed.Summary>
-              <Feed.Extra text>
+              <Feed.Extra className='fromEntry' text>
                 {this.props.onLikedTab ? <span>Entry </span> : ''}
-                by <Link to={`/user/${this.props.data.name}`}>{this.props.data.name}</Link>
+                by <Link to={`/user/${this.props.data.name}`}>{this.props.data.name}</Link><Feed.Date className='time'>{ta.ago(this.props.data.created_at)}</Feed.Date>
               </Feed.Extra>
               <Feed.Meta>
                 <Feed.Like>
