@@ -92,6 +92,7 @@ knex.schema.hasTable('users').then(function(exists) {
         table.increments();
         table.text('text');
         table.string('subject');
+        table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
         table.integer('send_id').references('users.id');
         table.integer('rec_id').references('users.id');
       }).then(function(table) {

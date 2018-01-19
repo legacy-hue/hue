@@ -53,7 +53,7 @@ const getMessagesByRecipient = (user) => {
   return knex('inbox')
   .where({rec_id: rec_id})
   .join('users', 'send_id', '=', 'users.id')
-  .select('inbox.id', 'inbox.send_id', 'inbox.rec_id', 'users.name', 'inbox.text', 'inbox.subject');
+  .select('inbox.id', 'inbox.send_id', 'inbox.rec_id', 'users.name', 'inbox.text', 'inbox.subject', 'inbox.created_at');
 }
 
 const getMessagesBySender = user => {
@@ -61,7 +61,7 @@ const getMessagesBySender = user => {
   return knex('inbox')
   .where({send_id: send_id})
   .join('users', 'rec_id', '=', 'users.id')
-  .select('inbox.id', 'inbox.send_id', 'inbox.rec_id', 'users.name', 'inbox.text', 'inbox.subject');
+  .select('inbox.id', 'inbox.send_id', 'inbox.rec_id', 'users.name', 'inbox.text', 'inbox.subject', 'inbox.created_at');
 }
 
 const searchByUser = (user) => {

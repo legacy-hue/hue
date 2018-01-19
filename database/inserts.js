@@ -31,7 +31,6 @@ const textEntry = entry => {
 }
 
 const messageEntry = entry => {
-  console.log('From db: ', entry);
   let send_id = knex('users').where({name: entry.sender}).select('id');
   let rec_id = knex('users').where({name: entry.recipient}).select('id');
   let text = entry.text;

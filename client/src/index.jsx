@@ -242,6 +242,7 @@ class App extends React.Component {
           )}/> 
           <Route exact path="/thread/:id" render={(props) => (
             <CommentList {...props}
+              sendMessage={this.sendMessage.bind(this)}
               user = {this.state.auth}
               getComments={this.getComments.bind(this)}
               postComment={this.postComment.bind(this)}

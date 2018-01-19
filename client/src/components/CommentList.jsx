@@ -48,18 +48,42 @@ class CommentList extends React.Component {
   }
 
   handleClick() {
-  	this.props.postComment(this.state.comment, this.props.match.params.id)
-  	.then(() => {
-  		this.props.getComments(this.props.match.params.id)
-      .then(data => {
-        // let newState = data.data.sort((a, b) => b.id - a.id)[0];
-        this.state.comments.push(data.data[0]);
-        this.setState({
-          comment: '',
-          comments: this.state.comments
-        })
+    if (this.state.entry.name === this.props.user) {
+        this.props.postComment(this.state.comment, this.props.match.params.id)
+        .then(() => {
+          this.props.getComments(this.props.match.params.id)
+          .then(data => {
+            // let newState = data.data.sort((a, b) => b.id - a.id)[0];
+            this.state.comments.push(data.data[0]);
+            this.setState({
+              comment: '',
+              comments: this.state.comments
+            })
+          })
+        });
+    } else {
+      this.props.sendMessage({
+        recipient: this.state.entry.name,
+        sender: this.props.user,
+        text: this.state.comment,
+        title: `${this.props.user} has posted a comment in '${this.state.entry.title}'`
       })
-  	});
+      .then(() => {
+      	this.props.postComment(this.state.comment, this.props.match.params.id)
+      	.then(() => {
+      		this.props.getComments(this.props.match.params.id)
+          .then(data => {
+            // let newState = data.data.sort((a, b) => b.id - a.id)[0];
+            this.state.comments.push(data.data[0]);
+            this.setState({
+              comment: '',
+              comments: this.state.comments
+            })
+          })
+      	});
+      })
+      
+    }
   }
 
   afterDelete() {
