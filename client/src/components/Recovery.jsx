@@ -10,11 +10,14 @@ class Recovery extends React.Component {
       email: '',
       password: '',
       emailSent: false,
-      verified: false
+      verified: false,
+      token: ''
     };
 
     this.emailChange = this.emailChange.bind(this);
+    this.passwordChange = this.passwordChange.bind(this);
     this.onSubmitEmail = this.onSubmitEmail.bind(this);
+    this.onSubmitPassword = this.onSubmitPassword.bind(this);
   }
 
   emailChange(e) {
@@ -43,7 +46,10 @@ class Recovery extends React.Component {
   }
 
   onSubmitPassword(e) {
-    
+    e.preventDefault();
+    axios.post('/changePassword', {jwtToken: this.state.token, newPass: this.state.password})
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   }
 
   componentDidMount() {
@@ -51,7 +57,7 @@ class Recovery extends React.Component {
       axios.post('/confirmName', {jwtToken: this.props.match.params.jwtToken})
         .then(res => {
           if(res.data) {
-            this.setState({verified: true});
+            this.setState({verified: true, token: this.props.match.params.jwtToken});
           } else {
             alert('An error has occured. You may have taken too long to reset your email. Please try again.');
           }
@@ -67,10 +73,10 @@ class Recovery extends React.Component {
           <Form id="recovery" onSubmit={this.onSubmitPassword}>
             <Header as="h5">Enter your new password</Header>
             <Form.Field inline>
-              <input onChange={this.passwordChange} value={this.state.password} type="password" placeholder='password' />
+              <input onChange={this.passwordChange} value={this.state.password} type="password" placeholder="password" />
             </Form.Field>
             <Form.Field inline>
-              <Button type="submit">Submit</Button>
+              {this.state.verified ? <Button type="submit">Submit</Button> : <Button disabled type="submit">Submit</Button>}
             </Form.Field>
           </Form>
         </div>
