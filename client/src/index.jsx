@@ -267,6 +267,11 @@ class App extends React.Component {
               
             />
           )} /> 
+          <Route exact path="/recovery/:jwtToken" render={(props) => (
+            <Recovery {...props}
+              
+            />
+          )} /> 
         </Switch>
       </Wrapper> 
   	)

@@ -1,6 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const util = require('util');
+
+const jwt = require('jsonwebtoken');
+const sign = util.promisify(jwt.sign);
+const verify = util.promisify(jwt.verify);
+
+const bcrypt = require('bcrypt-nodejs');
+const hash = util.promisify(bcrypt.hash);
+const compare = util.promisify(bcrypt.compare);
 
 const helpers = require('./helpers');
 const sendEmail = require('./email');
@@ -8,6 +17,10 @@ const db = require('../database/index');
 const insert = require('../database/inserts');
 const query = require('../database/queries');
 const deletes = require('../database/deletes');
+const updates = require('../database/updates');
+const config = require('../config.js');
+
+const JWT_KEY = config.JWT_KEY || process.env.JWT_KEY;
 
 const app = express();
 
@@ -282,19 +295,40 @@ app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
     else {
       const name = data[0].name;
       const email = req.body.email;
-      const hash = 'blarg';
       const host = req.protocol + '://' + req.get('host');
-      sendEmail(name, email, hash, host)
-        .then(data => {
-          console.log('Email sent:', data);
-          res.sendStatus(201);
-        })
-        .catch(err => {
-          console.log('ERR:', err);
-          res.sendStatus(400);
-        });
+      
+      hash(name, null, null)
+        .then(hashString => sign({ name, hash: hashString, exp: Math.floor(Date.now() / 1000) + (60 * 10)}, JWT_KEY))
+        .then(token => sendEmail(name, email, token, host))
+        .then(data => res.json(data))
+        .catch(err => res.sendStatus(400))
     }
   })
+});
+
+app.post('/confirmName', (req, res) => {
+  const token = req.body.jwtToken;
+  verify(token, JWT_KEY)
+   .then(data => compare(data.name, data.hash))
+   .then(isMatch => {
+     console.log('Match?', isMatch);
+     if(isMatch) res.send(true);
+     else res.send(false);
+   })
+   .catch(err => res.send(false));
+});
+
+app.post('/changePassword', (req, res) => {
+  const {password, jwtToken} = req.body;
+  verify(jwtToken, JWT_KEY)
+    .then(data => {
+      return hash(password, null, null)
+        .then(hashString => {
+          return updates.updatePassword(data.name, hashString)
+        })
+    })
+    .then(data => res.send('Success!'))
+    .catch(err => res.send(false))
 });
 
 /************************************************************/
