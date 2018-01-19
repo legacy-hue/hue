@@ -33,7 +33,8 @@ body {
 .usernameBox {
   padding: 12px 0px 0px 10px !important;
   border-radius: 5px;
-  background-color: white !important
+  background-color: white !important;
+  margin-bottom: 10px !important;
 }
 
 .usernameList {
@@ -48,6 +49,10 @@ body {
   margin-left: 20px !important;
   margin-top: 5px !important;
   font-size: 16px !important;
+  border-left-style: solid;
+  border-color: lightgray;
+  border-left-width: thin;
+  padding-left: 10px !important;
 }
 
 .subjectHeader {
@@ -83,6 +88,14 @@ body {
   display: inline-block;
 }
 
+.inboxTime {
+  margin-top: 5px !important;
+  margin-left: 10px !important;
+}
+
+.postArea {
+  margin-top: 10px !important;
+}
 
 
 

@@ -23,33 +23,43 @@ class SearchResults extends React.Component {
 
     return (  
       <div>
-        <h3>Users</h3>
-        <div>
-          {this.props.data.user.map((user) => {
-            return (
-                <div className='usernameBox' key={user.name}>
-                <Feed>
-                  <Feed.Event>
-                    <Feed.Content>
-                      <Feed.Extra text>
-                        <Link className='usernameList' to={`/user/${user.name}`}>{user.name}</Link>
-                      </Feed.Extra>
-                      <Feed.Meta>
-                      </Feed.Meta>
-                    </Feed.Content>
-                  </Feed.Event>
-                </Feed>
-                </div>
-              )
-          })}
-        </div>
-        <h3>Posts</h3>
-        <EntryList 
-          data = {this.props.data.posts}
-          user = {this.props.user}
-          deleteEntry = {this.props.deleteEntry}
-          getEntries = {this.props.getEntries}
-        />
+        {this.props.data.user.length
+          ?
+            <div>
+              <h3>Users</h3>
+              {this.props.data.user.map((user) => {
+                return (
+                    <div className='usernameBox' key={user.name}>
+                    <Feed>
+                      <Feed.Event>
+                        <Feed.Content>
+                          <Feed.Extra text>
+                            <Link className='usernameList' to={`/user/${user.name}`}>{user.name}</Link>
+                          </Feed.Extra>
+                          <Feed.Meta>
+                          </Feed.Meta>
+                        </Feed.Content>
+                      </Feed.Event>
+                    </Feed>
+                    </div>
+                  )
+              })}
+            </div>
+          : null
+        }
+        {this.props.data.posts.length 
+          ?
+            <div className='postArea'>
+              <h3>Posts</h3>
+              <EntryList 
+                data = {this.props.data.posts}
+                user = {this.props.user}
+                deleteEntry = {this.props.deleteEntry}
+                getEntries = {this.props.getEntries}
+              />
+            </div>
+          : null
+        }
       </div>
     );
   }

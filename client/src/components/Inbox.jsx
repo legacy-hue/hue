@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Divider, Form, Label, Button, Header, Menu, Feed, Icon, Tab } from 'semantic-ui-react';
 import axios from 'axios';
+import ta from 'time-ago';
 
 class Inbox extends React.Component {
   constructor(props) {
@@ -79,7 +80,10 @@ class Inbox extends React.Component {
                         <Feed.Content>
                           <Feed.Summary>
                               <div className='entireHeader'>
-                                <span className='subjectHeader'>{message.subject}</span> <span className='fromHeader'>from {message.name}</span>
+                                <span className='subjectHeader'>{message.subject}</span> {message.subject.includes('has posted a comment in') 
+                                ? null
+                                : <span className='fromHeader'>from <Link to={`/user/${message.name}`}>{message.name}</Link></span>
+                              }
                               </div>
                           </Feed.Summary>
                           <Feed.Extra text>
@@ -88,6 +92,7 @@ class Inbox extends React.Component {
                             </div>
                           </Feed.Extra>
                         </Feed.Content>
+                        <Feed.Date className='inboxTime'>{ta.ago(message.created_at)}</Feed.Date>
                       </Feed.Event>
                       <Divider></Divider>
                     </div>
@@ -129,7 +134,7 @@ class Inbox extends React.Component {
                             <Feed.Content>
                               <Feed.Summary>
                                   <div className='entireHeader'>
-                                    <span className='subjectHeader'>{message.subject}</span> <span className='fromHeader'>to {message.name}</span>
+                                    <span className='subjectHeader'>{message.subject}</span> <span className='fromHeader'>to <Link to={`/user/${message.name}`}>{message.name}</Link></span>
                                   </div>
                               </Feed.Summary>
                               <Feed.Extra text>
@@ -138,6 +143,7 @@ class Inbox extends React.Component {
                                 </div>
                               </Feed.Extra>
                             </Feed.Content>
+                            <Feed.Date className='inboxTime'>{ta.ago(message.created_at)}</Feed.Date>
                           </Feed.Event>
                           <Divider></Divider>
                         </div>

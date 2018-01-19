@@ -1,5 +1,5 @@
 import React from 'react';
-import { Feed, Comment, Icon } from 'semantic-ui-react';
+import { Feed, Comment, Icon, Divider } from 'semantic-ui-react';
 import ta from 'time-ago';
 import axios from 'axios';
 
@@ -61,6 +61,32 @@ class CommentEntry extends React.Component {
   render () {
     if(this.props.user === this.props.comment.name){
       return (
+        <div>
+          <Comment>
+            <Comment.Content>
+              {this.props.onLikedTab ? <span>Comment by </span> : ''}
+              <Comment.Author as='a'>{this.props.comment.name}</Comment.Author>
+              <Comment.Metadata>
+                <div>{ta.ago(this.props.comment.created_at)}</div>
+                
+                <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
+                {this.state.thumbsUp}
+                <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
+                {this.state.thumbsDown}
+                
+              </Comment.Metadata>
+              <Comment.Text>{this.props.comment.text}</Comment.Text>
+              <Comment.Actions>
+                <Comment.Action onClick={this.handleClick}>delete</Comment.Action>
+              </Comment.Actions>
+            </Comment.Content>
+          </Comment>
+          <Divider></Divider>
+        </div>
+      );
+    }
+    return (
+      <div>
         <Comment>
           <Comment.Content>
             {this.props.onLikedTab ? <span>Comment by </span> : ''}
@@ -71,35 +97,15 @@ class CommentEntry extends React.Component {
               <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
               {this.state.thumbsUp}
               <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
-              {this.state.thumbsDown}
+              {this.state.thumbsDown}            
               
             </Comment.Metadata>
             <Comment.Text>{this.props.comment.text}</Comment.Text>
-            <Comment.Actions>
-              <Comment.Action onClick={this.handleClick}>delete</Comment.Action>
-            </Comment.Actions>
+            <Comment.Actions></Comment.Actions>
           </Comment.Content>
         </Comment>
-      );
-    }
-    return (
-      <Comment>
-        <Comment.Content>
-          {this.props.onLikedTab ? <span>Comment by </span> : ''}
-          <Comment.Author as='a'>{this.props.comment.name}</Comment.Author>
-          <Comment.Metadata>
-            <div>{ta.ago(this.props.comment.created_at)}</div>
-            
-            <Icon name='thumbs up' onClick={this.upVote.bind(this)}/>
-            {this.state.thumbsUp}
-            <Icon name='thumbs down' onClick={this.downVote.bind(this)}/>
-            {this.state.thumbsDown}            
-            
-          </Comment.Metadata>
-          <Comment.Text>{this.props.comment.text}</Comment.Text>
-          <Comment.Actions></Comment.Actions>
-        </Comment.Content>
-      </Comment>
+        <Divider></Divider>
+      </div>
     );
   }
 }
