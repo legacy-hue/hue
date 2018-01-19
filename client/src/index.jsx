@@ -16,7 +16,6 @@ import EntryList from './components/EntryList.jsx';
 import CommentList from './components/CommentList.jsx';
 import Nav from './components/NavBar.jsx';
 import UserProfile from './components/UserProfile.jsx';
-import Subhue from './components/Subhue.jsx';
 import Recovery from './components/Recovery.jsx';
 
 const Wrapper = styles.div`
