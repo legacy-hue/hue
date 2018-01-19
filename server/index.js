@@ -310,13 +310,15 @@ app.post('/confirmName', (req, res) => {
   console.log('Body:', req.body);
   console.log('Token', token);
   verify(token, JWT_KEY)
-   .then(data => {
-     console.log('Data from token:', data);
-     res.json(data);
+   .then(data => compare(data.name, data.hash))
+   .then(isMatch => {
+     console.log('Match?', isMatch);
+     if(isMatch) res.send(true);
+     else res.send(false);
    })
    .catch(err => {
-     console.log(err);
-     res.sendStatus(400);
+     console.log('Server err:', err);
+     res.send(false);
    })
 });
 

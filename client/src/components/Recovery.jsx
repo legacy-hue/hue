@@ -9,7 +9,8 @@ class Recovery extends React.Component {
     this.state = {
       email: '',
       password: '',
-      emailSent: false
+      emailSent: false,
+      verified: false
     };
 
     this.emailChange = this.emailChange.bind(this);
@@ -46,11 +47,16 @@ class Recovery extends React.Component {
   }
 
   componentDidMount() {
-    console.log('Will', this.props.match.params.jwtToken);
     if(this.props.match.params.jwtToken) {
       axios.post('/confirmName', {jwtToken: this.props.match.params.jwtToken})
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+        .then(res => {
+          if(res.data) {
+            this.setState({verified: true});
+          } else {
+            alert('An error has occured. You may have taken too long to reset your email. Please try again.');
+          }
+        })
+        .catch(err => console.log('Res err:', err));
     }
   }
 
@@ -61,7 +67,7 @@ class Recovery extends React.Component {
           <Form id="recovery" onSubmit={this.onSubmitPassword}>
             <Header as="h5">Enter your new password</Header>
             <Form.Field inline>
-              <input onChange={this.passwordChange} value={this.state.password} placeholder='email' />
+              <input onChange={this.passwordChange} value={this.state.password} type="password" placeholder='password' />
             </Form.Field>
             <Form.Field inline>
               <Button type="submit">Submit</Button>
