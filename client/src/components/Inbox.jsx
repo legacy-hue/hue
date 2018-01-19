@@ -13,12 +13,15 @@ class Inbox extends React.Component {
       text: '',
       recipient: '',
       inbox: [],
-      sent: []
+      sent: [],
+      activeIndex: 0
     }
     this.titleChange = this.titleChange.bind(this);
     this.textChange = this.textChange.bind(this);
     this.recipientChange = this.recipientChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleReply = this.handleReply.bind(this);
+    this.handleTabChange = this.handleTabChange.bind(this);
   }
 
   componentDidMount (props) {
@@ -68,7 +71,20 @@ class Inbox extends React.Component {
     })
   }
 
+  handleTabChange (e, { activeIndex }) {
+    this.setState({ activeIndex })
+  } 
+
+  handleReply (e, { activeIndex }, name, subject) {
+    this.setState({ 
+      activeIndex: 1,
+      recipient:  name,
+      title: 'RE: ' + subject
+    })
+  } 
+
   render (props) {
+    const { activeIndex } = this.state
     const panes = [
           {menuItem: 'Inbox', render: () => {
             return (
@@ -93,6 +109,12 @@ class Inbox extends React.Component {
                           </Feed.Extra>
                         </Feed.Content>
                         <Feed.Date className='inboxTime'>{ta.ago(message.created_at)}</Feed.Date>
+                        {message.subject.includes('has posted a comment in') 
+                          ? null
+                          : <Button className='reply' onClick={(e) => {
+                            this.handleReply(e, {activeIndex}, message.name, message.subject);
+                          }} content='Reply' />
+                        }
                       </Feed.Event>
                       <Divider></Divider>
                     </div>
@@ -160,7 +182,7 @@ class Inbox extends React.Component {
         return (
           <div className = 'ui segment'>
           <h4>Inbox for {this.props.user}</h4>
-          <Tab panes={panes} />
+          <Tab panes={panes} activeIndex={activeIndex} onTabChange={this.handleTabChange}/>
           </div>
         )
       }
