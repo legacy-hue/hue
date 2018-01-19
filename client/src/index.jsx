@@ -266,7 +266,7 @@ class App extends React.Component {
               
             />
           )} /> 
-          <Route exact path="/recovery/:hash" render={(props) => (
+          <Route exact path="/recovery/:jwtToken" render={(props) => (
             <Recovery {...props}
               
             />

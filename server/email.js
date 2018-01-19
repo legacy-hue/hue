@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-module.exports = (name, email, hash, host) => {
+module.exports = (name, email, token, host) => {
   const mailOptions = {
     from: 'legacy.hue@gmail.com',
     to: email,
@@ -21,7 +21,7 @@ module.exports = (name, email, hash, host) => {
           <table border="0" cellpadding="20" cellspacing="0" width="600" id="emailContainer">
             <tr>
               <td align="center" valign="top">
-                <p>Hi ${name}, click on <a href="${host + '/#/recovery/' + hash}">this link</a> to reset your password.
+                <p>Hi ${name}, click on <a href="${host + '/#/recovery/' + token}">this link</a> to reset your password.
               </td>
             </tr>
           </table>
