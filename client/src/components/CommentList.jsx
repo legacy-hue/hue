@@ -54,7 +54,10 @@ class CommentList extends React.Component {
       .then(data => {
         // let newState = data.data.sort((a, b) => b.id - a.id)[0];
         this.state.comments.push(data.data[0]);
-        this.setState({comments: this.state.comments})
+        this.setState({
+          comment: '',
+          comments: this.state.comments
+        })
       })
   	});
   }
@@ -92,7 +95,7 @@ class CommentList extends React.Component {
   	    	</div>
   	    	<div>
           <Form>
-            <Form.TextArea placeholder='Comment here...' onChange={this.textChange}/>
+            <Form.TextArea placeholder='Comment here...' value={this.state.comment} onChange={this.textChange}/>
             <Button content='Submit Comment' labelPosition='left' icon='edit' primary onClick={this.handleClick}/>
           </Form>
           </div>
@@ -123,7 +126,7 @@ class CommentList extends React.Component {
           </div>
           <div>
           <Form>
-            <Form.TextArea placeholder='Comment here...' onChange={this.textChange}/>
+            <Form.TextArea placeholder='Comment here...' value={this.state.comment} onChange={this.textChange}/>
             <Button content='Submit Comment' labelPosition='left' icon='edit' primary onClick={this.handleClick}/>
           </Form>
           </div>

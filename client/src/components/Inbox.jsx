@@ -11,7 +11,8 @@ class Inbox extends React.Component {
       title: '',
       text: '',
       recipient: '',
-      inbox: []
+      inbox: [],
+      sent: []
     }
     this.titleChange = this.titleChange.bind(this);
     this.textChange = this.textChange.bind(this);
@@ -20,13 +21,18 @@ class Inbox extends React.Component {
   }
 
   componentDidMount (props) {
-    axios.post('/getMessages', {sender: this.props.user})
+    axios.post('/getMessages', {recipient: this.props.user})
     .then((results) => {
-      console.log(results.data);
-      this.setState({
-        inbox: results.data.reverse()
+      axios.post('/getSentMessage', {sender: this.props.user})
+      .then((res) => {
+        this.setState({
+          inbox: results.data.reverse(),
+          sent: res.data.reverse()
+        })
+        
       })
     })
+
   }
 
   handleClick() {
@@ -115,7 +121,29 @@ class Inbox extends React.Component {
             menuItem: 'Sent', render: () => {
               return (
                 <div>
-                  
+                  <div className='inboxBox'>
+                    {this.state.sent.map((message) => {
+                      return (
+                        <div key={message.id}>
+                          <Feed.Event>
+                            <Feed.Content>
+                              <Feed.Summary>
+                                  <div className='entireHeader'>
+                                    <span className='subjectHeader'>{message.subject}</span> <span className='fromHeader'>to {message.name}</span>
+                                  </div>
+                              </Feed.Summary>
+                              <Feed.Extra text>
+                                <div className='messageBody'>
+                                  {message.text}
+                                </div>
+                              </Feed.Extra>
+                            </Feed.Content>
+                          </Feed.Event>
+                          <Divider></Divider>
+                        </div>
+                        )
+                    })}
+                  </div>
                 </div>
               )
             }

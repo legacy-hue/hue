@@ -56,13 +56,13 @@ class Submit extends React.Component {
           <Form>
             <Form.Field>
               <label>Title</label>
-              <input placeholder='This is a site about cats' onChange={this.titleChange}/>
+              <input placeholder='This is a site about cats' value={this.state.title} onChange={this.titleChange}/>
             </Form.Field>
             <Form.Field>
               <label>URL</label>
-              <input placeholder='cats.com' onChange={this.urlChange}/>
+              <input placeholder='cats.com' value={this.state.url} onChange={this.urlChange}/>
             </Form.Field>
-            <Form.TextArea label='Text' placeholder='how neat is that...' onChange={this.textChange}/>
+            <Form.TextArea label='Text' placeholder='how neat is that...' value={this.state.text} onChange={this.textChange}/>
             <Form.Field>
               <Button onClick={this.handleClick}>submit</Button>
             </Form.Field>

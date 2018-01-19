@@ -56,6 +56,14 @@ const getMessagesByRecipient = (user) => {
   .select('inbox.id', 'inbox.send_id', 'inbox.rec_id', 'users.name', 'inbox.text', 'inbox.subject');
 }
 
+const getMessagesBySender = user => {
+  let send_id = knex('users').where({name: user}).select('id')
+  return knex('inbox')
+  .where({send_id: send_id})
+  .join('users', 'rec_id', '=', 'users.id')
+  .select('inbox.id', 'inbox.send_id', 'inbox.rec_id', 'users.name', 'inbox.text', 'inbox.subject');
+}
+
 const searchByUser = (user) => {
   return knex('users')
   .whereRaw('name like ?', [`%${user}%`]);
@@ -130,5 +138,6 @@ module.exports = {
   getLikedEntries,
   getLikedComments,
   getMessagesByRecipient,
-  getUserByEmail
+  getUserByEmail,
+  getMessagesBySender
 };

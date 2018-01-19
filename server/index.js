@@ -137,10 +137,8 @@ app.post('/search', (req, res) => {
 })
 
 app.post('/getMessages', (req, res) => {
-  console.log(req.body);
-  query.getMessagesByRecipient(req.body.sender)
+  query.getMessagesByRecipient(req.body.recipient)
   .then((data) => {
-    console.log(data);
     res.json(data);
   })
   .catch((err) => {
@@ -148,8 +146,17 @@ app.post('/getMessages', (req, res) => {
   })
 })
 
+app.post('/getSentMessage', (req, res) => {
+  query.getMessagesBySender(req.body.sender)
+  .then(data => {
+    res.json(data)
+  })
+  .catch(err => {
+    console.log(err);
+  })
+})
+
 app.post('/sendMessage', (req, res) => {
-  console.log(req.body);
   insert.messageEntry(req.body)
   .then(() => {
     res.sendStatus(201);
