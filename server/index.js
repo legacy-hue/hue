@@ -18,7 +18,7 @@ const insert = require('../database/inserts');
 const query = require('../database/queries');
 const deletes = require('../database/deletes');
 const updates = require('../database/updates');
-const config = require('../config.js');
+// const config = require('../config.js');
 
 const JWT_KEY = config.JWT_KEY || process.env.JWT_KEY;
 
