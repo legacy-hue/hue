@@ -24,7 +24,7 @@ class Inbox extends React.Component {
     .then((results) => {
       console.log(results.data);
       this.setState({
-        inbox: results.data
+        inbox: results.data.reverse()
       })
     })
   }
@@ -66,7 +66,7 @@ class Inbox extends React.Component {
           {menuItem: 'Inbox', render: () => {
             return (
               <div className='inboxBox'>
-                {this.state.inbox.reverse().map((message) => {
+                {this.state.inbox.map((message) => {
                   return (
                     <div key={message.id}>
                       <Feed.Event>
