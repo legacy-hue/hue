@@ -1,6 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const util = require('util');
+const bcrypt = require('bcrypt-nodejs');
+const hash = util.promisify(bcrypt.hash);
+const compare = util.promisify(bcrypt.compare);
 
 const helpers = require('./helpers');
 const sendEmail = require('./email');
@@ -295,6 +299,12 @@ app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
         });
     }
   })
+});
+
+app.post('/confirmName', (req, res) => {
+
+  console.log('Confirming...', req.body);
+  res.send('done');
 });
 
 /************************************************************/
