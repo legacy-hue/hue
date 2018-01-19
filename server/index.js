@@ -2,6 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const util = require('util');
+
+const jwt = require('jsonwebtoken');
+const sign = util.promisify(jwt.sign);
+const verify = util.promisify(jwt.verify);
+
 const bcrypt = require('bcrypt-nodejs');
 const hash = util.promisify(bcrypt.hash);
 const compare = util.promisify(bcrypt.compare);
@@ -12,6 +17,9 @@ const db = require('../database/index');
 const insert = require('../database/inserts');
 const query = require('../database/queries');
 const deletes = require('../database/deletes');
+const config = require('../config.js');
+
+const JWT_KEY = config.JWT_KEY || process.env.JWT_KEY;
 
 const app = express();
 
@@ -286,17 +294,13 @@ app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
     else {
       const name = data[0].name;
       const email = req.body.email;
-      const hash = 'blarg';
       const host = req.protocol + '://' + req.get('host');
-      sendEmail(name, email, hash, host)
-        .then(data => {
-          console.log('Email sent:', data);
-          res.json(data);
-        })
-        .catch(err => {
-          console.log('ERR:', err);
-          res.sendStatus(400);
-        });
+      
+      hash(name, null, null)
+        .then(hashString => sign({name, hash: hashString}, JWT_KEY))
+        .then(token => sendEmail(name, email, token, host))
+        .then(data => res.json(data))
+        .catch(err => res.sendStatus(400))
     }
   })
 });
