@@ -140,50 +140,48 @@ class UserProfile extends React.Component {
           </div>
         )
       }},
-      {
-        menuItem: 'Liked Posts', render: () => {
-          return (
+      {menuItem: 'Liked Posts', render: () => {
+        return (
+          <div>
             <div>
-              <div>
-                <Comment.Group>
-                  <br />
-                  {this.state.liked.map((comment, index) => {
-                    if(comment.type === 'comment') {
-                      return (<div key={index}>
-                        <CommentData
-                          comment={comment}
-                          getEntry={this.props.getEntry}
-                        />
-                        <CommentEntry
-                          onLikedTab={true}
-                          comment={comment}
-                          user={this.props.user}
-                          deleteComment={this.props.deleteComment}
-                          entry={comment.entryid}
-                        />
-                        <Divider></Divider>
-                      </div>
-                      )
-                    } else {
-                      return (
-                        <Entry
-                          onLikedTab={true}
-                          key={index}
-                          data={comment}
-                          user={this.props.user}
-                          deleteEntry={this.props.deleteEntry}
-                        />
-                      )
-                    }
+              <Comment.Group>
+                <br />
+                {this.state.liked.map((comment, index) => {
+                  if(comment.type === 'comment') {
+                    return (<div key={index}>
+                      <CommentData
+                        comment={comment}
+                        getEntry={this.props.getEntry}
+                      />
+                      <CommentEntry
+                        onLikedTab={true}
+                        comment={comment}
+                        user={this.props.user}
+                        deleteComment={this.props.deleteComment}
+                        entry={comment.entryid}
+                      />
+                      <Divider></Divider>
+                    </div>
+                    )
+                  } else {
+                    return (
+                      <Entry
+                        onLikedTab={true}
+                        key={index}
+                        data={comment}
+                        user={this.props.user}
+                        deleteEntry={this.props.deleteEntry}
+                      />
+                    )
                   }
-                  )}
-                </Comment.Group>
-              </div>
+                }
+                )}
+              </Comment.Group>
             </div>
-          )
-        }
-      },
-      {menuItem: 'Send a message!', render: () => {
+          </div>
+        )
+      }},
+      {menuItem: 'Send a message', render: () => {
         return (
           <div>
               {this.props.user !== undefined
@@ -211,6 +209,20 @@ class UserProfile extends React.Component {
             } 
           </div>
           )
+      }},
+      {menuItem: 'DELETE', render: () => {
+        return (
+          <div>
+            {this.props.user === this.props.match.params.name
+            ? <div>
+              Are you sure you want to permanently delete your account?
+            </div>
+            : <div>
+              Login to delete your account.
+            </div>
+            }
+          </div>
+        )
       }}
     ]
 
