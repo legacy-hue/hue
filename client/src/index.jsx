@@ -169,7 +169,11 @@ class App extends React.Component {
       username: this.state.username,
       password: this.state.password,
       email: this.state.email
-    });
+    })
+      .then(data => {
+        this.setState({email: ''});
+        return data;
+      });
   }
   // Invoked in Login, Submit, UserProfile, and Home by onComponentDidMount lifecycle hook
   authorize() {
