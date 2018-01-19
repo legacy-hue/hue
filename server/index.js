@@ -287,7 +287,7 @@ app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
       sendEmail(name, email, hash, host)
         .then(data => {
           console.log('Email sent:', data);
-          res.sendStatus(201);
+          res.json(data);
         })
         .catch(err => {
           console.log('ERR:', err);

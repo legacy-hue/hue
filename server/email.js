@@ -21,7 +21,7 @@ module.exports = (name, email, hash, host) => {
           <table border="0" cellpadding="20" cellspacing="0" width="600" id="emailContainer">
             <tr>
               <td align="center" valign="top">
-                <p>Hi ${name}, click on <a href="${host + '/updatePass'}">this link</a>
+                <p>Hi ${name}, click on <a href="${host + '/updatePass/' + hash}">this link</a> to reset your password.
               </td>
             </tr>
           </table>
