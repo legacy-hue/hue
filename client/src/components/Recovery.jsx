@@ -48,7 +48,7 @@ class Recovery extends React.Component {
   componentDidMount() {
     console.log('Will', this.props.match.params.jwtToken);
     if(this.props.match.params.jwtToken) {
-      axios.post('/confirmName', this.props.match.params.jwtToken)
+      axios.post('/confirmName', {jwtToken: this.props.match.params.jwtToken})
         .then(res => console.log(res))
         .catch(err => console.log(err));
     }
