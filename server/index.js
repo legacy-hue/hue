@@ -126,7 +126,15 @@ app.delete('/comment', helpers.checkUser, (req, res) => {
 
 app.delete('/users', helpers.checkUser, (req, res) => {
   const user = req.query.user;
-  //deletes.user(user)
+  query.user(user)
+    .then(data => {
+      const userid = data[0].id;
+      updates.updateDeletedUserEntries(userid);
+      updates.updateDeletedUserComments(userid);
+      updates.updateDeletedUserCommentVotes(user);
+      updates.updateDeletedUserEntryVotes(user);
+      deletes.user(userid);
+    });
 });
 
 app.post('/search', (req, res) => {
