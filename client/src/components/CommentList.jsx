@@ -29,7 +29,7 @@ class CommentList extends React.Component {
     .then(data => this.setState({entry: data.data[0]}));
 
   	this.props.getComments(this.props.match.params.id)
-  	.then(data => this.setState({comments: data.data}));
+  	.then(data => this.setState({comments: data.data.reverse()}));
   }
 
   componentWillReceiveProps(nextprops) {
@@ -44,46 +44,30 @@ class CommentList extends React.Component {
     .then(data => this.setState({entry: data.data[0]}));
 
     this.props.getComments(nextprops.match.params.id)
-    .then(data => this.setState({comments: data.data}));
+    .then(data => this.setState({comments: data.data.reverse()}));
   }
 
   handleClick() {
-    if (this.state.entry.name === this.props.user) {
-        this.props.postComment(this.state.comment, this.props.match.params.id)
+  	this.props.postComment(this.state.comment, this.props.match.params.id)
+  	.then(() => {
+  		this.props.getComments(this.props.match.params.id)
+      .then(data => {
+        // let newState = data.data.sort((a, b) => b.id - a.id)[0];
+        this.state.comments.push(data.data[0]);
+        this.props.sendMessage({
+          recipient: this.state.entry.name,
+          sender: this.props.user,
+          text: this.state.comment,
+          title: `${this.props.user} has posted a comment in '${this.state.entry.title}'`
+        })
         .then(() => {
-          this.props.getComments(this.props.match.params.id)
-          .then(data => {
-            // let newState = data.data.sort((a, b) => b.id - a.id)[0];
-            this.state.comments.push(data.data[0]);
-            this.setState({
-              comment: '',
-              comments: this.state.comments
-            })
+          this.setState({
+            comment: '',
+            comments: this.state.comments
           })
-        });
-    } else {
-      this.props.sendMessage({
-        recipient: this.state.entry.name,
-        sender: this.props.user,
-        text: this.state.comment,
-        title: `${this.props.user} has posted a comment in '${this.state.entry.title}'`
+        })
       })
-      .then(() => {
-      	this.props.postComment(this.state.comment, this.props.match.params.id)
-      	.then(() => {
-      		this.props.getComments(this.props.match.params.id)
-          .then(data => {
-            // let newState = data.data.sort((a, b) => b.id - a.id)[0];
-            this.state.comments.push(data.data[0]);
-            this.setState({
-              comment: '',
-              comments: this.state.comments
-            })
-          })
-      	});
-      })
-      
-    }
+  	});
   }
 
   afterDelete() {
