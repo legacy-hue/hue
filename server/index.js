@@ -306,9 +306,18 @@ app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
 });
 
 app.post('/confirmName', (req, res) => {
-
-  console.log('Confirming...', req.body);
-  res.send('done');
+  const token = req.body.jwtToken;
+  console.log('Body:', req.body);
+  console.log('Token', token);
+  verify(token, JWT_KEY)
+   .then(data => {
+     console.log('Data from token:', data);
+     res.json(data);
+   })
+   .catch(err => {
+     console.log(err);
+     res.sendStatus(400);
+   })
 });
 
 /************************************************************/
