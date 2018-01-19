@@ -17,6 +17,7 @@ const db = require('../database/index');
 const insert = require('../database/inserts');
 const query = require('../database/queries');
 const deletes = require('../database/deletes');
+const updates = require('../database/updates');
 const config = require('../config.js');
 
 const JWT_KEY = config.JWT_KEY || process.env.JWT_KEY;
@@ -307,8 +308,6 @@ app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
 
 app.post('/confirmName', (req, res) => {
   const token = req.body.jwtToken;
-  console.log('Body:', req.body);
-  console.log('Token', token);
   verify(token, JWT_KEY)
    .then(data => compare(data.name, data.hash))
    .then(isMatch => {
@@ -320,6 +319,21 @@ app.post('/confirmName', (req, res) => {
      console.log('Server err:', err);
      res.send(false);
    })
+});
+
+app.post('/changePassword', (req, res) => {
+  const {newPass, jwtToken} = req.body;
+  verify(jwtToken, JWT_KEY)
+    .then(data => {
+      return hash(newPass, null, null)
+        .then(hashString => updates.updatePassword(data.name, hashString))
+    })
+    .then(data => res.send('Success!'))
+    .catch(err => {
+      console.log('Error updating pass:', err);
+      res.send(false);
+    })
+
 });
 
 /************************************************************/

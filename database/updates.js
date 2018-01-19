@@ -97,9 +97,17 @@ const swapCommentVoteDownToUp = (commentid) => {
     })
 }
 
+const updatePassword = (name, passHash) => {
+  return knex('users')
+    .where({name: name})
+    .update({password: passHash})
+    .returning('*');
+}
+
 module.exports = {
   updateEntryVote,
-  updateCommentVote
+  updateCommentVote,
+  updatePassword
 }
 
 

@@ -47,7 +47,7 @@ class Recovery extends React.Component {
 
   onSubmitPassword(e) {
     e.preventDefault();
-    axios.post('/changePassword', {jwtToken: this.state.token, newPass: this.state.password})
+    axios.post('/changePassword', {jwtToken: this.state.token, password: this.state.password})
       .then(res => console.log(res))
       .catch(err => console.log(err));
   }
