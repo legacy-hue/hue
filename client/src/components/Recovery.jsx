@@ -8,6 +8,7 @@ class Recovery extends React.Component {
 
     this.state = {
       email: '',
+      password: '',
       emailSent: false
     };
 
@@ -16,7 +17,11 @@ class Recovery extends React.Component {
   }
 
   emailChange(e) {
-    this.setState({email: e.target.value}) ;
+    this.setState({email: e.target.value});
+  }
+
+  passwordChange(e) {
+    this.setState({password: e.target.value});
   }
 
   onSubmitEmail(e) {
@@ -36,16 +41,33 @@ class Recovery extends React.Component {
       .catch(err => console.log(err));
   }
 
+  onSubmitPassword(e) {
+    
+  }
+
   componentDidMount() {
+    console.log('Will', this.props.match.params.hash);
     if(this.props.match.params.hash) {
-      //post something to server
+      axios.post('/confirmName', this.props.match.params.hash)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     }
   }
 
   render() {
     if (this.props.match.params.hash) {
       return (
-        <div>It worked!</div>
+        <div className="ui center aligned segment" style={{ height: '40vh', paddingTop: '10vh' }}>
+          <Form id="recovery" onSubmit={this.onSubmitPassword}>
+            <Header as="h5">Enter your new password</Header>
+            <Form.Field inline>
+              <input onChange={this.passwordChange} value={this.state.password} placeholder='email' />
+            </Form.Field>
+            <Form.Field inline>
+              <Button type="submit">Submit</Button>
+            </Form.Field>
+          </Form>
+        </div>
       )
     } else {
       return (
