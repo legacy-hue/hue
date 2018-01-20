@@ -22,9 +22,16 @@ class Inbox extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleReply = this.handleReply.bind(this);
     this.handleTabChange = this.handleTabChange.bind(this);
+    this.getMessages = this.getMessages.bind(this);
   }
 
   componentDidMount (props) {
+    //WANT TO SET TIME INTERVAL FOR GETMESSAGES
+    this.getMessages()
+    setInterval(this.getMessages, 2000);
+  }
+
+  getMessages () {
     axios.post('/getMessages', {recipient: this.props.user})
     .then((results) => {
       axios.post('/getSentMessage', {sender: this.props.user})
@@ -36,7 +43,6 @@ class Inbox extends React.Component {
         
       })
     })
-
   }
 
   handleClick() {
@@ -46,10 +52,13 @@ class Inbox extends React.Component {
       text: this.state.text,
       title: this.state.title
     })
-    this.setState({
-      recipient: '',
-      title: '',
-      text: ''
+    .then(() => {
+      this.getMessages();
+      this.setState({
+        recipient: '',
+        title: '',
+        text: ''
+      })
     })
   }
 

@@ -3,6 +3,7 @@ import { Item, Feed, Comment, Header, Form, Button, Icon } from 'semantic-ui-rea
 import { Redirect, Link } from 'react-router-dom';
 import CommentEntry from './CommentEntry.jsx';
 import ta from 'time-ago';
+import axios from 'axios';
 
 class CommentList extends React.Component {
   constructor(props, params) {
@@ -15,6 +16,7 @@ class CommentList extends React.Component {
     };
     this.textChange = this.textChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.getComments = this.getComments.bind(this);
   }
 
   componentDidMount() {
@@ -26,10 +28,16 @@ class CommentList extends React.Component {
         return data;
       }
     )
-    .then(data => this.setState({entry: data.data[0]}));
+    .then(data => this.setState({entry: data.data[0]}))
+    .then(() => {
+      this.getComments(this.state.entry.id)
+      .then((comments) => {
+        this.setState({comments: comments.data.reverse()})
+      })
+    })
 
-  	this.props.getComments(this.props.match.params.id)
-  	.then(data => this.setState({comments: data.data.reverse()}));
+  	// this.getComments(this.props.match.params.id)
+  	// .then(data => this.setState({comments: data.data.reverse()}))
   }
 
   componentWillReceiveProps(nextprops) {
@@ -43,35 +51,65 @@ class CommentList extends React.Component {
     )
     .then(data => this.setState({entry: data.data[0]}));
 
-    this.props.getComments(nextprops.match.params.id)
-    .then(data => this.setState({comments: data.data.reverse()}));
+    // this.getComments(nextprops.match.params.id)
+    // .then(data => this.setState({comments: data.data.reverse()}));
+  }
+
+  getComments(entryid){
+    return axios.get('/comments', {
+      params: {
+        entryid: this.state.entry.id
+      }
+    })
   }
 
   handleClick() {
   	this.props.postComment(this.state.comment, this.props.match.params.id)
   	.then(() => {
-  		this.props.getComments(this.props.match.params.id)
-      .then(data => {
-        // let newState = data.data.sort((a, b) => b.id - a.id)[0];
-        this.state.comments.push(data.data[0]);
-        this.props.sendMessage({
+      if (this.props.user === this.state.entry.name) {
+        this.getComments(this.state.entry.id)
+        .then((comments) => {
+          this.setState({
+            comment: '',
+            comments: comments.data.reverse()
+          })
+        })
+        // var copy = [...this.state.comments];
+        // var date = Date.now();
+        // copy.push({id: 1, text: this.state.comment, name: this.props.user, created_at: date})
+        // this.setState({
+        //   comment: '',
+        //   comments: copy
+        // })
+      } else {
+    		this.props.sendMessage({
           recipient: this.state.entry.name,
           sender: this.props.user,
           text: this.state.comment,
           title: `${this.props.user} has posted a comment in '${this.state.entry.title}'`
         })
         .then(() => {
-          this.setState({
-            comment: '',
-            comments: this.state.comments
+          this.getComments(this.state.entry.id)
+          .then((comments) => {
+            this.setState({
+              comment: '',
+              comments: comments.data.reverse()
+            })
           })
+          // var copy = [...this.state.comments];
+          // var date = Date.now();
+          // copy.push({text: this.state.comment, name: this.props.user, created_at: date})
+          // this.setState({
+          //   comment: '',
+          //   comments: copy
+          // })
         })
-      })
+      }
   	});
   }
 
   afterDelete() {
-    this.props.getComments(this.props.match.params.id)
+    this.getComments(this.props.match.params.id)
     .then(data => this.setState({comments: data.data}));
   }
 

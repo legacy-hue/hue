@@ -39,8 +39,8 @@ const messageEntry = entry => {
   .then(() => {
     console.log(`inserted message from ${entry.sender}`)
   })
-  .catch(() => {
-    console.log('failed to insert!')
+  .catch((err) => {
+    console.log('failed to insert! ', err);
   })
 }
 
