@@ -31,7 +31,7 @@ class Nav extends React.Component {
 
          <Menu.Item name='home' className="nav">
             <Link to="/">
-              <h1 className="text">hue</h1>
+              <h1 className="text">true hue</h1>
             </Link>
           </Menu.Item>
 
