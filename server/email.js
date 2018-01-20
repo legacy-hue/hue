@@ -10,11 +10,11 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-module.exports.sendEmail = (name, email, token, host, message, route) => {
+module.exports.sendEmail = (name, email, token, host, message, route, subject) => {
   const mailOptions = {
     from: 'legacy.hue@gmail.com',
     to: email,
-    subject: 'Reset your Hue password',
+    subject: subject,
     html: `<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
       <tr>
         <td align="center" valign="top">

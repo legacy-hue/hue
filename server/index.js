@@ -260,9 +260,10 @@ app.post('/signup', helpers.checkEmail, helpers.checkCredsExists, (req, res) => 
   const host = req.protocol + '://' + req.get('host');
   const message = 'to verify your account';
   const route = 'verifyAccount';
+  const subject = 'Verify Hue Account'
 
   sign({ name, email, password, exp: Math.floor(Date.now() / 1000) + (60 * 10) }, JWT_KEY)
-    .then(token => sendEmail(name, email, token, host, message, route))
+    .then(token => sendEmail(name, email, token, host, message, route, subject))
     .then(() => res.send('Congratulations! Welcome to hue.'))
     .catch(err => res.sendStatus(400))
   //-----------------------------------------
@@ -300,10 +301,12 @@ app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
       const email = req.body.email;
       const host = req.protocol + '://' + req.get('host');
       const message = 'to reset your password';
+      const route = 'recovery';
+      const subject = 'Reset your Hue password';
       
       hash(name, null, null)
         .then(hashString => sign({ name, hash: hashString, exp: Math.floor(Date.now() / 1000) + (60 * 10)}, JWT_KEY))
-        .then(token => sendEmail(name, email, token, host, message, route))
+        .then(token => sendEmail(name, email, token, host, message, route, subject))
         .then(data => res.json(data))
         .catch(err => res.sendStatus(400))
     }
