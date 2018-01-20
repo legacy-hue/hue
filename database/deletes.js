@@ -1,5 +1,12 @@
 const knex = require('./index');
 
+const user = (userid) => {
+  return knex('users')
+  .where({id: userid})
+  .del()
+  .then();
+}
+
 const entry = (entryid) => {
   return knex('entries')
   .where({'id': entryid})
@@ -42,5 +49,6 @@ module.exports = {
   comment,
   commentVotes,
   commentVotesByComment,
-  comments
+  comments,
+  user
 };
