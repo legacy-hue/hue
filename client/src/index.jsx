@@ -43,7 +43,7 @@ class App extends React.Component {
   componentDidMount() {
     this.getEntries();
     this.authorize();
-    setInterval(this.getEntries, 2000);
+    // setInterval(this.getEntries, 2000);
   }
 
   getInbox (user) {
@@ -63,6 +63,7 @@ class App extends React.Component {
   getEntries(){
     return axios.get('/entries')
     .then(data => {
+      console.log(data.data)
       this.setState({entries: data.data})
     });
   }
