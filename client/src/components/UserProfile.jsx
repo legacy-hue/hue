@@ -34,13 +34,13 @@ class UserProfile extends React.Component {
         return data;
       }
     )
-    .then(data => this.setState({entries: data.data}));
+    .then(data => this.setState({entries: data.data.reverse()}));
     
     this.props.getUserComments(this.props.match.params.name)
-    .then(data => this.setState({comments: data.data}));
+    .then(data => this.setState({comments: data.data.reverse()}));
 
     this.getLikedPosts(this.props.match.params.name)
-    .then(data => this.setState({liked: data.data}));
+    .then(data => this.setState({liked: data.data.reverse()}));
   }
 
   componentWillReceiveProps(nextprops){
@@ -55,7 +55,7 @@ class UserProfile extends React.Component {
     .then(data => this.setState({entry: data.data}));
 
     this.props.getUserComments(nextprops.match.params.name)
-    .then(data => this.setState({comments: data.data}));
+    .then(data => this.setState({comments: data.data.reverse()}));
   }
 
   getLikedPosts(username) {
