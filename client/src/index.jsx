@@ -36,11 +36,13 @@ class App extends React.Component {
       inbox: []
     }
     this.getInbox = this.getInbox.bind(this);
+    this.getEntries = this.getEntries.bind(this);
   }
 
   componentDidMount() {
     this.getEntries();
     this.authorize();
+    setInterval(this.getEntries, 2000);
   }
 
   getInbox (user) {
@@ -68,13 +70,13 @@ class App extends React.Component {
     return axios.get(`/entry?id=${entryid}`);
   }
 
-  getComments(entryid){
-    return axios.get('/comments', {
-      params: {
-        entryid: entryid
-      }
-    });
-  }
+  // getComments(entryid){
+  //   return axios.get('/comments', {
+  //     params: {
+  //       entryid: entryid
+  //     }
+  //   });
+  // }
 
   getUserEntries(user) {
     return axios.get(`/userEntries?id=${user}`);
@@ -248,7 +250,7 @@ class App extends React.Component {
             <CommentList {...props}
               sendMessage={this.sendMessage.bind(this)}
               user = {this.state.auth}
-              getComments={this.getComments.bind(this)}
+              // getComments={this.getComments.bind(this)}
               postComment={this.postComment.bind(this)}
               deleteComment={this.deleteComment.bind(this)}
               getEntry={this.getEntry.bind(this)}
