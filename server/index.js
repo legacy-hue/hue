@@ -258,13 +258,11 @@ app.post('/signup', helpers.checkEmail, (req, res) => {
   .then(() => {
     
     //Send verification email
-    const name = req.body.name;
+    const name = req.body.username;
     const email = req.body.email;
     const host = req.protocol + '://' + req.get('host');
     const message = 'to verify your account';
     const route = 'verifyAccount';
-
-    console.log('Sending email');
 
     sign({ name, exp: Math.floor(Date.now() / 1000) + (60 * 10) }, JWT_KEY)
       .then(token => sendEmail(name, email, token, host, message, route))
@@ -354,9 +352,12 @@ app.get('/checkVerification/:name', (req, res) => {
     .catch(err => console.log('Verification server error:', err))
 });
 
-app.post('/verifyUser', (req, res) => {
-  const name = req.body.name;
-  updates.verifyEmail(name)
+app.post('/verifyAccount', (req, res) => {
+  const token = req.body.jwtToken;
+  verify(token, JWT_KEY)
+    .then(data => updates.verifyEmail(data.name))
+    .then(result => res.send(result))
+    .catch(err => console.log(err));
 })
 
 /************************************************************/

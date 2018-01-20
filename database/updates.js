@@ -114,10 +114,11 @@ const verifyEmail = (name) => {
         return knex('users')
           .where({name: name})
           .update({email: verified})
+          .returning('*');
       } else {
         return 'Email already verified';
       }
-    });
+    })
 }
 
 module.exports = {
