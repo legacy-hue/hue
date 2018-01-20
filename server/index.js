@@ -129,11 +129,15 @@ app.delete('/users', helpers.checkUser, (req, res) => {
   query.user(user)
     .then(data => {
       const userid = data[0].id;
-      updates.updateDeletedUserEntries(userid);
-      updates.updateDeletedUserComments(userid);
-      updates.updateDeletedUserCommentVotes(user);
-      updates.updateDeletedUserEntryVotes(user);
-      deletes.user(userid);
+      Promise.all([
+        updates.updateDeletedUserEntries(userid),
+        updates.updateDeletedUserComments(userid),
+        updates.updateDeletedUserCommentVotes(user),
+        updates.updateDeletedUserEntryVotes(user)
+      ]).then(vals => {
+        console.log(vals);
+        deletes.user(userid)
+      });
     });
 });
 

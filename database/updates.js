@@ -5,28 +5,24 @@ const updateDeletedUserComments = (userid) => {
   return knex('comments')
     .where({userid: userid})
     .update({userid: 0})
-    .then();
 }
 
 const updateDeletedUserEntries = (userid) => {
   return knex('entries')
     .where({userid: userid})
     .update({userid: 0})
-    .then();
 }
 
 const updateDeletedUserEntryVotes = (user) => {
   return knex('entries_votes')
     .where({userid: user})
     .update({userid: 'deleted'})
-    .then();
 }
 
 const updateDeletedUserCommentVotes = (user) => {
   return knex('comments_votes')
     .where({userid: user})
     .update({userid: 'deleted'})
-    .then();
 }
 
 const updateEntryVote = (userid, entryid, voted, prevVote) => {

@@ -19,8 +19,11 @@ knex.schema.hasTable('users').then(function(exists) {
       table.string('email').defaultTo(null).unique();
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'))
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'))
-    }).then(function (table) {
+    }).then(() => {
       console.log('Created Table users');
+      knex('users')
+        .insert({id: 0, name: 'deleted'})
+        .then(() => console.log('Added "deleted" user'));
     });
   }
 }).then(function(){
