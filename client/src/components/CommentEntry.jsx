@@ -103,7 +103,9 @@ class CommentEntry extends React.Component {
               {this.state.thumbsDown}            
               
             </Comment.Metadata>
-            <Comment.Text>{this.props.comment.text}</Comment.Text>
+            <Linkify>
+              <Comment.Text>{this.props.comment.text}</Comment.Text>
+            </Linkify>
             <Comment.Actions></Comment.Actions>
           </Comment.Content>
         </Comment>
