@@ -104,6 +104,22 @@ const updatePassword = (name, passHash) => {
     .returning('*');
 }
 
+const verifyEmail = (name) => {
+  return knex('users')
+    .where({name: name})
+    .select('email')
+    .then(res => {
+      if(res.length && res[0].email[0] === '.') {
+        const verified = res[0].email.slice(1);
+        return knex('users')
+          .where({name: name})
+          .update({email: verified})
+      } else {
+        return 'Email already verified';
+      }
+    });
+}
+
 module.exports = {
   updateEntryVote,
   updateCommentVote,

@@ -91,6 +91,15 @@ const getUserByEmail = (email) => {
     .select('name')
 }
 
+const checkIsVerified = (name) => {
+  return knex('users')
+    .where({name: name})
+    .select('email')
+    .then(res => {
+      return res.length > 0 && res[0].email[0] !== '.';
+    })
+}
+
 /************************************************************/
 // Prestige (karma) queries
 /************************************************************/
