@@ -2,6 +2,7 @@ import React from 'react';
 import { Feed, Comment, Icon, Divider } from 'semantic-ui-react';
 import ta from 'time-ago';
 import axios from 'axios';
+import Linkify from 'react-linkify';
 
 class CommentEntry extends React.Component {
   constructor(props) {
@@ -75,7 +76,9 @@ class CommentEntry extends React.Component {
                 {this.state.thumbsDown}
                 
               </Comment.Metadata>
-              <Comment.Text>{this.props.comment.text}</Comment.Text>
+              <Linkify>
+                <Comment.Text>{this.props.comment.text}</Comment.Text>
+              </Linkify>
               <Comment.Actions>
                 <Comment.Action onClick={this.handleClick}>delete</Comment.Action>
               </Comment.Actions>
