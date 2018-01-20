@@ -18,13 +18,7 @@ const insert = require('../database/inserts');
 const query = require('../database/queries');
 const deletes = require('../database/deletes');
 const updates = require('../database/updates');
-
-let config;
-try {
-    config = require('../config.js');
-} catch (err) {
-    console.log('cant find config file: ', err);
-}
+// const config = require('../config.js');
 
 const JWT_KEY = process.env.JWT_KEY || config.JWT_KEY;
 
@@ -128,23 +122,6 @@ app.delete('/comment', helpers.checkUser, (req, res) => {
       res.send('deleted comment')
     });
   })
-});
-
-app.delete('/users', helpers.checkUser, (req, res) => {
-  const user = req.query.user;
-  query.user(user)
-    .then(data => {
-      const userid = data[0].id;
-      Promise.all([
-        updates.updateDeletedUserEntries(userid),
-        updates.updateDeletedUserComments(userid),
-        updates.updateDeletedUserCommentVotes(user),
-        updates.updateDeletedUserEntryVotes(user)
-      ]).then(vals => {
-        console.log(vals);
-        deletes.user(userid)
-      });
-    });
 });
 
 app.post('/search', (req, res) => {
