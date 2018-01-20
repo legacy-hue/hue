@@ -66,7 +66,7 @@ class UserProfile extends React.Component {
   handleDeleteForm(e) {
     e.preventDefault();
     this.props.deleteAccount(this.props.user);
-    this.props.authenticate('/logout')
+    this.props.authenticate('/logout');
     this.props.history.push('/login');
   }
 
