@@ -211,6 +211,21 @@ class UserProfile extends React.Component {
             } 
           </div>
           )
+      }},
+      {menuItem: 'DELETE', render: () => {
+        return (
+          <div>
+            {this.props.user === this.props.match.params.name
+            ? <div>
+              Are you sure you want to permanently delete your account?
+              <Button onClick={this.props.deleteAccount(this.props.user)}>DELETE</Button>
+            </div>
+            : <div>
+              Login to delete your account.
+            </div>
+            }
+          </div>
+        )
       }}
     ]
 
