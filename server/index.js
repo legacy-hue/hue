@@ -140,8 +140,9 @@ app.delete('/users', helpers.checkUser, (req, res) => {
           updates.updateDeletedUserCommentVotes(user),
           updates.updateDeletedUserEntryVotes(user)
         ]).then(vals => {
-          deletes.user(userid);
-      });
+          console.log(vals);
+          deletes.user(userid)
+        });
       }
     });
 });
