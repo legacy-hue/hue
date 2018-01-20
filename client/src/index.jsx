@@ -17,6 +17,7 @@ import CommentList from './components/CommentList.jsx';
 import Nav from './components/NavBar.jsx';
 import UserProfile from './components/UserProfile.jsx';
 import Recovery from './components/Recovery.jsx';
+import Verify from './components/Verify.jsx';
 
 const Wrapper = styles.div`
   margin: .7% 8%;
@@ -240,6 +241,7 @@ class App extends React.Component {
           <Route exact path="/submit" render={(props) => (
             this.state.auth !== undefined
             ? <Submit {...props}
+              user={this.state.auth}
               getEntries={this.getEntries.bind(this)}
               postEntry={this.postEntry.bind(this)}
               authorize={this.authorize.bind(this)}
@@ -276,6 +278,11 @@ class App extends React.Component {
           <Route exact path="/recovery/:jwtToken" render={(props) => (
             <Recovery {...props}
               
+            />
+          )} /> 
+          <Route exact path="/verifyAccount/:jwtToken" render={(props) => (
+            <Verify {...props}
+
             />
           )} /> 
         </Switch>
