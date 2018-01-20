@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Feed, Icon, Divider, Comment, Tab, Form, Label, Button } from 'semantic-ui-react'
+import { Feed, Icon, Divider, Comment, Tab, Form, Label, Button, Input } from 'semantic-ui-react'
 
 import Entry from './Entry.jsx';
 import CommentEntry from './CommentEntry.jsx';
@@ -22,6 +22,7 @@ class UserProfile extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.titleChange = this.titleChange.bind(this);
     this.textChange = this.textChange.bind(this);
+    this.handleDeleteForm = this.handleDeleteForm.bind(this);
   }
 
   componentDidMount() {
@@ -60,6 +61,13 @@ class UserProfile extends React.Component {
 
   getLikedPosts(username) {
     return axios.get(`/likedPosts?id=${username}`);
+  }
+
+  handleDeleteForm(e) {
+    e.preventDefault();
+    this.props.deleteAccount(this.props.user);
+    this.props.authenticate('/logout')
+    this.props.history.push('/login');
   }
 
   handleClick() {
@@ -216,11 +224,14 @@ class UserProfile extends React.Component {
         return (
           <div>
             {this.props.user === this.props.match.params.name
-            ? <div>
-              Are you sure you want to permanently delete your account?
-              <Button onClick={this.props.deleteAccount(this.props.user)}>DELETE</Button>
+            ? <div className='topGap'>
+              Enter your password to permanently delete your account.
+                <Form className='topGap' onSubmit={this.handleDeleteForm}>
+                  <Input placeholder="password..."></Input>
+                  <Button type='submit'>DELETE ACCOUNT</Button>
+                </Form>
             </div>
-            : <div>
+            : <div className='topGap'>
               Login to delete your account.
             </div>
             }
