@@ -1,6 +1,11 @@
 const nodemailer = require('nodemailer');
-// const config = require('../config.js');
 
+let config;
+try {
+    config = require('../config.js');
+} catch (err) {
+    console.log('cant find config file: ', err);
+}
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',

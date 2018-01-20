@@ -1,4 +1,9 @@
-// const config = require('../config');
+let config;
+try {
+    config = require('../config.js');
+} catch (err) {
+    console.log('cant find config file: ', err);
+}
 
 const knex = require('knex')({
   client: 'pg',

@@ -18,7 +18,13 @@ const insert = require('../database/inserts');
 const query = require('../database/queries');
 const deletes = require('../database/deletes');
 const updates = require('../database/updates');
-// const config = require('../config.js');
+
+let config;
+try {
+    config = require('../config.js');
+} catch (err) {
+    console.log('cant find config file: ', err);
+}
 
 const JWT_KEY = process.env.JWT_KEY || config.JWT_KEY;
 
