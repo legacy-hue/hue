@@ -19,7 +19,7 @@ class UserProfile extends React.Component {
       title: '',
       text: ''
     };
-    this.handleClick = this.handleClick.bind(this);
+    this.handleSend = this.handleSend.bind(this);
     this.titleChange = this.titleChange.bind(this);
     this.textChange = this.textChange.bind(this);
   }
@@ -62,7 +62,7 @@ class UserProfile extends React.Component {
     return axios.get(`/likedPosts?id=${username}`);
   }
 
-  handleClick() {
+  handleSend() {
     // const {history} = this.props;
     // this.props.postEntry(this.state.title, this.state.url, this.state.text, this.props.currentSub)
     // .then((res) => {
@@ -140,50 +140,48 @@ class UserProfile extends React.Component {
           </div>
         )
       }},
-      {
-        menuItem: 'Liked Posts', render: () => {
-          return (
+      {menuItem: 'Liked Posts', render: () => {
+        return (
+          <div>
             <div>
-              <div>
-                <Comment.Group>
-                  <br />
-                  {this.state.liked.map((comment, index) => {
-                    if(comment.type === 'comment') {
-                      return (<div key={index}>
-                        <CommentData
-                          comment={comment}
-                          getEntry={this.props.getEntry}
-                        />
-                        <CommentEntry
-                          onLikedTab={true}
-                          comment={comment}
-                          user={this.props.user}
-                          deleteComment={this.props.deleteComment}
-                          entry={comment.entryid}
-                        />
-                        <Divider></Divider>
-                      </div>
-                      )
-                    } else {
-                      return (
-                        <Entry
-                          onLikedTab={true}
-                          key={index}
-                          data={comment}
-                          user={this.props.user}
-                          deleteEntry={this.props.deleteEntry}
-                        />
-                      )
-                    }
+              <Comment.Group>
+                <br />
+                {this.state.liked.map((comment, index) => {
+                  if(comment.type === 'comment') {
+                    return (<div key={index}>
+                      <CommentData
+                        comment={comment}
+                        getEntry={this.props.getEntry}
+                      />
+                      <CommentEntry
+                        onLikedTab={true}
+                        comment={comment}
+                        user={this.props.user}
+                        deleteComment={this.props.deleteComment}
+                        entry={comment.entryid}
+                      />
+                      <Divider></Divider>
+                    </div>
+                    )
+                  } else {
+                    return (
+                      <Entry
+                        onLikedTab={true}
+                        key={index}
+                        data={comment}
+                        user={this.props.user}
+                        deleteEntry={this.props.deleteEntry}
+                      />
+                    )
                   }
-                  )}
-                </Comment.Group>
-              </div>
+                }
+                )}
+              </Comment.Group>
             </div>
-          )
-        }
-      },
-      {menuItem: 'Send a message!', render: () => {
+          </div>
+        )
+      }},
+      {menuItem: 'Send a message', render: () => {
         return (
           <div>
               {this.props.user !== undefined
@@ -201,7 +199,7 @@ class UserProfile extends React.Component {
                           
                           <Form.TextArea label='Text' value={this.state.text} placeholder='Type your message here...' onChange={this.textChange}/>
                           <Form.Field>
-                            <Button onClick={this.handleClick}>Send!</Button>
+                            <Button onClick={this.handleSend}>Send!</Button>
                           </Form.Field>
                         </Form>
                       </div>
@@ -211,9 +209,23 @@ class UserProfile extends React.Component {
             } 
           </div>
           )
+      }},
+      {menuItem: 'DELETE', render: () => {
+        return (
+          <div>
+            {this.props.user === this.props.match.params.name
+            ? <div>
+              Are you sure you want to permanently delete your account?
+              <Button onClick={this.props.deleteAccount(this.props.user)}>DELETE</Button>
+            </div>
+            : <div>
+              Login to delete your account.
+            </div>
+            }
+          </div>
+        )
       }}
     ]
-
 
     return (
       <div className = 'ui segment'>

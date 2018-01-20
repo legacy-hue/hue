@@ -36,11 +36,19 @@ const commentVotesByComment = (commentid) => {
   .del();  
 }
 
+const user = (userid) => {
+  return knex('users')
+  .where({id: userid})
+  .del()
+  .then();
+}
+
 module.exports = {
   entry,
   entryVotes,
   comment,
   commentVotes,
   commentVotesByComment,
+  user,
   comments
 };
