@@ -117,7 +117,19 @@ function checkEntryVote(userid, entryid, voteType, callback) {
       res.send(false);
     }
   }
-
+  
+  // Invoked post request to entries and comments
+  // Required input: client request object
+  // On success: returns true
+  // On failure: returns false
+  function isLoggedIn(req) {
+    if (req.session.user) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
   // Invoked by post request to "/signup"
   // Required input: request, response, and next
   // On success: calls next
@@ -129,18 +141,6 @@ function checkEntryVote(userid, entryid, voteType, callback) {
       next();
     } else {
       res.send('Not a propper email address.');
-    }
-  }
-
-  // Invoked post request to entries and comments
-  // Required input: client request object
-  // On success: returns true
-  // On failure: returns false
-  function isLoggedIn(req) {
-    if (req.session.user) {
-      return true;
-    } else {
-      return false;
     }
   }
 
