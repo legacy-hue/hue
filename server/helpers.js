@@ -84,10 +84,10 @@ function checkEntryVote(userid, entryid, voteType, callback) {
   // Input: attempted username and password
   // On success: invokes createSession
   // On failure: sends duplicate username response
-  function hashPassword(req) {
+  function hashPassword(data) {
     return new Promise((resolve, reject) => {
-      bcrypt.hash(req.body.password, null, null, function(err, hash) {
-        insert.user(req.body.username, hash, req.body.email)
+      bcrypt.hash(data.password, null, null, function(err, hash) {
+        insert.user(data.name, hash, data.email)
         .then(() => resolve())
         .catch(() => reject());
       });
@@ -98,9 +98,10 @@ function checkEntryVote(userid, entryid, voteType, callback) {
   // Required input: client request object
   // On sucess: sends sucess response
   // On failure: browser will throw an error
-  function createSession(req, callback) {
-    let newUser = req.body.username;
+  function createSession(username, req, callback) {
+    let newUser = username;
     var result = req.session.regenerate(function() {
+
       req.session.user = newUser;
       callback();
     })
@@ -129,7 +130,7 @@ function checkEntryVote(userid, entryid, voteType, callback) {
       return false;
     }
   }
-  
+
   // Invoked by post request to "/signup"
   // Required input: request, response, and next
   // On success: calls next
@@ -142,6 +143,21 @@ function checkEntryVote(userid, entryid, voteType, callback) {
     } else {
       res.send('Not a propper email address.');
     }
+  }
+
+  function checkCredsExists(req, res, next) {
+    query.user(req.body.username)
+      .then(results => {
+        if(results.length) {
+          res.send('Username already taken.');
+        } else {
+          return query.getUserByEmail(req.body.email)
+            .then(results => {
+              if (results.length) res.send('Email already taken');
+              else next()
+            })
+        }
+      })
   }
 
   
@@ -207,5 +223,6 @@ function checkEntryVote(userid, entryid, voteType, callback) {
   hashPassword,
   createSession,
   checkUser,
-  checkEmail
+  checkEmail,
+  checkCredsExists
 };

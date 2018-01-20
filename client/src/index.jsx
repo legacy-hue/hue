@@ -239,6 +239,7 @@ class App extends React.Component {
           <Route exact path="/submit" render={(props) => (
             this.state.auth !== undefined
             ? <Submit {...props}
+              user={this.state.auth}
               getEntries={this.getEntries.bind(this)}
               postEntry={this.postEntry.bind(this)}
               authorize={this.authorize.bind(this)}

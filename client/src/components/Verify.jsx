@@ -8,16 +8,22 @@ class Verify extends React.Component {
     
     this.state = {
       isVerified: false,
-      token: ''
+      token: '',
+      redirect: false
     }
   }
 
   componentDidMount() {
+    const { history } = this.props;
+
     if (this.props.match.params.jwtToken) {
       axios.post('/verifyAccount', { jwtToken: this.props.match.params.jwtToken })
         .then(res => {
           if (res.data) {
-            this.setState({ isVerified: true, token: this.props.match.params.jwtToken });
+            this.setState({ isVerified: true, token: this.props.match.params.jwtToken })
+            setTimeout(() => {
+                history.push('/');
+            }, 3000)
           } else {
             alert('An error has occured. You may have taken too long to reset your email. Please try again.');
           }
@@ -29,7 +35,7 @@ class Verify extends React.Component {
   render() {
     return (
       <div className="ui center aligned segment" style={{ height: '40vh', paddingTop: '10vh' }}>
-        {this.state.isVerified ? <Header as="h5">Succesfully Verified!</Header> : 
+        {this.state.isVerified ? <Header as="h5">Succesfully Verified! Redirecting in 3 seconds.</Header> : 
           <Header as="h5">Verifying...</Header>}
       </div>
     );

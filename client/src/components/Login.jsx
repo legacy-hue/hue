@@ -62,13 +62,13 @@ class Login extends React.Component {
         <Form id="signup" onSubmit={this.onSubmit}>
           <Header as='h3'>Sign Up</Header>
           <Form.Field inline>
-            <input onChange={this.props.usernameChange} placeholder='Username' />
+            <input onChange={this.props.usernameChange} placeholder='Username' required />
           </Form.Field>
           <Form.Field inline>
-            <input onChange={this.props.passwordChange} placeholder='Password' type='password' />
+            <input onChange={this.props.passwordChange} placeholder='Password' type='password' required />
           </Form.Field>
           <Form.Field inline>
-            <input onChange={this.props.emailChange} placeholder='Email' />
+            <input onChange={this.props.emailChange} placeholder='Email' required />
           </Form.Field>
           <Form.Field inline>
             <Button type="submit">Create Account</Button>
