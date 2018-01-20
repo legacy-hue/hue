@@ -5,15 +5,28 @@ import { Link } from 'react-router-dom';
 class Login extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      signupSubmitted: false
+    }
+
     this.onSubmit = this.onSubmitLogin.bind(this);
   }
 
   onSubmitLogin(e) {
     e.preventDefault();
+    const id = e.target.id;
     const { history } = this.props;
-    this.props.authenticate(e.target.id).then((res) => {
+    this.props.authenticate(id).then((res) => {
       if ((res.data === 'Login successful') || (res.data === 'Congratulations! Welcome to hue.')) {
-        history.push('/');
+        if(id === 'signup') {
+          this.setState({signupSubmitted: true});
+          setTimeout(() => {
+            history.push('/');
+          }, 5000);
+        } else {
+          history.push('/');
+        }
       } else {
         alert(res.data);
       }
@@ -55,12 +68,14 @@ class Login extends React.Component {
             <input onChange={this.props.passwordChange} placeholder='Password' type='password' />
           </Form.Field>
           <Form.Field inline>
-            <input onChange={this.props.emailChange} placeholder='Email (optional)' />
+            <input onChange={this.props.emailChange} placeholder='Email' />
           </Form.Field>
           <Form.Field inline>
             <Button type="submit">Create Account</Button>
           </Form.Field>
         </Form>
+        {this.state.signupSubmitted ? <Header as="h5">Verification email has been sent. Click the link in the email to verify
+         your account. You will be redirected to the home page in 5 seconds.</Header> : ''}
       </div>
     );
   }
