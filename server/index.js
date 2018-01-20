@@ -12,7 +12,7 @@ const hash = util.promisify(bcrypt.hash);
 const compare = util.promisify(bcrypt.compare);
 
 const helpers = require('./helpers');
-const sendEmail = require('./email');
+const sendEmail = require('./email').sendEmail;
 const db = require('../database/index');
 const insert = require('../database/inserts');
 const query = require('../database/queries');
@@ -58,7 +58,6 @@ app.get('/likedPosts', (req, res) => {
       entry.type = 'entry';
       return entry;
     });
-    console.log('DATA midway:', data, '\n\n');
     return query.getLikedComments(userid)
     .then(likedComments => {
       return data.concat(likedComments.map(comment => {
@@ -68,7 +67,6 @@ app.get('/likedPosts', (req, res) => {
     });
   })
   .then(data => {
-    console.log('DATA IN SERVER:', data);
     res.json(data)
   })
   .catch(err => console.log(err));
@@ -253,22 +251,27 @@ app.post('/downVoteEntry', helpers.checkUser, (req, res) => {
 // Authentication routes
 /************************************************************/
 
-app.post('/signup', helpers.checkEmail, (req, res) => {
-	helpers.hashPassword(req)
-  .then(() => {
-    helpers.createSession(req, function() {
-      res.send('Congratulations! Welcome to hue.');
-    })
-	})
-  .catch(() => {
-    res.send('Sorry that username already exists.');
-  })
+app.post('/signup', helpers.checkEmail, helpers.checkCredsExists, (req, res) => {
+
+  //Send verification email
+  const name = req.body.username;
+  const email = req.body.email;
+  const password = req.body.password;
+  const host = req.protocol + '://' + req.get('host');
+  const message = 'to verify your account';
+  const route = 'verifyAccount';
+
+  sign({ name, email, password, exp: Math.floor(Date.now() / 1000) + (60 * 10) }, JWT_KEY)
+    .then(token => sendEmail(name, email, token, host, message, route))
+    .then(() => res.send('Congratulations! Welcome to hue.'))
+    .catch(err => res.sendStatus(400))
+  //-----------------------------------------
 });
 
 app.post('/login', (req, res) => {
   helpers.identifyUser(req)
   .then(() => {
-    helpers.createSession(req, function() {
+    helpers.createSession(req.body.username, req, function() {
       res.send('Login successful');
     })      
   })
@@ -296,10 +299,11 @@ app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
       const name = data[0].name;
       const email = req.body.email;
       const host = req.protocol + '://' + req.get('host');
+      const message = 'to reset your password';
       
       hash(name, null, null)
         .then(hashString => sign({ name, hash: hashString, exp: Math.floor(Date.now() / 1000) + (60 * 10)}, JWT_KEY))
-        .then(token => sendEmail(name, email, token, host))
+        .then(token => sendEmail(name, email, token, host, message, route))
         .then(data => res.json(data))
         .catch(err => res.sendStatus(400))
     }
@@ -311,7 +315,6 @@ app.post('/confirmName', (req, res) => {
   verify(token, JWT_KEY)
    .then(data => compare(data.name, data.hash))
    .then(isMatch => {
-     console.log('Match?', isMatch);
      if(isMatch) res.send(true);
      else res.send(false);
    })
@@ -330,6 +333,20 @@ app.post('/changePassword', (req, res) => {
     .then(data => res.send('Success!'))
     .catch(err => res.send(false))
 });
+
+app.post('/verifyAccount', (req, res) => {
+  const token = req.body.jwtToken;
+  verify(token, JWT_KEY)
+    .then(data => {
+      helpers.hashPassword(data)
+        .then(() => {
+          helpers.createSession(data.name, req, function () {
+            res.send('Congratulations! Welcome to hue.');
+          })
+        })
+        .catch(() => res.send('Sorry that username already exists.'))
+    })
+})
 
 /************************************************************/
 /************************************************************/
