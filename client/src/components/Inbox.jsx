@@ -46,20 +46,22 @@ class Inbox extends React.Component {
   }
 
   handleClick() {
-    this.props.sendMessage({
-      recipient: this.state.recipient,
-      sender: this.props.user,
-      text: this.state.text,
-      title: this.state.title
-    })
-    .then(() => {
-      this.getMessages();
-      this.setState({
-        recipient: '',
-        title: '',
-        text: ''
+    if (this.state.recipient.length && this.state.title.length && this.state.text.length) {
+      this.props.sendMessage({
+        recipient: this.state.recipient,
+        sender: this.props.user,
+        text: this.state.text,
+        title: this.state.title
       })
-    })
+      .then(() => {
+        this.getMessages();
+        this.setState({
+          recipient: '',
+          title: '',
+          text: ''
+        })
+      })
+    }
   }
 
   titleChange(input) {

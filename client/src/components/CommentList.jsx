@@ -64,31 +64,10 @@ class CommentList extends React.Component {
   }
 
   handleClick() {
-  	this.props.postComment(this.state.comment, this.props.match.params.id)
-  	.then(() => {
-      if (this.props.user === this.state.entry.name) {
-        this.getComments(this.state.entry.id)
-        .then((comments) => {
-          this.setState({
-            comment: '',
-            comments: comments.data.reverse()
-          })
-        })
-        // var copy = [...this.state.comments];
-        // var date = Date.now();
-        // copy.push({id: 1, text: this.state.comment, name: this.props.user, created_at: date})
-        // this.setState({
-        //   comment: '',
-        //   comments: copy
-        // })
-      } else {
-    		this.props.sendMessage({
-          recipient: this.state.entry.name,
-          sender: this.props.user,
-          text: this.state.comment,
-          title: `${this.props.user} has posted a comment in '${this.state.entry.title}'`
-        })
-        .then(() => {
+    if (this.state.comment.length) {
+      this.props.postComment(this.state.comment, this.props.match.params.id)
+    	.then(() => {
+        if (this.props.user === this.state.entry.name) {
           this.getComments(this.state.entry.id)
           .then((comments) => {
             this.setState({
@@ -96,16 +75,25 @@ class CommentList extends React.Component {
               comments: comments.data.reverse()
             })
           })
-          // var copy = [...this.state.comments];
-          // var date = Date.now();
-          // copy.push({text: this.state.comment, name: this.props.user, created_at: date})
-          // this.setState({
-          //   comment: '',
-          //   comments: copy
-          // })
-        })
-      }
-  	});
+        } else {
+      		this.props.sendMessage({
+            recipient: this.state.entry.name,
+            sender: this.props.user,
+            text: this.state.comment,
+            title: `${this.props.user} has posted a comment in '${this.state.entry.title}'`
+          })
+          .then(() => {
+            this.getComments(this.state.entry.id)
+            .then((comments) => {
+              this.setState({
+                comment: '',
+                comments: comments.data.reverse()
+              })
+            })
+          })
+        }
+    	});
+    }
   }
 
   afterDelete() {
