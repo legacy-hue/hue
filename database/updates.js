@@ -123,7 +123,8 @@ const verifyEmail = (name) => {
 module.exports = {
   updateEntryVote,
   updateCommentVote,
-  updatePassword
+  updatePassword,
+  verifyEmail
 }
 
 

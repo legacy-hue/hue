@@ -148,5 +148,6 @@ module.exports = {
   getLikedComments,
   getMessagesByRecipient,
   getUserByEmail,
-  getMessagesBySender
+  getMessagesBySender,
+  checkIsVerified
 };

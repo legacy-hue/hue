@@ -331,6 +331,18 @@ app.post('/changePassword', (req, res) => {
     .catch(err => res.send(false))
 });
 
+app.get('/checkVerification/:name', (req, res) => {
+  const name = req.params.name;
+  query.checkIsVerified(name)
+    .then(isVerified => isVerified ? res.send(true) : res.send(false))
+    .catch(err => console.log('Verification server error:', err))
+});
+
+app.post('/verifyUser', (req, res) => {
+  const name = req.body.name;
+  updates.verifyEmail(name)
+})
+
 /************************************************************/
 /************************************************************/
 
