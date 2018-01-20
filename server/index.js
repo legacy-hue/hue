@@ -12,7 +12,7 @@ const hash = util.promisify(bcrypt.hash);
 const compare = util.promisify(bcrypt.compare);
 
 const helpers = require('./helpers');
-const sendEmail = require('./email');
+const sendEmail = require('./email').sendEmail;
 const db = require('../database/index');
 const insert = require('../database/inserts');
 const query = require('../database/queries');
@@ -256,6 +256,21 @@ app.post('/downVoteEntry', helpers.checkUser, (req, res) => {
 app.post('/signup', helpers.checkEmail, (req, res) => {
 	helpers.hashPassword(req)
   .then(() => {
+    
+    //Send verification email
+    const name = req.body.name;
+    const email = req.body.email;
+    const host = req.protocol + '://' + req.get('host');
+    const message = 'to verify your account';
+    const route = 'verifyAccount';
+
+    console.log('Sending email');
+
+    sign({ name, exp: Math.floor(Date.now() / 1000) + (60 * 10) }, JWT_KEY)
+      .then(token => sendEmail(name, email, token, host, message, route))
+      .catch(err => res.sendStatus(400))
+    //-----------------------------------------
+
     helpers.createSession(req, function() {
       res.send('Congratulations! Welcome to hue.');
     })
@@ -296,10 +311,11 @@ app.post('/passwordRecovery', helpers.checkEmail, (req, res) => {
       const name = data[0].name;
       const email = req.body.email;
       const host = req.protocol + '://' + req.get('host');
+      const message = 'to reset your password';
       
       hash(name, null, null)
         .then(hashString => sign({ name, hash: hashString, exp: Math.floor(Date.now() / 1000) + (60 * 10)}, JWT_KEY))
-        .then(token => sendEmail(name, email, token, host))
+        .then(token => sendEmail(name, email, token, host, message, route))
         .then(data => res.json(data))
         .catch(err => res.sendStatus(400))
     }
