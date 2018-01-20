@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Form, Label, Button, Header, Menu } from 'semantic-ui-react'
+import { Divider, Form, Label, Button, Header, Menu } from 'semantic-ui-react';
 
 class Submit extends React.Component {
   constructor(props) {
