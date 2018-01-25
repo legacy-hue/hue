@@ -1,6 +1,29 @@
 //Work in progress, I swear
 const knex = require('./index');
 
+const updateDeletedUserComments = (userid) => {
+  return knex('comments')
+    .where({userid: userid})
+    .update({userid: 0})
+}
+
+const updateDeletedUserEntries = (userid) => {
+  return knex('entries')
+    .where({userid: userid})
+    .update({userid: 0})
+}
+
+const updateDeletedUserEntryVotes = (user) => {
+  return knex('entries_votes')
+    .where({userid: user})
+    .update({userid: 'deleted'})
+}
+
+const updateDeletedUserCommentVotes = (user) => {
+  return knex('comments_votes')
+    .where({userid: user})
+    .update({userid: 'deleted'})
+}
 
 const updateEntryVote = (userid, entryid, voted, prevVote) => {
   return knex('entries_votes')
@@ -124,7 +147,11 @@ const updatePassword = (name, passHash) => {
 module.exports = {
   updateEntryVote,
   updateCommentVote,
-  updatePassword
+  updatePassword,
+  updateDeletedUserEntries,
+  updateDeletedUserComments,
+  updateDeletedUserCommentVotes,
+  updateDeletedUserEntryVotes
 }
 
 
